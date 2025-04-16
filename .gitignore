@@ -27,3 +27,6 @@ dist-ssr
 
 # Firebase
 src/firebase.ts
+
+# Cursor IDE settings
+.cursor/

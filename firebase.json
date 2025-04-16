@@ -5,7 +5,7 @@
   },
   "hosting": {
     "site": "guitar-practice-assitant",
-    "public": "public",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
