@@ -52,3 +52,46 @@ export default tseslint.config({
   },
 })
 ```
+
+## Firebase Setup
+
+1. Copy `src/firebase.template.ts` to `src/firebase.ts`
+2. Replace the placeholder values in `src/firebase.ts` with your actual Firebase configuration
+3. Never commit `src/firebase.ts` to Git (it's already in .gitignore)
+
+## Environment Variables
+
+For better security, consider using environment variables for your Firebase configuration:
+
+1. Create a `.env` file in the root directory
+2. Add your Firebase configuration as environment variables:
+
+```
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
+```
+
+3. Update `src/firebase.ts` to use these environment variables:
+
+```typescript
+import { initializeApp } from "firebase/app";
+
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+};
+
+export const app = initializeApp(firebaseConfig);
+```
+
+4. Add `.env` to your `.gitignore` file (it's already there)

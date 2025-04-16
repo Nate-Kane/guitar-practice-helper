@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .env
+
+# Firebase
+src/firebase.ts
