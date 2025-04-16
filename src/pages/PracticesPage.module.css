@@ -1,75 +1,47 @@
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+:global(.header).practicePageHeader {
+    margin-bottom: 30px;
 }
 
-.header {
-    text-align: center;
-    color: black;
-    padding-top: 2rem;
-    padding-bottom: 1rem;
+:global(.header).practicePageHeader :global(h1) {
+    margin-bottom: 0;
 }
 
-.header h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    background: linear-gradient(45deg, #9f6161, #547ba3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1.2;
+.desktopHeader {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
 }
 
-.practiceMethodsContainer {
+.mobileHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     max-width: 600px;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  margin-left: auto;
-  margin-right: auto;
 }
 
-.practiceMethodCard {
-  background: white;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+.leftButton {
+    justify-self: center;
 }
 
-.practiceMethodCard:hover {
-  transform: translateY(-3px);
-  cursor: pointer;
+.rightButton {
+    justify-self: center;
 }
 
-.practiceMethodCard h3 {
-  font-size: 1.5rem;
-  margin: 1rem 0;
-  color: #656464;
+:global(.card).practiceCard :global(h3) {
+    margin-top: 0;
 }
 
-.practiceMethodCard p {
-  color: #666;
-  line-height: 1.6;
+@media (max-width: 960px) {
+    :global(.header).practicePageHeader {
+        margin-bottom: 0px;
+    }
 }
-
-@media (max-width: 600px) {
-    .container {
-        padding: 0;
-    }
-    .header h1 {
-        font-size: 2.5rem;
-    }
-    .practiceMethodCard h3 {
-        font-size: 1.5rem;
-    }
-    .practiceMethodCard {
-        padding: 1rem;
-    }
-    .practiceMethodCard h3 {
-        font-size: 1.1rem;
-    }
-    .practiceMethodCard p {
-        font-size: 0.9rem;
-    }
-} 

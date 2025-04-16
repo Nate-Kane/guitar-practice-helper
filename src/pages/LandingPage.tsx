@@ -1,6 +1,5 @@
-import { FC } from 'react';
+import { FC, CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './LandingPage.module.css';
 
 interface SkillCardProps {
   title: string;
@@ -11,8 +10,8 @@ interface SkillCardProps {
 }
 
 const SkillCard: FC<SkillCardProps> = ({ title, description, icon, onClick }) => (
-  <div className={styles.skillCard} onClick={onClick}>
-    <div className={styles.icon}>{icon}</div>
+  <div className="card" onClick={onClick}>
+    <div className="icon">{icon}</div>
     <h3>{title}</h3>
     <p>{description}</p>
   </div>
@@ -47,18 +46,26 @@ const LandingPage: FC = () => {
     }
   ];
 
+  // CSS-in-JS styles for page-specific modifications
+  const styles: Record<string, CSSProperties> = {
+    landingPageHeader: {
+      flexDirection: 'column',
+      alignItems: 'center'
+    }
+  };
+
   return (
-    <div className={styles.container}>
-      <header className={styles.hero}>
+    <div className="container">
+      <header className="header" style={styles.landingPageHeader}>
         <h1>Your personal guitar practice assistant</h1>
-        <p className={styles.subtitle}>
+        <p className="header-subtitle">
           Randomized practice routines to help you break out of the box
         </p>
       </header>
 
-      <section className={styles.skillLevels}>
+      <section>
         <h2>I am a...</h2>
-        <div className={styles.skillLevelContainer}>
+        <div className="card-container">
           {skillLevels.map((skillLevel, index) => (
             <SkillCard 
               key={index} 

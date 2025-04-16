@@ -1,0 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+#root {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--spacing-sm);
+  text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.2;
+}
+
+p {
+  margin-bottom: var(--spacing-sm);
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+} 
+
+@media (max-width: 600px) {
+  h2 {
+    font-size: 1.2rem;
+  }
+}
