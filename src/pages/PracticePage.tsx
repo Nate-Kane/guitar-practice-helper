@@ -84,18 +84,10 @@ const PracticePage: FC = () => {
               <p>{practice.customDirections}</p>
             </div>
           )}
-          
-          <div className={styles.elementsList}>
-            <h3>Elements</h3>
-            <ul>
-              {practice.elements.keys && <li>Musical Keys</li>}
-              {practice.elements.chordProgressions && <li>Chord Progressions</li>}
-              {practice.elements.tempos && <li>Tempos</li>}
-              {practice.elements.timeSignatures && <li>Time Signatures</li>}
-              {practice.elements.chordExtensions && <li>Chord Extensions</li>}
-              {practice.elements.fretLimitations && <li>Fret Limitations</li>}
-            </ul>
-          </div>
+
+          {practice.practiceTips && (
+            <div>{practice.practiceTips}</div>
+          )}
           
           <div className={styles.practiceContent}>
             <h2>Practice Content</h2>

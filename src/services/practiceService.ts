@@ -56,7 +56,9 @@ export const getPracticeById = async (id: string): Promise<Practice | null> => {
 };
 
 // Add a new practice
-export const addPractice = async (practice: Omit<Practice, 'id'>): Promise<string> => {
+export const addPractice = async (
+  practice: Omit<Practice, 'id'>
+): Promise<string> => {
   const docRef = await addDoc(practicesCollection, {
     ...practice,
     createdAt: serverTimestamp(),

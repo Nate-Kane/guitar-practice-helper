@@ -30,26 +30,6 @@
   border-radius: var(--border-radius-sm);
 }
 
-.elementsList {
-  margin: 1.5rem 0;
-}
-
-.elementsList ul {
-  list-style-type: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.elementsList li {
-  background-color: var(--color-secondary);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius-sm);
-  font-size: var(--font-size-sm);
-}
-
 .practiceContent {
   margin-top: 3rem;
   padding-top: 2rem;

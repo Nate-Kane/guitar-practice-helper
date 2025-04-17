@@ -3,7 +3,7 @@ import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { app } from '../firebase'; // Adjust the path based on your Firebase setup
 import styles from './AdminPage.module.css';
 import { getPractices, addPractice, deletePractice } from '../services/practiceService';
-import { Practice, PracticeElements } from '../types/practice';
+import { Practice } from '../types/practice';
 import { useNavigate } from 'react-router-dom';
 
 const AdminPage: FC = () => {
@@ -18,15 +18,8 @@ const AdminPage: FC = () => {
         title: '',
         description: '',
         skillLevels: ['beginner'],
-        elements: {
-            keys: false,
-            chordProgressions: false,
-            tempos: false,
-            timeSignatures: false,
-            chordExtensions: false,
-            fretLimitations: false
-        },
-        customDirections: ''
+        customDirections: '',
+        practiceTips: ''
     });
 
     const db = getFirestore(app);
@@ -108,15 +101,8 @@ const AdminPage: FC = () => {
                 title: '',
                 description: '',
                 skillLevels: ['beginner'],
-                elements: {
-                    keys: false,
-                    chordProgressions: false,
-                    tempos: false,
-                    timeSignatures: false,
-                    chordExtensions: false,
-                    fretLimitations: false
-                },
-                customDirections: ''
+                customDirections: '',
+                practiceTips: ''
             });
             setIsAddingPractice(false);
             await fetchPractices();
@@ -154,16 +140,6 @@ const AdminPage: FC = () => {
                 skillLevels: updatedSkillLevels
             };
         });
-    };
-
-    const handleElementToggle = (elementName: keyof PracticeElements) => {
-        setNewPractice(prev => ({
-            ...prev,
-            elements: {
-                ...prev.elements,
-                [elementName]: !prev.elements[elementName]
-            }
-        }));
     };
 
     if (!isAuthenticated) {
@@ -273,59 +249,6 @@ const AdminPage: FC = () => {
                                     </div>
                                 </div>
                                 
-                                <div className={styles.formRow}>
-                                    <label>Elements</label>
-                                    <div className={styles.checkboxGroup}>
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                checked={newPractice.elements.keys}
-                                                onChange={() => handleElementToggle('keys')}
-                                            />
-                                            Keys
-                                        </label>
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                checked={newPractice.elements.chordProgressions}
-                                                onChange={() => handleElementToggle('chordProgressions')}
-                                            />
-                                            Chord Progressions
-                                        </label>
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                checked={newPractice.elements.tempos}
-                                                onChange={() => handleElementToggle('tempos')}
-                                            />
-                                            Tempos
-                                        </label>
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                checked={newPractice.elements.timeSignatures}
-                                                onChange={() => handleElementToggle('timeSignatures')}
-                                            />
-                                            Time Signatures
-                                        </label>
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                checked={newPractice.elements.chordExtensions}
-                                                onChange={() => handleElementToggle('chordExtensions')}
-                                            />
-                                            Chord Extensions
-                                        </label>
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                checked={newPractice.elements.fretLimitations}
-                                                onChange={() => handleElementToggle('fretLimitations')}
-                                            />
-                                            Fret Limitations
-                                        </label>
-                                    </div>
-                                </div>
                                 
                                 <div className={styles.formRow}>
                                     <label htmlFor="customDirections">Custom Directions</label>
@@ -333,6 +256,15 @@ const AdminPage: FC = () => {
                                         id="customDirections"
                                         value={newPractice.customDirections || ''}
                                         onChange={(e) => setNewPractice({...newPractice, customDirections: e.target.value})}
+                                    />
+                                </div>
+
+                                <div className={styles.formRow}>
+                                    <label htmlFor="practiceTips">Practice Tips</label>
+                                    <textarea
+                                        id="practiceTips"
+                                        value={newPractice.practiceTips || ''}
+                                        onChange={(e) => setNewPractice({...newPractice, practiceTips: e.target.value})}
                                     />
                                 </div>
                                 
