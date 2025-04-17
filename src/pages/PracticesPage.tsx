@@ -1,7 +1,9 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './PracticesPage.module.css';
 import { useWindowSize } from '../hooks/useWindowSize';
+import { getPracticesBySkillLevel } from '../services/practiceService';
+import { Practice } from '../types/practice';
 
 const MOBILE_BREAKPOINT = 960;
 
@@ -13,7 +15,28 @@ interface PracticesPageProps {
 const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) => {
     const navigate = useNavigate();
     const { width } = useWindowSize();
-    const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
+    const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+    const [practices, setPractices] = useState<Practice[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchPractices = async () => {
+            setIsLoading(true);
+            setError(null);
+            try {
+                const practices = await getPracticesBySkillLevel(skillLevel);
+                setPractices(practices);
+            } catch (error) {
+                console.error('Error fetching practices:', error);
+                setError('Failed to load practices. Please try again later.');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchPractices();
+    }, [skillLevel]);
 
     const handleSkillLevelClick = (level: string) => {
         const skillLevels = ['beginner', 'intermediate', 'advanced'];
@@ -21,13 +44,6 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         const nextIndex = (currentLevel + 1) % skillLevels.length;
         onSkillSelect(skillLevels[nextIndex])
     }
-    
-    const skillLevels = [
-        {
-            title: "Solo Improvisation",
-            description: "Randomized chords, tempo (if using metronome), and time signature. Play by yourself."
-        }
-    ];
 
     const renderDesktopHeader = () => (
         <header className={`header ${styles.desktopHeader} ${styles.practicePageHeader}`}>
@@ -59,17 +75,39 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         </header>
     );
 
-    return (
-        <div className="container">
-            {width > MOBILE_BREAKPOINT ? renderDesktopHeader() : renderMobileHeader()}
+    const renderContent = () => {
+        if (isLoading) {
+            return <div className="loading-message">Loading practices...</div>;
+        }
+
+        if (error) {
+            return <div className="error-message">{error}</div>;
+        }
+
+        if (practices.length === 0) {
+            return <div className="empty-message">No practices available for this skill level.</div>;
+        }
+
+        return (
             <div className="card-container">
-                {skillLevels.map((method, index) => (
-                    <div className={`card  ${styles.practiceCard}`} key={index}>
-                        <h3>{method.title}</h3>
-                        <p>{method.description}</p>
+                {practices.map((practice) => (
+                    <div 
+                        className={`card ${styles.practiceCard}`} 
+                        key={practice.id}
+                        onClick={() => navigate(`/practice/${practice.id}`)}
+                    >
+                        <h3>{practice.title}</h3>
+                        <p>{practice.description}</p>
                     </div>
                 ))}
             </div>
+        );
+    };
+
+    return (
+        <div className="container">
+            {width > MOBILE_BREAKPOINT ? renderDesktopHeader() : renderMobileHeader()}
+            {renderContent()}
         </div>
     );
 };
