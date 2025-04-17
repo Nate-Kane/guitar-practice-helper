@@ -31,19 +31,19 @@ const LandingPage: FC<LandingPageProps> = ({ onSkillSelect }) => {
 
   const skillLevels = [
     {
-      title: 'Beginner Player',
+      title: 'Beginning Guitarist',
       description: 'I know some simple chords and scales. I want to start learning to play around the neck.',
       icon: '🌱',
       level: 'beginner'
     },
     {
-      title: 'Intermediate Player',
+      title: 'Intermediate Guitarist',
       description: 'I know lots of chords and scales and can play around the neck. I want to become even more proficient and well versed.',
       icon: '🌿',
       level: 'intermediate'
     },
     {
-      title: 'Advanced Player',
+      title: 'Advanced Guitarist',
       description: "I understand guitar and music theory well. I'm looking to switch up my practice routine and play with new ideas.",
       icon: '🌳',
       level: 'advanced'
