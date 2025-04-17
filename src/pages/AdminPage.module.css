@@ -1,0 +1,203 @@
+.form {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.loginButton {
+    height: 36px;
+}
+
+.adminHeader {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+:global(.header).adminHeader :global(h1) {
+    margin-bottom: 0;
+}
+
+.leftButton {
+  justify-self: center;
+}
+
+.authCard {
+  transform: none;
+  cursor: default;
+  transition: all var(--transition-fast);
+}
+
+.authCard:hover {
+  transform: none !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.formGroup {
+    display: flex;
+    align-items: center;
+}
+
+.formGroup label {
+  font-weight: 600;
+}
+
+.formGroup input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--color-text-light);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+}
+
+:global(.card) .error {
+  color: #e74c3c;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.adminDashboard {
+  margin-top: 2rem;
+}
+
+.practiceList {
+  margin-top: 1.5rem;
+}
+
+.practiceItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--color-text-light);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: 1rem;
+}
+
+.practiceActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.addPracticeButton {
+  margin-top: 1rem;
+}
+
+/* Practice Management Styles */
+.headerActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.addPracticeForm {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: rgba(0,0,0,0.02);
+  border-radius: var(--border-radius-sm);
+}
+
+.formRow {
+  margin-bottom: 1rem;
+}
+
+.formRow label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.formRow input[type="text"],
+.formRow textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--color-text-light);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+}
+
+.formRow textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.checkboxGroup label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.checkboxGroup input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.formActions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.practiceItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--color-text-light);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: 1rem;
+  background-color: var(--color-white);
+}
+
+.practiceInfo {
+  flex: 1;
+}
+
+.practiceInfo h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.practiceInfo p {
+  margin-top: 0;
+}
+
+.skillLevels {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+}
+
+.practiceActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+:global(.button-danger) {
+  background-color: #e74c3c;
+}
+
+:global(.button-danger:hover) {
+  background-color: #c0392b;
+}
+
+.loadingMessage {
+  text-align: center;
+  padding: 2rem;
+  font-style: italic;
+  color: var(--color-text-light);
+}
+
+.emptyMessage {
+  text-align: center;
+  padding: 2rem;
+  color: var(--color-text-light);
+} 
