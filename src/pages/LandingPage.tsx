@@ -9,6 +9,10 @@ interface SkillCardProps {
   onClick: () => void;
 }
 
+interface LandingPageProps {
+  onSkillSelect: (level: string) => void;
+}
+
 const SkillCard: FC<SkillCardProps> = ({ title, description, icon, onClick }) => (
   <div className="card" onClick={onClick}>
     <div className="icon">{icon}</div>
@@ -17,11 +21,11 @@ const SkillCard: FC<SkillCardProps> = ({ title, description, icon, onClick }) =>
   </div>
 );
 
-const LandingPage: FC = () => {
+const LandingPage: FC<LandingPageProps> = ({ onSkillSelect }) => {
   const navigate = useNavigate();
 
   const handleSkillLevelClick = (level: string) => {
-    localStorage.setItem('skillLevel', level);
+    onSkillSelect(level);
     navigate('/practices');
   }
 

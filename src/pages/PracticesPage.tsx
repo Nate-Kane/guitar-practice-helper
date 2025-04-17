@@ -5,9 +5,22 @@ import { useWindowSize } from '../hooks/useWindowSize';
 
 const MOBILE_BREAKPOINT = 960;
 
-const PracticesPage: FC = () => {
+interface PracticesPageProps {
+    skillLevel: string;
+    onSkillSelect: (level: string) => void;
+}
+
+const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) => {
     const navigate = useNavigate();
     const { width } = useWindowSize();
+    const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
+
+    const handleSkillLevelClick = (level: string) => {
+        const skillLevels = ['beginner', 'intermediate', 'advanced'];
+        let currentLevel = skillLevels.indexOf(level);
+        const nextIndex = (currentLevel + 1) % skillLevels.length;
+        onSkillSelect(skillLevels[nextIndex])
+    }
     
     const skillLevels = [
         {
@@ -21,25 +34,27 @@ const PracticesPage: FC = () => {
             <div 
                 className={`button button-secondary ${styles.leftButton}`}
                 onClick={() => navigate('/')}
-            >go back</div>
+            >Go Back</div>
             <h1>Practice Methods</h1>
             <div 
                 className={`button button-secondary ${styles.rightButton}`}
-            >change skill level</div>
+                onClick={() => handleSkillLevelClick(skillLevel)}
+            >{capitalize(skillLevel)}</div>
         </header>
     );
 
     const renderMobileHeader = () => (
-        <header className={`header ${styles.mobileHeader}  ${styles.practicePageHeader}`}>
+        <header className={`header ${styles.mobileHeader} ${styles.practicePageHeader}`}>
             <h1>Practice Methods</h1>
             <div className={styles.buttonContainer}>
                 <div 
                     className="button button-secondary"
                     onClick={() => navigate('/')}
-                >go back</div>
+                >Go Back</div>
                 <div 
                     className="button button-secondary"
-                >change skill level</div>
+                    onClick={() => handleSkillLevelClick(skillLevel)}
+                >{capitalize(skillLevel)}</div>
             </div>
         </header>
     );
