@@ -30,3 +30,6 @@ src/firebase.ts
 
 # Cursor IDE settings
 .cursor/
+
+# Project planning
+nextSteps.txt
