@@ -4,6 +4,7 @@ import { getPracticeById } from '../services/practiceService';
 import { Practice } from '../types/practice';
 import styles from './PracticePage.module.css';
 import { useWindowSize } from '../hooks/useWindowSize';
+import PracticeRenderer from '../components/practices/PracticeRenderer';
 
 const MOBILE_BREAKPOINT = 960;
 
@@ -119,9 +120,13 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
             </div>
           )}
 
-          {practice.practiceTips && (
+          {/* {practice.practiceTips && (
             <div>{practice.practiceTips}</div>
-          )}
+          )} */}
+
+          <div>--------------------------</div>
+
+          <PracticeRenderer practice={practice} skillLevel={skillLevel}/>
 
         </div>
       </div>
