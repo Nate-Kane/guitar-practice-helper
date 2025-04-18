@@ -1,0 +1,7 @@
+.practiceDataContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    margin-top: 50px;
+}
