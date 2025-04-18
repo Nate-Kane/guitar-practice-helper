@@ -3,13 +3,23 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getPracticeById } from '../services/practiceService';
 import { Practice } from '../types/practice';
 import styles from './PracticePage.module.css';
+import { useWindowSize } from '../hooks/useWindowSize';
 
-const PracticePage: FC = () => {
+const MOBILE_BREAKPOINT = 960;
+
+interface PracticePageProps {
+  skillLevel: string;
+  onSkillSelect: (level: string) => void;
+}
+
+const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { width } = useWindowSize();
   const [practice, setPractice] = useState<Practice | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
   useEffect(() => {
     const fetchPractice = async () => {
@@ -37,6 +47,13 @@ const PracticePage: FC = () => {
     fetchPractice();
   }, [id]);
 
+  const handleSkillLevelClick = (level: string) => {
+    const skillLevels = ['beginner', 'intermediate', 'advanced'];
+    let currentLevel = skillLevels.indexOf(level);
+    const nextIndex = (currentLevel + 1) % skillLevels.length;
+    onSkillSelect(skillLevels[nextIndex])
+}
+
   if (isLoading) {
     return (
       <div className="container">
@@ -58,26 +75,43 @@ const PracticePage: FC = () => {
       </div>
     );
   }
+  
+  const renderDesktopHeader = () => (
+    <header className={`header ${styles.desktopHeader} ${styles.practicePageHeader}`}>
+      <div 
+        className={`button button-secondary ${styles.leftButton}`}
+        onClick={() => navigate('/practices')}
+      >Go Back</div>
+      <h1>{practice.title}</h1>
+      <div 
+          className={`button button-secondary  ${styles.rightButton}`}
+          onClick={() => handleSkillLevelClick(skillLevel)}
+      >{capitalize(skillLevel)}</div>
+    </header>
+  );
+
+  const renderMobileHeader = () => (
+    <header className={`header ${styles.mobileHeader} ${styles.practicePageHeader}`}>
+      <h1>{practice.title}</h1>
+      <div className={styles.buttonContainer}>
+        <div 
+          className="button button-secondary"
+          onClick={() => navigate('/practices')}
+        >Go Back</div>
+        <div 
+          className="button button-secondary"
+          onClick={() => handleSkillLevelClick(skillLevel)}
+        >{capitalize(skillLevel)}</div>
+      </div>
+    </header>
+  );
 
   return (
     <div className="container">
-      <header className={styles.practiceHeader}>
-        <button 
-          className={`button button-secondary ${styles.backButton}`}
-          onClick={() => navigate('/practices')}
-        >
-          Back
-        </button>
-        <h1>{practice.title}</h1>
-      </header>
+      {width > MOBILE_BREAKPOINT ? renderDesktopHeader() : renderMobileHeader()}
 
       <div className="card">
-        <p className={styles.description}>{practice.description}</p>
-
         <div className={styles.practiceDetails}>
-          <h2>Practice Details</h2>
-          <p>This practice is for {practice.skillLevels.map(level => level.charAt(0).toUpperCase() + level.slice(1)).join(', ')} players.</p>
-          
           {practice.customDirections && (
             <div className={styles.directions}>
               <h3>Directions</h3>

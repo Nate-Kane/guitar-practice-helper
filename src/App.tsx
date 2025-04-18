@@ -15,7 +15,7 @@ const App: FC = () => {
         <Routes>
           <Route path="/" element={<LandingPage onSkillSelect={setSkillLevel} />} />
           <Route path="/practices" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
-          <Route path="/practice/:id" element={<PracticePage />} />
+          <Route path="/practice/:id" element={<PracticePage skillLevel={skillLevel}  onSkillSelect={setSkillLevel}  />} />
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </div>

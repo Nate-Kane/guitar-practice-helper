@@ -1,22 +1,39 @@
-.practiceHeader {
-  display: flex;
+:global(.header).practicePageHeader {
+  margin-bottom: 30px;
+}
+
+:global(.header).practicePageHeader :global(h1) {
+  margin-bottom: 0;
+}
+
+.desktopHeader {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  margin-bottom: 2rem;
+  gap: 1rem;
+  width: 100%;
 }
 
-.practiceHeader h1 {
-  margin: 0;
-  flex: 1;
-  text-align: center;
+.mobileHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
 }
 
-.backButton {
-  margin-right: 1rem;
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 600px;
 }
 
-.description {
-  font-size: var(--font-size-md);
-  margin-bottom: 2rem;
+.leftButton {
+  justify-self: center;
+}
+
+.rightButton {
+  justify-self: center;
 }
 
 .practiceDetails {
@@ -42,18 +59,8 @@
   color: var(--color-text-light);
 }
 
-@media (max-width: 768px) {
-  .practiceHeader {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .practiceHeader h1 {
-    margin-top: 1rem;
-    text-align: left;
-  }
-  
-  .backButton {
-    margin-right: 0;
+@media (max-width: 960px) {
+  :global(.header).practicePageHeader {
+    margin-bottom: 0px;
   }
 } 
