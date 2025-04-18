@@ -92,7 +92,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
             <div className="card-container">
                 {practices.map((practice) => (
                     <div 
-                        className={`card ${styles.practiceCard}`} 
+                        className={`card card-clickable ${styles.practiceCard}`} 
                         key={practice.id}
                         onClick={() => navigate(`/practice/${practice.id}`)}
                     >

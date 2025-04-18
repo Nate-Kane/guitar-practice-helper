@@ -14,7 +14,7 @@ interface LandingPageProps {
 }
 
 const SkillCard: FC<SkillCardProps> = ({ title, description, icon, onClick }) => (
-  <div className="card" onClick={onClick}>
+  <div className="card card-clickable" onClick={onClick}>
     <div className="icon">{icon}</div>
     <h3>{title}</h3>
     <p>{description}</p>
