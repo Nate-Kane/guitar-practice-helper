@@ -36,27 +36,10 @@
   justify-self: center;
 }
 
-.practiceDetails {
-  margin-top: 2rem;
-}
-
 .directions {
-  margin: 1.5rem 0;
   padding: 1rem;
   background-color: rgba(0,0,0,0.03);
   border-radius: var(--border-radius-sm);
-}
-
-.practiceContent {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(0,0,0,0.1);
-}
-
-.comingSoon {
-  text-align: center;
-  font-style: italic;
-  color: var(--color-text-light);
 }
 
 @media (max-width: 960px) {

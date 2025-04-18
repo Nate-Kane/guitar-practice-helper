@@ -122,11 +122,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
           {practice.practiceTips && (
             <div>{practice.practiceTips}</div>
           )}
-          
-          <div className={styles.practiceContent}>
-            <h2>Practice Content</h2>
-            <p className={styles.comingSoon}>Practice content generation coming soon!</p>
-          </div>
+
         </div>
       </div>
     </div>
