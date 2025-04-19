@@ -31,19 +31,19 @@ const LandingPage: FC<LandingPageProps> = ({ onSkillSelect }) => {
 
   const skillLevels = [
     {
-      title: 'Beginning Guitarist',
+      title: "I'm a beginner guitarist",
       description: 'I know some simple chords and scales. I want to start learning to play around the neck.',
       icon: '🌱',
       level: 'beginner'
     },
     {
-      title: 'Intermediate Guitarist',
+      title: "I'm an intermediate guitarist",
       description: 'I know lots of chords and scales and can play around the neck. I want to become even more proficient and well versed.',
       icon: '🌿',
       level: 'intermediate'
     },
     {
-      title: 'Advanced Guitarist',
+      title: "I'm an advanced guitarist",
       description: "I understand guitar and music theory well. I'm looking to switch up my practice routine and play with new ideas.",
       icon: '🌳',
       level: 'advanced'
@@ -61,14 +61,13 @@ const LandingPage: FC<LandingPageProps> = ({ onSkillSelect }) => {
   return (
     <div className="container">
       <header className="header" style={styles.landingPageHeader}>
-        <h1>Your personal guitar practice assistant</h1>
+        <h1>Practice Assistant</h1>
         <p className="header-subtitle">
           Randomized practice routines to help you break out of the box
         </p>
       </header>
 
       <section>
-        <h2>I am a...</h2>
         <div className="card-container">
           {skillLevels.map((skillLevel, index) => (
             <SkillCard 

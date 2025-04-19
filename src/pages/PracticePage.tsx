@@ -115,7 +115,6 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
         <div className={styles.practiceDetails}>
           {practice.customDirections && (
             <div className={styles.directions}>
-              <h3>Directions</h3>
               <p>{practice.customDirections}</p>
             </div>
           )}
