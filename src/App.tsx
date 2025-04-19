@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import PracticesPage from './pages/PracticesPage';
@@ -7,7 +7,13 @@ import PracticePage from './pages/PracticePage';
 import './App.css';
 
 const App: FC = () => {
-  const [skillLevel, setSkillLevel] = useState<string>("beginner")
+  const [skillLevel, setSkillLevel] = useState<string>(() => {
+    return localStorage.getItem('skillLevel') || "beginner";
+  });
+
+  useEffect(() => {
+    localStorage.setItem('skillLevel', skillLevel);
+  }, [skillLevel]);
 
   return (
     <Router>
