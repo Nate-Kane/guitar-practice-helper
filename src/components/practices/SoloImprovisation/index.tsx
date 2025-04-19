@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from 'react';
 import { Practice } from '../../../types/practice';
 import { getRandomKey, Key } from '../../../practiceAssets/keys';
 import { getRandomProgression, progressionToChords, ChordProgression } from '../../../practiceAssets/progressions';
+import { getRandomExtension, ChordExtension } from '../../../practiceAssets/extensions';
 import styles from './index.module.css'
 
 interface SoloImprovisationProps {
@@ -9,11 +10,12 @@ interface SoloImprovisationProps {
     skillLevel: string;
 }
 
-const SoloImprovisation: FC<SoloImprovisationProps> = ({ practice, skillLevel }) => {
+const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
     // State for key and progression
     const [currentKey, setCurrentKey] = useState<Key | null>(null);
     const [currentProgression, setCurrentProgression] = useState<ChordProgression | null>(null);
     const [currentChords, setCurrentChords] = useState<string[]>([]);
+    const [currentExtension, setCurrentExtension] = useState<ChordExtension | null>(null);
     
     // Generate new chord progression with current key
     const generateNewProgression = () => {
@@ -46,6 +48,11 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ practice, skillLevel })
             setCurrentChords(chords);
         }
     };
+
+    const generateNewExtension = () => {
+        const extension = getRandomExtension(skillLevel);
+        setCurrentExtension(extension);
+    }
     
     // Initialize both key and progression on component mount or skill level change
     useEffect(() => {
@@ -61,6 +68,12 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ practice, skillLevel })
             key.quality
         );
         setCurrentChords(chords);
+        
+        // Initialize the extension if not beginner
+        if (skillLevel !== 'beginner') {
+            const extension = getRandomExtension(skillLevel);
+            setCurrentExtension(extension);
+        }
     }, [skillLevel]);
     
     return (
@@ -97,6 +110,25 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ practice, skillLevel })
                     </button>
                 </div>
             )}
+
+            {skillLevel !== 'beginner' && currentExtension && (
+                <div className={`${styles.practiceDataContainer}`}>
+                    <div>
+                        <h4>Try incorporating a {currentExtension.name}</h4>
+                        <p>{currentExtension.description}</p>
+                    </div>
+                    <button 
+                        className="button button-secondary"
+                        onClick={generateNewExtension}
+                    >
+                        Change
+                    </button>
+                </div>
+            )}
+        
+            {/* add fret limitations */}
+
+            {/* add tempo & time signature */}
         </div>
     );
 };

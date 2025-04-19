@@ -124,8 +124,6 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
             <div>{practice.practiceTips}</div>
           )} */}
 
-          <div>--------------------------</div>
-
           <PracticeRenderer practice={practice} skillLevel={skillLevel}/>
 
         </div>
