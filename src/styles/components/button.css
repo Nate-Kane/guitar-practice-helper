@@ -34,9 +34,20 @@
   border: 1px solid var(--color-text-light);
 } 
 
+.button-regen {
+  font-size: 20px;
+  border: none;
+  border-radius: 100px;
+  padding: 6px 8px;
+}
+
 @media (max-width: 600px) {
   .button {
     font-size: var(--font-size-xs);
     height: 40px;
+  }
+  .button-regen {
+    font-size: 18px;
+    padding: 12px;
   }
 }

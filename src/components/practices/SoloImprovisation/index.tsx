@@ -85,10 +85,10 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
                         <p>{currentKey.notes.join(', ')}</p>
                     </div>
                     <button 
-                        className="button button-secondary"
+                        className="button button-secondary button-regen"
                         onClick={generateNewKey}
                     >
-                        Change
+                        &#8635;
                     </button>
                 </div>
             )}
@@ -103,10 +103,10 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
                         )}
                     </div>
                     <button 
-                        className="button button-secondary"
+                        className="button button-secondary button-regen"
                         onClick={generateNewProgression}
                     >
-                        Change
+                        &#8635;
                     </button>
                 </div>
             )}
@@ -118,10 +118,10 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
                         <p>{currentExtension.description}</p>
                     </div>
                     <button 
-                        className="button button-secondary"
+                        className="button button-secondary button-regen"
                         onClick={generateNewExtension}
                     >
-                        Change
+                        &#8635;
                     </button>
                 </div>
             )}
