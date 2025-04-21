@@ -35,10 +35,13 @@
 } 
 
 @media (max-width: 600px) {
+  .icon {
+    font-size: 12px;
+  }
   .card h3 {
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-sm);
   }
   .card p {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
   }
 }

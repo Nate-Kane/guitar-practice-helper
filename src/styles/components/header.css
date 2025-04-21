@@ -23,7 +23,7 @@
 
 @media (max-width: 600px) {
   .header h1 {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-lg);
   }
   
   .header-subtitle {

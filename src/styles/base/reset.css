@@ -21,7 +21,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
   line-height: 1.2;
 }
 
@@ -37,5 +37,8 @@ button, input, select, textarea {
 @media (max-width: 600px) {
   h2 {
     font-size: 1.2rem;
+  }
+  h4 {
+    font-size: 0.8rem;
   }
 }
