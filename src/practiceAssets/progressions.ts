@@ -19,7 +19,7 @@ const MAJOR_PROGRESSIONS_BEGINNER = [
     commonIn: ["rock", "folk", "country", "blues"]
   },
   {
-    name: "1-5-6-4",
+    name: "Pop Punk Progression",
     description: "The 'pop punk' progression, used in many hit songs",
     nashvilleNums: ["1", "5", "6m", "4"],
     nashvilleRomanNums: ["I", "V", "vi", "IV"],
@@ -30,7 +30,7 @@ const MAJOR_PROGRESSIONS_BEGINNER = [
 
 const MAJOR_PROGRESSIONS_INTERMEDIATE = [
   {
-    name: "2-5-1",
+    name: "Simple Jazz Progression",
     description: "The jazz fundamental progression, the backbone of jazz harmony",
     nashvilleNums: ["2m", "5", "1"],
     nashvilleRomanNums: ["ii", "V", "I"],
@@ -77,7 +77,7 @@ const MINOR_PROGRESSIONS_BEGINNER = [
     commonIn: ["rock", "folk", "blues"]
   },
   {
-    name: "1-6-7",
+    name: "Ballad Progression (minor)",
     description: "Common minor progression with a strong emotional impact",
     nashvilleNums: ["1m", "6", "7"],
     nashvilleRomanNums: ["i", "VI", "VII"],
