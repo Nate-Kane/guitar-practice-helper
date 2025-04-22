@@ -35,7 +35,7 @@ const styles: Record<string, CSSProperties> = {
   }
 };
 
-const SkillCard: FC<SkillCardProps> = ({ title, description, icon, onClick, style }) => (
+const SkillCard: FC<SkillCardProps> = ({ title, icon, onClick }) => (
   <div className="card card-clickable" onClick={onClick} style={styles.skillCard}>
     <h3 style={styles.cardH3}>{title}</h3>
     <div className="icon" style={styles.icon}>{icon}</div>
