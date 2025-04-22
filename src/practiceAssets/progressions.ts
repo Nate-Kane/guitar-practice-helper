@@ -95,14 +95,16 @@ const MINOR_PROGRESSIONS_INTERMEDIATE = [
     difficulty: "intermediate",
     commonIn: ["flamenco", "rock", "classical"]
   },
-  {
-    name: "Minor Line Cliché",
-    description: "Creating tension with a descending chromatic line in the bass",
-    nashvilleNums: ["1m", "1m/7", "1m/b7", "1m/6"],
-    nashvilleRomanNums: ["i", "i/VII", "i/bVII", "i/VI"],
-    difficulty: "intermediate",
-    commonIn: ["jazz", "film scores", "ballads"]
-  }
+  // Love the idea of this progression with slash chords but it isn't taking super well with the letter
+  // revisit and fix
+  // {
+  //   name: "Minor Line Cliché",
+  //   description: "Creating tension with a descending chromatic line in the bass",
+  //   nashvilleNums: ["1m", "1m/7", "1m/b7", "1m/6"],
+  //   nashvilleRomanNums: ["i", "i/VII", "i/bVII", "i/VI"],
+  //   difficulty: "intermediate",
+  //   commonIn: ["jazz", "film scores", "ballads"]
+  // }
 ];
 
 const MINOR_PROGRESSIONS_ADVANCED = [
