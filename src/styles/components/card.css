@@ -6,6 +6,7 @@
   transition: transform var(--transition-fast);
   max-width: var(--card-max-width);
   margin: 0 auto;
+  text-align: left;
 }
 
 .card-clickable:hover {
@@ -15,7 +16,7 @@
 
 .card h3 {
   font-size: var(--font-size-lg);
-  margin: var(--spacing-sm) 0;
+  margin: 0 0 var(--spacing-sm) 0;
   color: var(--color-text);
 }
 
