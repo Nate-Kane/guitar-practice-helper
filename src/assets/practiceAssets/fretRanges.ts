@@ -4,18 +4,18 @@ export interface FretRange {
   minFret: number;      // Minimum fret
   maxFret: number;      // Maximum fret
   description?: string; // Optional description
-  difficulty: string;   // "beginner", "intermediate", or "advanced"
+  difficulty: string;   // "basics", "intermediate", or "advanced"
 }
 
 export const FRET_RANGES: FretRange[] = [
-  // Beginner ranges
+  // basics ranges
   {
     id: "open-position",
     name: "Open Position",
     minFret: 0,
     maxFret: 3,
     description: "The first position on the neck, including open strings",
-    difficulty: "beginner"
+    difficulty: "basics"
   },
   {
     id: "first-position",
@@ -23,7 +23,7 @@ export const FRET_RANGES: FretRange[] = [
     minFret: 1,
     maxFret: 4,
     description: "The standard first position without open strings",
-    difficulty: "beginner"
+    difficulty: "basics"
   },
   {
     id: "second-position",
@@ -31,7 +31,7 @@ export const FRET_RANGES: FretRange[] = [
     minFret: 2,
     maxFret: 5,
     description: "Second position on the neck",
-    difficulty: "beginner"
+    difficulty: "basics"
   },
   
   // Intermediate ranges
@@ -96,7 +96,7 @@ export const FRET_RANGES: FretRange[] = [
 ];
 
 // Get fret ranges by difficulty level
-export const BEGINNER_FRET_RANGES = FRET_RANGES.filter(fr => fr.difficulty === "beginner");
+export const basics_FRET_RANGES = FRET_RANGES.filter(fr => fr.difficulty === "basics");
 export const INTERMEDIATE_FRET_RANGES = FRET_RANGES.filter(fr => fr.difficulty === "intermediate");
 export const ADVANCED_FRET_RANGES = FRET_RANGES.filter(fr => fr.difficulty === "advanced");
 
@@ -107,19 +107,19 @@ export function getRandomFretRange(difficulty: string): FretRange {
   let availableFretRanges: FretRange[];
   
   switch(difficulty) {
-    case "beginner":
-      availableFretRanges = BEGINNER_FRET_RANGES;
+    case "basics":
+      availableFretRanges = basics_FRET_RANGES;
       break;
     case "intermediate":
-      // Intermediate players can play beginner and intermediate fret ranges
-      availableFretRanges = [...BEGINNER_FRET_RANGES, ...INTERMEDIATE_FRET_RANGES];
+      // Intermediate players can play basics and intermediate fret ranges
+      availableFretRanges = [...basics_FRET_RANGES, ...INTERMEDIATE_FRET_RANGES];
       break;
     case "advanced":
       // Advanced players can play all fret ranges
       availableFretRanges = FRET_RANGES;
       break;
     default:
-      availableFretRanges = BEGINNER_FRET_RANGES;
+      availableFretRanges = basics_FRET_RANGES;
   }
   
   const randomIndex = Math.floor(Math.random() * availableFretRanges.length);
@@ -140,6 +140,6 @@ export function getCustomFretRange(minFret: number, span: number = 4): FretRange
     minFret,
     maxFret,
     description: `Custom fret range from fret ${minFret} to ${maxFret}`,
-    difficulty: minFret > 7 ? "advanced" : minFret > 3 ? "intermediate" : "beginner"
+    difficulty: minFret > 7 ? "advanced" : minFret > 3 ? "intermediate" : "basics"
   };
 } 

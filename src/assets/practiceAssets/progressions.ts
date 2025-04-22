@@ -3,19 +3,19 @@ export interface ChordProgression {
   description?: string;      // Optional description of the progression
   nashvilleNums: string[];    // nashville system but not in roman numerals. I.e, 1, 4, 5.
   nashvilleRomanNums: string[];       // Nashville roman number system notation (e.g., ["I", "IV", "V"])
-  difficulty: string;        // "beginner", "intermediate", or "advanced"
+  difficulty: string;        // "basics", "intermediate", or "advanced"
   commonIn?: string[];       // Music styles where this progression is common
 }
 
 import { Key } from './keys';
 
-const MAJOR_PROGRESSIONS_BEGINNER = [
+const MAJOR_PROGRESSIONS_basics = [
   {
     name: "Major 1-4-5",
     description: "The classic three-chord progression",
     nashvilleNums: ["1", "4", "5"],
     nashvilleRomanNums: ["I", "IV", "V"],
-    difficulty: "beginner",
+    difficulty: "basics",
     commonIn: ["rock", "folk", "country", "blues"]
   },
   {
@@ -23,7 +23,7 @@ const MAJOR_PROGRESSIONS_BEGINNER = [
     description: "The 'pop punk' progression, used in many hit songs",
     nashvilleNums: ["1", "5", "6m", "4"],
     nashvilleRomanNums: ["I", "V", "vi", "IV"],
-    difficulty: "beginner",
+    difficulty: "basics",
     commonIn: ["pop", "rock", "punk", "contemporary"]
   }
 ];
@@ -67,13 +67,13 @@ const MAJOR_PROGRESSIONS_ADVANCED = [
 ];
 
 // For minor progressions, we explicitly mark the chord quality
-const MINOR_PROGRESSIONS_BEGINNER = [
+const MINOR_PROGRESSIONS_basics = [
   {
     name: "Minor 1-4-5",
     description: "The classic three-chord progression in minor",
     nashvilleNums: ["1m", "4m", "5m"],  // Using 'm' suffix for minor
     nashvilleRomanNums: ["i", "iv", "v"],  // Lowercase numerals indicate minor
-    difficulty: "beginner",
+    difficulty: "basics",
     commonIn: ["rock", "folk", "blues"]
   },
   {
@@ -81,7 +81,7 @@ const MINOR_PROGRESSIONS_BEGINNER = [
     description: "Common minor progression with a strong emotional impact",
     nashvilleNums: ["1m", "6", "7"],
     nashvilleRomanNums: ["i", "VI", "VII"],
-    difficulty: "beginner",
+    difficulty: "basics",
     commonIn: ["pop", "ballads", "film music"]
   }
 ];
@@ -129,7 +129,7 @@ const MINOR_PROGRESSIONS_ADVANCED = [
 /**
  * Get a random chord progression based on key and skill level
  */
-function getRandomProgression(key: Key | null, skillLevel: string = 'beginner'): ChordProgression | null {
+function getRandomProgression(key: Key | null, skillLevel: string = 'basics'): ChordProgression | null {
   // If no key is provided, return null
   if (!key) return null;
   
@@ -139,32 +139,32 @@ function getRandomProgression(key: Key | null, skillLevel: string = 'beginner'):
   if (key.quality === 'major') {
     // For major keys
     switch(skillLevel) {
-      case 'beginner':
-        availableProgressions = [...MAJOR_PROGRESSIONS_BEGINNER];
+      case 'basics':
+        availableProgressions = [...MAJOR_PROGRESSIONS_basics];
         break;
       case 'intermediate':
-        availableProgressions = [...MAJOR_PROGRESSIONS_BEGINNER, ...MAJOR_PROGRESSIONS_INTERMEDIATE];
+        availableProgressions = [...MAJOR_PROGRESSIONS_basics, ...MAJOR_PROGRESSIONS_INTERMEDIATE];
         break;
       case 'advanced':
-        availableProgressions = [...MAJOR_PROGRESSIONS_BEGINNER, ...MAJOR_PROGRESSIONS_INTERMEDIATE, ...MAJOR_PROGRESSIONS_ADVANCED];
+        availableProgressions = [...MAJOR_PROGRESSIONS_basics, ...MAJOR_PROGRESSIONS_INTERMEDIATE, ...MAJOR_PROGRESSIONS_ADVANCED];
         break;
       default:
-        availableProgressions = [...MAJOR_PROGRESSIONS_BEGINNER];
+        availableProgressions = [...MAJOR_PROGRESSIONS_basics];
     }
   } else {
     // For minor keys
     switch(skillLevel) {
-      case 'beginner':
-        availableProgressions = [...MINOR_PROGRESSIONS_BEGINNER];
+      case 'basics':
+        availableProgressions = [...MINOR_PROGRESSIONS_basics];
         break;
       case 'intermediate':
-        availableProgressions = [...MINOR_PROGRESSIONS_BEGINNER, ...MINOR_PROGRESSIONS_INTERMEDIATE];
+        availableProgressions = [...MINOR_PROGRESSIONS_basics, ...MINOR_PROGRESSIONS_INTERMEDIATE];
         break;
       case 'advanced':
-        availableProgressions = [...MINOR_PROGRESSIONS_BEGINNER, ...MINOR_PROGRESSIONS_INTERMEDIATE, ...MINOR_PROGRESSIONS_ADVANCED];
+        availableProgressions = [...MINOR_PROGRESSIONS_basics, ...MINOR_PROGRESSIONS_INTERMEDIATE, ...MINOR_PROGRESSIONS_ADVANCED];
         break;
       default:
-        availableProgressions = [...MINOR_PROGRESSIONS_BEGINNER];
+        availableProgressions = [...MINOR_PROGRESSIONS_basics];
     }
   }
   

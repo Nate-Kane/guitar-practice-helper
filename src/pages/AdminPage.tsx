@@ -17,7 +17,7 @@ const AdminPage: FC = () => {
     const [newPractice, setNewPractice] = useState<Omit<Practice, 'id'>>({
         title: '',
         description: '',
-        skillLevels: ['beginner'],
+        skillLevels: ['basics'],
         customDirections: '',
         practiceTips: ''
     });
@@ -25,7 +25,7 @@ const AdminPage: FC = () => {
     const [editedPractice, setEditedPractice] = useState<Omit<Practice, 'id'>>({
         title: '',
         description: '',
-        skillLevels: ['beginner'],
+        skillLevels: ['basics'],
         customDirections: '',
         practiceTips: ''
     })
@@ -109,7 +109,7 @@ const AdminPage: FC = () => {
             setNewPractice({
                 title: '',
                 description: '',
-                skillLevels: ['beginner'],
+                skillLevels: ['basics'],
                 customDirections: '',
                 practiceTips: ''
             });
@@ -284,10 +284,10 @@ const AdminPage: FC = () => {
                                     <label>
                                         <input
                                             type="checkbox"
-                                            checked={newPractice.skillLevels.includes('beginner')}
-                                            onChange={() => handleSkillLevelToggle('beginner')}
+                                            checked={newPractice.skillLevels.includes('basics')}
+                                            onChange={() => handleSkillLevelToggle('basics')}
                                         />
-                                        Beginner
+                                        basics
                                     </label>
                                     <label>
                                         <input
@@ -410,10 +410,10 @@ const AdminPage: FC = () => {
                                               <label>
                                                 <input
                                                   type="checkbox"
-                                                  checked={editedPractice.skillLevels.includes('beginner')}
-                                                  onChange={() => handleEditSkillLevelToggle('beginner')}
+                                                  checked={editedPractice.skillLevels.includes('basics')}
+                                                  onChange={() => handleEditSkillLevelToggle('basics')}
                                                 />
-                                                Beginner
+                                                basics
                                               </label>
                                               <label>
                                                 <input

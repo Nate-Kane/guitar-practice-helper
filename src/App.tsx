@@ -8,7 +8,7 @@ import './App.css';
 
 const App: FC = () => {
   const [skillLevel, setSkillLevel] = useState<string>(() => {
-    return localStorage.getItem('skillLevel') || "beginner";
+    return localStorage.getItem('skillLevel') || "basics";
   });
 
   useEffect(() => {

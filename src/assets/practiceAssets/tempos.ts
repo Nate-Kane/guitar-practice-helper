@@ -4,19 +4,19 @@ export interface TempoRange {
   minBPM: number;       // Minimum beats per minute
   maxBPM: number;       // Maximum beats per minute
   description?: string; // Optional description
-  difficulty: string;   // "beginner", "intermediate", or "advanced"
+  difficulty: string;   // "basics", "intermediate", or "advanced"
 }
 
 // Traditional Italian tempo markings with BPM ranges
 export const TEMPO_RANGES: TempoRange[] = [
-  // Beginner tempo ranges (slower and more manageable)
+  // basics tempo ranges (slower and more manageable)
   {
     id: "largo",
     name: "Largo",
     minBPM: 40,
     maxBPM: 60,
     description: "Very slow and broad",
-    difficulty: "beginner"
+    difficulty: "basics"
   },
   {
     id: "adagio",
@@ -24,7 +24,7 @@ export const TEMPO_RANGES: TempoRange[] = [
     minBPM: 66,
     maxBPM: 76,
     description: "Slow and stately",
-    difficulty: "beginner"
+    difficulty: "basics"
   },
   {
     id: "andante",
@@ -32,7 +32,7 @@ export const TEMPO_RANGES: TempoRange[] = [
     minBPM: 76,
     maxBPM: 108,
     description: "At a walking pace",
-    difficulty: "beginner"
+    difficulty: "basics"
   },
   
   // Intermediate tempo ranges
@@ -89,7 +89,7 @@ export const TEMPO_RANGES: TempoRange[] = [
 ];
 
 // Get tempo ranges by difficulty level
-export const BEGINNER_TEMPO_RANGES = TEMPO_RANGES.filter(tr => tr.difficulty === "beginner");
+export const basics_TEMPO_RANGES = TEMPO_RANGES.filter(tr => tr.difficulty === "basics");
 export const INTERMEDIATE_TEMPO_RANGES = TEMPO_RANGES.filter(tr => tr.difficulty === "intermediate");
 export const ADVANCED_TEMPO_RANGES = TEMPO_RANGES.filter(tr => tr.difficulty === "advanced");
 
@@ -100,19 +100,19 @@ export function getRandomTempoRange(difficulty: string): TempoRange {
   let availableTempoRanges: TempoRange[];
   
   switch(difficulty) {
-    case "beginner":
-      availableTempoRanges = BEGINNER_TEMPO_RANGES;
+    case "basics":
+      availableTempoRanges = basics_TEMPO_RANGES;
       break;
     case "intermediate":
-      // Intermediate players can play beginner and intermediate tempo ranges
-      availableTempoRanges = [...BEGINNER_TEMPO_RANGES, ...INTERMEDIATE_TEMPO_RANGES];
+      // Intermediate players can play basics and intermediate tempo ranges
+      availableTempoRanges = [...basics_TEMPO_RANGES, ...INTERMEDIATE_TEMPO_RANGES];
       break;
     case "advanced":
       // Advanced players can play all tempo ranges
       availableTempoRanges = TEMPO_RANGES;
       break;
     default:
-      availableTempoRanges = BEGINNER_TEMPO_RANGES;
+      availableTempoRanges = basics_TEMPO_RANGES;
   }
   
   const randomIndex = Math.floor(Math.random() * availableTempoRanges.length);

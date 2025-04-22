@@ -4,19 +4,19 @@ export interface TimeSignature {
   upper: number;        // Upper numeral (beats per measure)
   lower: number;        // Lower numeral (beat unit)
   description?: string; // Optional description
-  difficulty: string;   // "beginner", "intermediate", or "advanced"
+  difficulty: string;   // "basics", "intermediate", or "advanced"
   commonIn?: string[];  // Music styles where this time signature is common
 }
 
 export const TIME_SIGNATURES: TimeSignature[] = [
-  // Beginner time signatures
+  // basics time signatures
   {
     id: "4-4",
     name: "4/4",
     upper: 4,
     lower: 4,
     description: "Common time. Four quarter notes per measure.",
-    difficulty: "beginner",
+    difficulty: "basics",
     commonIn: ["rock", "pop", "jazz", "blues", "folk"]
   },
   {
@@ -25,7 +25,7 @@ export const TIME_SIGNATURES: TimeSignature[] = [
     upper: 3,
     lower: 4,
     description: "Waltz time. Three quarter notes per measure.",
-    difficulty: "beginner",
+    difficulty: "basics",
     commonIn: ["classical", "folk", "country"]
   },
   
@@ -98,7 +98,7 @@ export const TIME_SIGNATURES: TimeSignature[] = [
 ];
 
 // Get time signatures by difficulty level
-export const BEGINNER_TIME_SIGNATURES = TIME_SIGNATURES.filter(ts => ts.difficulty === "beginner");
+export const basics_TIME_SIGNATURES = TIME_SIGNATURES.filter(ts => ts.difficulty === "basics");
 export const INTERMEDIATE_TIME_SIGNATURES = TIME_SIGNATURES.filter(ts => ts.difficulty === "intermediate");
 export const ADVANCED_TIME_SIGNATURES = TIME_SIGNATURES.filter(ts => ts.difficulty === "advanced");
 
@@ -109,19 +109,19 @@ export function getRandomTimeSignature(difficulty: string): TimeSignature {
   let availableTimeSignatures: TimeSignature[];
   
   switch(difficulty) {
-    case "beginner":
-      availableTimeSignatures = BEGINNER_TIME_SIGNATURES;
+    case "basics":
+      availableTimeSignatures = basics_TIME_SIGNATURES;
       break;
     case "intermediate":
-      // Intermediate players can play beginner and intermediate time signatures
-      availableTimeSignatures = [...BEGINNER_TIME_SIGNATURES, ...INTERMEDIATE_TIME_SIGNATURES];
+      // Intermediate players can play basics and intermediate time signatures
+      availableTimeSignatures = [...basics_TIME_SIGNATURES, ...INTERMEDIATE_TIME_SIGNATURES];
       break;
     case "advanced":
       // Advanced players can play all time signatures
       availableTimeSignatures = TIME_SIGNATURES;
       break;
     default:
-      availableTimeSignatures = BEGINNER_TIME_SIGNATURES;
+      availableTimeSignatures = basics_TIME_SIGNATURES;
   }
   
   const randomIndex = Math.floor(Math.random() * availableTimeSignatures.length);

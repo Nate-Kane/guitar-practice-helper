@@ -18,7 +18,7 @@ export const useExtensionGenerator = (skillLevel: string) => {
 
   // Initialize extension when key changes or skill level changes
   useEffect(() => {
-    if (skillLevel !== 'beginner') {
+    if (skillLevel !== 'basics') {
       generateNewExtension();
     } else {
       setCurrentExtension(null);
@@ -28,6 +28,6 @@ export const useExtensionGenerator = (skillLevel: string) => {
   return {
     currentExtension,
     generateNewExtension,
-    shouldShowExtension: skillLevel !== 'beginner'
+    shouldShowExtension: skillLevel !== 'basics'
   };
 };

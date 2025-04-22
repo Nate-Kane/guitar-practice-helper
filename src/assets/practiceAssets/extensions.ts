@@ -3,33 +3,33 @@ export interface ChordExtension {
   name: string;         // Display name (e.g., "7th")
   symbol: string;       // Symbol used in chord notation (e.g., "7")
   description?: string; // Optional description
-  difficulty: string;   // "beginner", "intermediate", or "advanced"
+  difficulty: string;   // "basics", "intermediate", or "advanced"
 }
 
 export const CHORD_EXTENSIONS: ChordExtension[] = [
-  // No extension (basic triad) - we'll include this as an option
+  // No extension (basics triad) - we'll include this as an option
   {
     id: "triad",
     name: "Triad",
     symbol: "",
-    description: "Basic three-note chord with no extension",
-    difficulty: "beginner"
+    description: "basics three-note chord with no extension",
+    difficulty: "basics"
   },
   
-  // Beginner extensions
+  // basics extensions
   {
     id: "7",
     name: "Dominant 7th",
     symbol: "7",
     description: "Adds a minor 7th above the root, creating tension",
-    difficulty: "beginner"
+    difficulty: "basics"
   },
   {
     id: "sus4",
     name: "Suspended 4th",
     symbol: "sus4",
     description: "Replaces the 3rd with a 4th, creating an unresolved sound",
-    difficulty: "beginner"
+    difficulty: "basics"
   },
   
   // Intermediate extensions
@@ -108,7 +108,7 @@ export const CHORD_EXTENSIONS: ChordExtension[] = [
 ];
 
 // Get extensions by difficulty level
-export const BEGINNER_EXTENSIONS = CHORD_EXTENSIONS.filter(ext => ext.difficulty === "beginner");
+export const basics_EXTENSIONS = CHORD_EXTENSIONS.filter(ext => ext.difficulty === "basics");
 export const INTERMEDIATE_EXTENSIONS = CHORD_EXTENSIONS.filter(ext => ext.difficulty === "intermediate");
 export const ADVANCED_EXTENSIONS = CHORD_EXTENSIONS.filter(ext => ext.difficulty === "advanced");
 
@@ -119,19 +119,19 @@ export function getRandomExtension(difficulty: string): ChordExtension {
   let availableExtensions: ChordExtension[];
   
   switch(difficulty) {
-    case "beginner":
-      availableExtensions = BEGINNER_EXTENSIONS;
+    case "basics":
+      availableExtensions = basics_EXTENSIONS;
       break;
     case "intermediate":
-      // Intermediate players can play beginner and intermediate extensions
-      availableExtensions = [...BEGINNER_EXTENSIONS, ...INTERMEDIATE_EXTENSIONS];
+      // Intermediate players can play basics and intermediate extensions
+      availableExtensions = [...basics_EXTENSIONS, ...INTERMEDIATE_EXTENSIONS];
       break;
     case "advanced":
       // Advanced players can play all extensions
       availableExtensions = CHORD_EXTENSIONS;
       break;
     default:
-      availableExtensions = BEGINNER_EXTENSIONS;
+      availableExtensions = basics_EXTENSIONS;
   }
   
   const randomIndex = Math.floor(Math.random() * availableExtensions.length);

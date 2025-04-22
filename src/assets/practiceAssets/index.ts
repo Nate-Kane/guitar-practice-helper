@@ -27,12 +27,12 @@ export function generateImprovisationPractice(skillLevel: string) {
   const progression = getRandomProgression(skillLevel);
   
   // Convert Nashville numbers to actual chords in the selected key
-  const basicChords = progressionToChords(progression.nashville, key.root, key.quality);
+  const basicsChords = progressionToChords(progression.nashville, key.root, key.quality);
   
-  // Select a random extension and apply to chords if above beginner level
+  // Select a random extension and apply to chords if above basics level
   const extension = getRandomExtension(skillLevel);
-  const chords = basicChords.map((chord: string) => 
-    skillLevel === 'beginner' ? chord : applyExtension(chord, extension)
+  const chords = basicsChords.map((chord: string) => 
+    skillLevel === 'basics' ? chord : applyExtension(chord, extension)
   );
   
   // Get a random time signature
@@ -50,9 +50,9 @@ export function generateImprovisationPractice(skillLevel: string) {
     progression: {
       ...progression,
       chords: chords,
-      basicChords
+      basicsChords
     },
-    extension: skillLevel === 'beginner' ? null : extension,
+    extension: skillLevel === 'basics' ? null : extension,
     timeSignature,
     tempo,
     fretRange

@@ -49,7 +49,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
   }, [id]);
 
   const handleSkillLevelClick = (level: string) => {
-    const skillLevels = ['beginner', 'intermediate', 'advanced'];
+    const skillLevels = ['basics', 'intermediate', 'advanced'];
     let currentLevel = skillLevels.indexOf(level);
     const nextIndex = (currentLevel + 1) % skillLevels.length;
     onSkillSelect(skillLevels[nextIndex])

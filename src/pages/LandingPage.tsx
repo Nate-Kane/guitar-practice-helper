@@ -56,7 +56,7 @@ const LandingPage: FC<LandingPageProps> = ({ onSkillSelect }) => {
       title: "Master the basics",
       description: "Simple chords. Simple scales. Learn and master the basics.",
       icon: '🌱',
-      level: 'beginner'
+      level: 'basics'
     },
     {
       title: "Intermediate practice",

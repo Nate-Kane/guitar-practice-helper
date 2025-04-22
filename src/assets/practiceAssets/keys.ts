@@ -1,4 +1,4 @@
-// Basic notes in Western music (using sharps)
+// basics notes in Western music (using sharps)
 const ALL_NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 // Intervals for major scale (in semitones)
@@ -13,7 +13,7 @@ export interface Key {
   quality: string;     // "major" or "minor"
   notes: string[];     // E.g., ["C", "D", "E", "F", "G", "A", "B"]
   relativeKey: string; // E.g., "A Minor" (for C Major)
-  difficulty: string;  // "beginner", "intermediate", or "advanced"
+  difficulty: string;  // "basics", "intermediate", or "advanced"
 }
 
 /**
@@ -33,16 +33,16 @@ function generateScaleNotes(rootNote: string, intervals: number[]): string[] {
 function getDifficulty(root: string, quality: string): string {
   // Guitar-friendly keys regardless of accidentals
   if (["E", "A", "D", "G"].includes(root) && quality === "major") {
-    return "beginner";
+    return "basics";
   }
   
   // Keys with no or few accidentals
   if (["C", "G", "F"].includes(root) && quality === "major") {
-    return "beginner";
+    return "basics";
   }
   
   if (["A", "E", "D"].includes(root) && quality === "minor") {
-    return "beginner";
+    return "basics";
   }
   
   // Keys with moderate accidentals
@@ -133,7 +133,7 @@ export const ALL_KEYS: Key[] = [...majorKeys, ...minorKeys]
   .sort((a, b) => a.name.localeCompare(b.name));
 
 // Common keys for reference
-export const BEGINNER_KEYS = ALL_KEYS.filter(key => key.difficulty === "beginner");
+export const basics_KEYS = ALL_KEYS.filter(key => key.difficulty === "basics");
 export const INTERMEDIATE_KEYS = ALL_KEYS.filter(key => key.difficulty === "intermediate");
 export const ADVANCED_KEYS = ALL_KEYS.filter(key => key.difficulty === "advanced");
 
@@ -142,19 +142,19 @@ export function getRandomKey(difficulty: string): Key {
   let availableKeys: Key[];
   
   switch(difficulty) {
-    case "beginner":
-      availableKeys = BEGINNER_KEYS;
+    case "basics":
+      availableKeys = basics_KEYS;
       break;
     case "intermediate":
-      // Intermediate players can play beginner and intermediate keys
-      availableKeys = [...BEGINNER_KEYS, ...INTERMEDIATE_KEYS];
+      // Intermediate players can play basics and intermediate keys
+      availableKeys = [...basics_KEYS, ...INTERMEDIATE_KEYS];
       break;
     case "advanced":
       // Advanced players can play all keys
       availableKeys = ALL_KEYS;
       break;
     default:
-      availableKeys = BEGINNER_KEYS;
+      availableKeys = basics_KEYS;
   }
   
   const randomIndex = Math.floor(Math.random() * availableKeys.length);
