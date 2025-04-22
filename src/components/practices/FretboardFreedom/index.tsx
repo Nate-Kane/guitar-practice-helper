@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useKeyGenerator } from '../shared/hooks/useKeyGenerator';
-import KeyDisplay from '../shared/keyDisplay';
+import KeyDisplay from '../shared/KeyDisplay';
 
 interface FretboardFreedomProps {
     skillLevel: string;

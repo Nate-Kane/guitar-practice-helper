@@ -3,7 +3,7 @@ import { Practice } from '../../../types/practice';
 import { useKeyGenerator } from '../shared/hooks/useKeyGenerator';
 import { useProgressionGenerator } from '../shared/hooks/useProgressionGenerator';
 import { useExtensionGenerator } from '../shared/hooks/useExtensionGenerator';
-import KeyDisplay from '../shared/keyDisplay';
+import KeyDisplay from '../shared/KeyDisplay';
 import ProgressionDisplay from '../shared/ProgressionDisplay';
 import ExtensionDisplay from '../shared/ExtensionDisplay';
 
