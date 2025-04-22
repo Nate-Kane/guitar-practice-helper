@@ -105,7 +105,7 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
             {skillLevel !== 'beginner' && currentExtension && (
                 <div className={`${styles.practiceDataContainer}`}>
                     <div className={`${styles.practiceInfo}`}>
-                        <h4>Try incorporating a {currentExtension.name}</h4>
+                        <h4>Try incorporating {currentExtension.name}'s</h4>
                         <p>{currentExtension.description}</p>
                     </div>
                     <button 

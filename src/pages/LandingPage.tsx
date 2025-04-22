@@ -7,14 +7,15 @@ interface SkillCardProps {
   icon: string;
   level: string;
   onClick: () => void;
+  style?: CSSProperties;
 }
 
 interface LandingPageProps {
   onSkillSelect: (level: string) => void;
 }
 
-const SkillCard: FC<SkillCardProps> = ({ title, description, icon, onClick }) => (
-  <div className="card card-clickable" onClick={onClick}>
+const SkillCard: FC<SkillCardProps> = ({ title, description, icon, onClick, style }) => (
+  <div className="card card-clickable" onClick={onClick} style={style}>
     <div className="icon">{icon}</div>
     <h3>{title}</h3>
     <p>{description}</p>
@@ -31,20 +32,20 @@ const LandingPage: FC<LandingPageProps> = ({ onSkillSelect }) => {
 
   const skillLevels = [
     {
-      title: "I'm a beginner guitarist",
-      description: 'I know some simple chords and scales. I want to start learning to play around the neck.',
+      title: "Master the basics",
+      description: "Simple chords. Simple scales. Learn and master the basics.",
       icon: '🌱',
       level: 'beginner'
     },
     {
-      title: "I'm an intermediate guitarist",
-      description: 'I know lots of chords and scales and can play around the neck. I want to become even more proficient and well versed.',
+      title: "Intermediate practice",
+      description: 'Use and solidify your knowledge of the basics while introducing more complex ideas.',
       icon: '🌿',
       level: 'intermediate'
     },
     {
-      title: "I'm an advanced guitarist",
-      description: "I understand guitar and music theory well. I'm looking to switch up my practice routine and play with new ideas.",
+      title: "Advanced exercises",
+      description: "You know your stuff. Now it's time to become more well rounded and find new sounds.",
       icon: '🌳',
       level: 'advanced'
     }
@@ -55,6 +56,9 @@ const LandingPage: FC<LandingPageProps> = ({ onSkillSelect }) => {
     landingPageHeader: {
       flexDirection: 'column',
       alignItems: 'center'
+    },
+    card: {
+      minWidth: '100%'
     }
   };
 
@@ -74,6 +78,7 @@ const LandingPage: FC<LandingPageProps> = ({ onSkillSelect }) => {
               key={index} 
               {...skillLevel} 
               onClick={() => handleSkillLevelClick(skillLevel.level)}
+              style={styles.card}
             />
           ))}
         </div>
