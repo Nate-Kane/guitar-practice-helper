@@ -20,16 +20,13 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
     // Generate new chord progression with current key
     const generateNewProgression = () => {
         if (currentKey) {
-            const progression = getRandomProgression(skillLevel);
+            const progression = getRandomProgression(currentKey, skillLevel);
             setCurrentProgression(progression);
             
-            // Convert Nashville notation to actual chords based on current key
-            const chords = progressionToChords(
-                progression.nashville, 
-                currentKey.root, 
-                currentKey.quality
-            );
-            setCurrentChords(chords);
+            if (progression) {
+                const chords = progressionToChords(progression, currentKey);
+                setCurrentChords(chords);
+            }
         }
     };
     
@@ -37,16 +34,6 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
     const generateNewKey = () => {
         const key = getRandomKey(skillLevel);
         setCurrentKey(key);
-        
-        // If we have a progression, update the chords to match the new key
-        if (currentProgression) {
-            const chords = progressionToChords(
-                currentProgression.nashville, 
-                key.root, 
-                key.quality
-            );
-            setCurrentChords(chords);
-        }
     };
 
     const generateNewExtension = () => {
@@ -58,31 +45,34 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
     useEffect(() => {
         const key = getRandomKey(skillLevel);
         setCurrentKey(key);
-        
-        const progression = getRandomProgression(skillLevel);
-        setCurrentProgression(progression);
-        
-        const chords = progressionToChords(
-            progression.nashville, 
-            key.root, 
-            key.quality
-        );
-        setCurrentChords(chords);
-        
-        // Initialize the extension if not beginner
-        if (skillLevel !== 'beginner') {
-            const extension = getRandomExtension(skillLevel);
-            setCurrentExtension(extension);
-        }
     }, [skillLevel]);
+
+    
+    useEffect(() => {
+        if (currentKey) {
+            const progression = getRandomProgression(currentKey, skillLevel);
+            setCurrentProgression(progression);
+            
+            if (progression) {
+                const chords = progressionToChords(progression, currentKey);
+                setCurrentChords(chords);
+            }
+            
+            // Initialize the extension if not beginner and it hasn't been set yet
+            if (skillLevel !== 'beginner' && !currentExtension) {
+                const extension = getRandomExtension(skillLevel);
+                setCurrentExtension(extension);
+            }
+        }
+    }, [currentKey, skillLevel]);
     
     return (
         <div>
             {currentKey && (
                 <div className={`${styles.practiceDataContainer}`}>
-                    <div>
+                    <div className={`${styles.practiceInfo}`}>
                         <h4>{currentKey.name} ({currentKey.relativeKey})</h4>
-                        <p>{currentKey.notes.join(', ')}</p>
+                        <p>The notes of {currentKey.name} are {currentKey.notes.join(', ')}</p>
                     </div>
                     <button 
                         className="button button-secondary button-regen"
@@ -95,9 +85,10 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
             
             {currentProgression && currentChords.length > 0 && (
                 <div className={`${styles.practiceDataContainer}`}>
-                    <div>
-                        <h4>{currentProgression.name} ({currentProgression.nashville.join(' - ')})</h4>
-                        <p>Progression: {currentChords.join(' - ')}</p>
+                    <div className={`${styles.practiceInfo}`}>
+                        <h4>{currentProgression.name}</h4>
+                        <h5>{currentProgression.nashvilleRomanNums.join(' - ')} <span>({currentProgression.nashvilleNums.join(' - ')})</span></h5>
+                        <p>{currentChords.join(' - ')}</p>
                         {currentProgression.description && (
                             <p className={styles.description}>{currentProgression.description}</p>
                         )}
@@ -113,7 +104,7 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
 
             {skillLevel !== 'beginner' && currentExtension && (
                 <div className={`${styles.practiceDataContainer}`}>
-                    <div>
+                    <div className={`${styles.practiceInfo}`}>
                         <h4>Try incorporating a {currentExtension.name}</h4>
                         <p>{currentExtension.description}</p>
                     </div>

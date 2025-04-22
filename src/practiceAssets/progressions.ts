@@ -1,263 +1,138 @@
 export interface ChordProgression {
-  id: string;                // Unique identifier
-  name: string;              // Human readable name (e.g., "1-4-5")
+  name: string;              // Human readable name (e.g., "the pop punk progression")
   description?: string;      // Optional description of the progression
-  nashville: string[];       // Nashville number system notation (e.g., ["I", "IV", "V"])
+  nashvilleNums: string[];    // nashville system but not in roman numerals. I.e, 1, 4, 5.
+  nashvilleRomanNums: string[];       // Nashville roman number system notation (e.g., ["I", "IV", "V"])
   difficulty: string;        // "beginner", "intermediate", or "advanced"
   commonIn?: string[];       // Music styles where this progression is common
 }
 
-// Basic chord numerals for reference
-export const CHORD_NUMERALS = {
-  major: ["I", "ii", "iii", "IV", "V", "vi", "vii°"],
-  minor: ["i", "ii°", "III", "iv", "v", "VI", "VII"]
-};
+import { Key } from './keys';
 
-export const CHORD_PROGRESSIONS: ChordProgression[] = [
-  // Beginner progressions
+const MAJOR_PROGRESSIONS_BEGINNER = [
   {
-    id: "1-4-5",
-    name: "1-4-5",
-    description: "The classic three-chord progression used in countless songs",
-    nashville: ["I", "IV", "V"],
+    name: "Major 1-4-5",
+    description: "The classic three-chord progression",
+    nashvilleNums: ["1", "4", "5"],
+    nashvilleRomanNums: ["I", "IV", "V"],
     difficulty: "beginner",
-    commonIn: ["rock", "folk", "country", "blues"]
+    commonIn: ["rock", "folk", "country"]
   },
-  {
-    id: "1-5-6-4",
-    name: "1-5-6-4",
-    description: "The 'pop punk' progression, used in many hit songs",
-    nashville: ["I", "V", "vi", "IV"],
-    difficulty: "beginner",
-    commonIn: ["pop", "rock", "punk"]
-  },
-  {
-    id: "1-6-4-5",
-    name: "1-6-4-5",
-    description: "The '50s progression', popular in doo-wop and early rock",
-    nashville: ["I", "vi", "IV", "V"],
-    difficulty: "beginner",
-    commonIn: ["rock", "pop", "doo-wop"]
-  },
-  {
-    id: "2-5-1",
-    name: "2-5-1",
-    description: "The jazz fundamental progression",
-    nashville: ["ii", "V", "I"],
-    difficulty: "beginner",
-    commonIn: ["jazz", "bossa nova"]
-  },
-  {
-    id: "6-4-1-5",
-    name: "6-4-1-5",
-    description: "Emotional progression often used in ballads",
-    nashville: ["vi", "IV", "I", "V"],
-    difficulty: "beginner",
-    commonIn: ["pop", "rock", "ballads"]
-  },
-  
-  // Intermediate progressions
-  {
-    id: "circle-of-fifths",
-    name: "Circle of Fifths",
-    description: "Progression moving through the circle of fifths",
-    nashville: ["vi", "ii", "V", "I"],
-    difficulty: "intermediate",
-    commonIn: ["jazz", "classical", "pop"]
-  },
-  {
-    id: "andalusian-cadence",
-    name: "Andalusian Cadence",
-    description: "Descending progression from Spanish/Flamenco music",
-    nashville: ["i", "VII", "VI", "V"],
-    difficulty: "intermediate",
-    commonIn: ["flamenco", "rock", "classical"]
-  },
-  {
-    id: "blues-1-4-1-5-4-1",
-    name: "12-Bar Blues",
-    description: "Classic blues progression",
-    nashville: ["I", "I", "I", "I", "IV", "IV", "I", "I", "V", "IV", "I", "V"],
-    difficulty: "intermediate",
-    commonIn: ["blues", "rock", "jazz"]
-  },
-  {
-    id: "mixolydian-vamp",
-    name: "Mixolydian Vamp",
-    description: "Simple two-chord vamp using the flat VII",
-    nashville: ["I", "bVII"],
-    difficulty: "intermediate",
-    commonIn: ["rock", "folk", "celtic"]
-  },
-  
-  // Advanced progressions
-  {
-    id: "rhythm-changes",
-    name: "Rhythm Changes",
-    description: "Jazz progression based on Gershwin's 'I Got Rhythm'",
-    nashville: ["I", "vi", "ii", "V", "I", "VI7", "ii", "V"],
-    difficulty: "advanced",
-    commonIn: ["jazz", "bebop"]
-  },
-  {
-    id: "coltrane-changes",
-    name: "Coltrane Changes",
-    description: "Substitution progression popularized by John Coltrane",
-    nashville: ["I", "bIII7", "V7", "bVII7", "bIII7", "I"],
-    difficulty: "advanced",
-    commonIn: ["jazz"]
-  },
-  {
-    id: "modal-interchange",
-    name: "Modal Interchange",
-    description: "Progression using chords borrowed from parallel modes",
-    nashville: ["I", "bVI", "bVII", "I"],
-    difficulty: "advanced",
-    commonIn: ["rock", "metal", "fusion"]
-  },
-  {
-    id: "augmented-progression",
-    name: "Augmented Progression",
-    description: "Using augmented chords for a dreamlike quality",
-    nashville: ["I", "I+", "IV", "iv"],
-    difficulty: "advanced",
-    commonIn: ["jazz", "dream pop", "psychedelic"]
-  }
+    // More progressions...
 ];
 
-// Get progressions by difficulty level
-export const BEGINNER_PROGRESSIONS = CHORD_PROGRESSIONS.filter(p => p.difficulty === "beginner");
-export const INTERMEDIATE_PROGRESSIONS = CHORD_PROGRESSIONS.filter(p => p.difficulty === "intermediate");
-export const ADVANCED_PROGRESSIONS = CHORD_PROGRESSIONS.filter(p => p.difficulty === "advanced");
+const MINOR_PROGRESSIONS_BEGINNER = [
+  {
+    name: "Minor 1-4-5",
+    description: "The classic three-chord progression in minor",
+    nashvilleNums: ["1m", "4m", "5m"],  // Using 'm' suffix for minor
+    nashvilleRomanNums: ["i", "iv", "v"],  // Lowercase numerals indicate minor
+    difficulty: "beginner",
+    commonIn: ["rock", "folk", "blues"]
+  },
+  // More progressions...
+];
+
+// Placeholder for intermediate and advanced progressions
+const MAJOR_PROGRESSIONS_INTERMEDIATE: ChordProgression[] = [];
+const MAJOR_PROGRESSIONS_ADVANCED: ChordProgression[] = [];
+const MINOR_PROGRESSIONS_INTERMEDIATE: ChordProgression[] = [];
+const MINOR_PROGRESSIONS_ADVANCED: ChordProgression[] = [];
 
 /**
- * Get a random chord progression based on difficulty level
+ * Get a random chord progression based on key and skill level
  */
-export function getRandomProgression(difficulty: string): ChordProgression {
-  let availableProgressions: ChordProgression[];
+function getRandomProgression(key: Key | null, skillLevel: string = 'beginner'): ChordProgression | null {
+  // If no key is provided, return null
+  if (!key) return null;
   
-  switch(difficulty) {
-    case "beginner":
-      availableProgressions = BEGINNER_PROGRESSIONS;
-      break;
-    case "intermediate":
-      // Intermediate players can play beginner and intermediate progressions
-      availableProgressions = [...BEGINNER_PROGRESSIONS, ...INTERMEDIATE_PROGRESSIONS];
-      break;
-    case "advanced":
-      // Advanced players can play all progressions
-      availableProgressions = CHORD_PROGRESSIONS;
-      break;
-    default:
-      availableProgressions = BEGINNER_PROGRESSIONS;
+  let availableProgressions: ChordProgression[] = [];
+  
+  // Select progressions based on key quality and skill level
+  if (key.quality === 'major') {
+    // For major keys
+    switch(skillLevel) {
+      case 'beginner':
+        availableProgressions = [...MAJOR_PROGRESSIONS_BEGINNER];
+        break;
+      case 'intermediate':
+        availableProgressions = [...MAJOR_PROGRESSIONS_BEGINNER, ...MAJOR_PROGRESSIONS_INTERMEDIATE];
+        break;
+      case 'advanced':
+        availableProgressions = [...MAJOR_PROGRESSIONS_BEGINNER, ...MAJOR_PROGRESSIONS_INTERMEDIATE, ...MAJOR_PROGRESSIONS_ADVANCED];
+        break;
+      default:
+        availableProgressions = [...MAJOR_PROGRESSIONS_BEGINNER];
+    }
+  } else {
+    // For minor keys
+    switch(skillLevel) {
+      case 'beginner':
+        availableProgressions = [...MINOR_PROGRESSIONS_BEGINNER];
+        break;
+      case 'intermediate':
+        availableProgressions = [...MINOR_PROGRESSIONS_BEGINNER, ...MINOR_PROGRESSIONS_INTERMEDIATE];
+        break;
+      case 'advanced':
+        availableProgressions = [...MINOR_PROGRESSIONS_BEGINNER, ...MINOR_PROGRESSIONS_INTERMEDIATE, ...MINOR_PROGRESSIONS_ADVANCED];
+        break;
+      default:
+        availableProgressions = [...MINOR_PROGRESSIONS_BEGINNER];
+    }
   }
   
+  // Return a random progression from the available options
+  if (availableProgressions.length === 0) return null;
   const randomIndex = Math.floor(Math.random() * availableProgressions.length);
   return availableProgressions[randomIndex];
 }
 
 /**
- * Translate a Nashville numeral to an actual chord in a given key
- * @param numeral The Nashville numeral (e.g., "I", "vi", "V7")
- * @param key The key object containing root and quality
- * @returns The chord name (e.g., "C", "Am", "G7")
+ * Convert a chord progression to actual chords in a given key
  */
-export function nashvilleToChord(numeral: string, keyRoot: string, keyQuality: string): string {
-  // Extract base numeral and any extensions
-  const match = numeral.match(/^(b*)(i+|I+|iv|IV|v|V|vi|VI|vii|VII)°?(\+)?(7|maj7|m7|dim7|aug7|sus4|add9|sus2)?$/);
-  if (!match) return numeral; // Return original if not a valid numeral
+function progressionToChords(progression: ChordProgression, key: Key): string[] {
+  // Early return if progression is invalid
+  if (!progression || !progression.nashvilleNums) return [];
   
-  const [_, flat, baseNumeral, augmented, extension] = match;
+  // Get all notes of the chromatic scale
+  const ALL_NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
   
-  // Determine if major or minor numeral
-  const isMajorNumeral = baseNumeral.toUpperCase() === baseNumeral;
+  // Get the index of the root note
+  const rootIndex = ALL_NOTES.indexOf(key.root);
+  if (rootIndex === -1) return []; // Invalid root note
   
-  // Find the degree (0-6)
-  const getNumeralDegree = (num: string): number => {
-    const lowercaseNum = num.toLowerCase();
-    if (lowercaseNum === 'i') return 0;
-    if (lowercaseNum === 'ii') return 1;
-    if (lowercaseNum === 'iii') return 2;
-    if (lowercaseNum === 'iv') return 3;
-    if (lowercaseNum === 'v') return 4;
-    if (lowercaseNum === 'vi') return 5;
-    if (lowercaseNum === 'vii') return 6;
-    return 0;
-  };
-  
-  const degree = getNumeralDegree(baseNumeral);
-  
-  // Get notes of the key
-  const majorIntervals = [0, 2, 4, 5, 7, 9, 11];
-  const minorIntervals = [0, 2, 3, 5, 7, 8, 10];
-  
-  const allNotes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-  const withFlats = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
-  
-  const rootIndex = allNotes.indexOf(keyRoot) !== -1 
-    ? allNotes.indexOf(keyRoot) 
-    : withFlats.indexOf(keyRoot);
-  
-  const intervals = keyQuality === "major" ? majorIntervals : minorIntervals;
-  const noteIndex = (rootIndex + intervals[degree]) % 12;
-  
-  // Apply flat if present
-  const finalNoteIndex = (noteIndex - flat.length + 12) % 12;
-  const note = allNotes[finalNoteIndex];
-  
-  // Determine chord quality
-  let chordType = "";
-  
-  // In major key
-  if (keyQuality === "major") {
-    // Major chords: I, IV, V
-    if ((degree === 0 || degree === 3 || degree === 4) && isMajorNumeral) {
-      chordType = augmented ? "aug" : "";
-    } 
-    // Minor chords: ii, iii, vi
-    else if ((degree === 1 || degree === 2 || degree === 5) && !isMajorNumeral) {
-      chordType = "m";
+  // Convert each Nashville number to an actual chord
+  return progression.nashvilleNums.map(nashvilleNum => {
+    // Parse the Nashville number to get the degree and quality
+    const regex = /^(b*)(\d+)(m|min|maj|dim|aug|sus4|sus2|\+|°)?$/;
+    const match = nashvilleNum.match(regex);
+    
+    if (!match) return nashvilleNum; // Return as-is if not valid
+    
+    const [_, flat, degreeStr, quality] = match;
+    const degree = parseInt(degreeStr) - 1; // Convert to 0-based index
+    
+    // Calculate the note index, considering flats
+    const noteIndex = (rootIndex + key.notes[degree % key.notes.length].charCodeAt(0) - 'C'.charCodeAt(0)) % 12;
+    const finalNoteIndex = (noteIndex - flat.length + 12) % 12;
+    const note = ALL_NOTES[finalNoteIndex];
+    
+    // Determine the chord quality
+    let chordQuality = '';
+    
+    // Apply explicit quality from the Nashville number if present
+    if (quality) {
+      chordQuality = quality === 'm' || quality === 'min' ? 'm' : quality;
+    } else {
+      // If no explicit quality, use default based on key type
+      if (key.quality === 'minor' && (degree === 0 || degree === 3 || degree === 4)) {
+        chordQuality = 'm';
+      }
+      // For major key, major quality is implied for I, IV, V (0, 3, 4)
     }
-    // Diminished chord: vii°
-    else if (degree === 6 && !isMajorNumeral) {
-      chordType = numeral.includes("°") ? "dim" : "m";
-    }
-    // If it doesn't match the pattern, default based on the case
-    else {
-      chordType = isMajorNumeral ? "" : "m";
-    }
-  } 
-  // In minor key
-  else {
-    // Minor chords: i, iv, v
-    if ((degree === 0 || degree === 3 || degree === 4) && !isMajorNumeral) {
-      chordType = "m";
-    }
-    // Major chords: III, VI, VII
-    else if ((degree === 2 || degree === 5 || degree === 6) && isMajorNumeral) {
-      chordType = "";
-    }
-    // Diminished chord: ii°
-    else if (degree === 1 && !isMajorNumeral) {
-      chordType = numeral.includes("°") ? "dim" : "m";
-    }
-    // Default based on case
-    else {
-      chordType = isMajorNumeral ? "" : "m";
-    }
-  }
-  
-  // Add the extension if any
-  if (extension) {
-    chordType += extension;
-  }
-  
-  return note + chordType;
+    
+    return note + chordQuality;
+  });
 }
 
-/**
- * Convert a Nashville progression to actual chords in a given key
- */
-export function progressionToChords(progression: string[], keyRoot: string, keyQuality: string): string[] {
-  return progression.map(numeral => nashvilleToChord(numeral, keyRoot, keyQuality));
-}
+export { getRandomProgression, progressionToChords };
