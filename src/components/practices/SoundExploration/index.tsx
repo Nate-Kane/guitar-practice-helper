@@ -1,10 +1,11 @@
-import { FC, useState, useEffect } from 'react';
+import { FC } from 'react';
 import { Practice } from '../../../types/practice';
-import { useKeyGenerator } from '../../../components/practices/shared/hooks/useKeyGenerator'
-import { getRandomProgression, progressionToChords, ChordProgression } from '../../../assets/practiceAssets/progressions';
-import { getRandomExtension, ChordExtension } from '../../../assets/practiceAssets/extensions';
-import styles from '../practices.module.css'
-import KeyDisplay from '../shared/keyDisplay'
+import { useKeyGenerator } from '../shared/hooks/useKeyGenerator';
+import { useProgressionGenerator } from '../shared/hooks/useProgressionGenerator';
+import { useExtensionGenerator } from '../shared/hooks/useExtensionGenerator';
+import KeyDisplay from '../shared/keyDisplay';
+import ProgressionDisplay from '../shared/ProgressionDisplay';
+import ExtensionDisplay from '../shared/ExtensionDisplay';
 
 interface SoloImprovisationProps {
     practice: Practice;
@@ -12,103 +13,32 @@ interface SoloImprovisationProps {
 }
 
 const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
-    // State for key and progression
-    const { currentKey, generateNewKey } = useKeyGenerator(skillLevel)
-    const [currentProgression, setCurrentProgression] = useState<ChordProgression | null>(null);
-    const [currentChords, setCurrentChords] = useState<string[]>([]);
-    const [currentExtension, setCurrentExtension] = useState<ChordExtension | null>(null);
-    
-    // Generate new chord progression with current key
-    const generateNewProgression = () => {
-        if (currentKey) {
-            const progression = getRandomProgression(currentKey, skillLevel);
-            setCurrentProgression(progression);
-            
-            if (progression) {
-                const chords = progressionToChords(progression, currentKey);
-                setCurrentChords(chords);
-            }
-        }
-    };
-    
-    // Generate new key and update progression to match
-    // const generateNewKey = () => {
-    //     const key = getRandomKey(skillLevel);
-    //     setCurrentKey(key);
-    // };
-
-    const generateNewExtension = () => {
-        const extension = getRandomExtension(skillLevel);
-        setCurrentExtension(extension);
-    }
-    
-    // Initialize both key and progression on component mount or skill level change
-    // useEffect(() => {
-    //     const key = getRandomKey(skillLevel);
-    //     setCurrentKey(key);
-    // }, [skillLevel]);
-
-
-    useEffect(() => {
-        if (currentKey) {
-            const progression = getRandomProgression(currentKey, skillLevel);
-            setCurrentProgression(progression);
-            
-            if (progression) {
-                const chords = progressionToChords(progression, currentKey);
-                setCurrentChords(chords);
-            }
-            
-            // Initialize the extension if not beginner and it hasn't been set yet
-            if (skillLevel !== 'beginner' && !currentExtension) {
-                const extension = getRandomExtension(skillLevel);
-                setCurrentExtension(extension);
-            }
-        }
-    }, [currentKey, skillLevel]);
+    // State for key and progression using custom hooks
+    const { currentKey, generateNewKey } = useKeyGenerator(skillLevel);
+    const { currentProgression, currentChords, generateNewProgression } = useProgressionGenerator(currentKey, skillLevel);
+    const { currentExtension, generateNewExtension, shouldShowExtension } = useExtensionGenerator(skillLevel);
     
     return (
         <div>
-            {currentKey && (
-                <KeyDisplay currentKey={currentKey} onRegenerateKey={generateNewKey} />
-            )}
+            <KeyDisplay 
+                currentKey={currentKey} 
+                onRegenerateKey={generateNewKey} 
+            />
             
-            {currentProgression && currentChords.length > 0 && (
-                <div className={`${styles.practiceDataContainer}`}>
-                    <div className={`${styles.practiceInfo}`}>
-                        <h4>{currentProgression.name}</h4>
-                        <h5>{currentProgression.nashvilleRomanNums.join(' - ')} {/*<span>({currentProgression.nashvilleNums.join(' - ')})</span>*/}</h5>
-                        <p>{currentChords.join(' - ')}</p>
-                        {currentProgression.description && (
-                            <p className={styles.description}>{currentProgression.description}</p>
-                        )}
-                    </div>
-                    <button 
-                        className="button button-secondary button-regen"
-                        onClick={generateNewProgression}
-                    >
-                        &#8635;
-                    </button>
-                </div>
-            )}
+            <ProgressionDisplay 
+                progression={currentProgression}
+                chords={currentChords}
+                onRegenerateProgression={generateNewProgression}
+            />
 
-            {skillLevel !== 'beginner' && currentExtension && (
-                <div className={`${styles.practiceDataContainer}`}>
-                    <div className={`${styles.practiceInfo}`}>
-                        <h4>Try incorporating {currentExtension.name}'s</h4>
-                        <p>{currentExtension.description}</p>
-                    </div>
-                    <button 
-                        className="button button-secondary button-regen"
-                        onClick={generateNewExtension}
-                    >
-                        &#8635;
-                    </button>
-                </div>
+            {shouldShowExtension && (
+                <ExtensionDisplay
+                    extension={currentExtension}
+                    onRegenerateExtension={generateNewExtension}
+                />
             )}
         
             {/* add fret limitations */}
-
             {/* add tempo & time signature */}
         </div>
     );
