@@ -5,7 +5,14 @@ export const useKeyGenerator = (skillLevel: string) => {
   const [currentKey, setCurrentKey] = useState<Key | null>(null);
 
   const generateNewKey = () => {
-    const newKey = getRandomKey(skillLevel);
+    let newKey = getRandomKey(skillLevel);
+    let regenAttempts = 0;
+
+    while((currentKey && currentKey.name === newKey.name) && regenAttempts < 5) {
+      newKey = getRandomKey(skillLevel);
+      regenAttempts++;
+    }
+
     setCurrentKey(newKey);
     return newKey;
   };

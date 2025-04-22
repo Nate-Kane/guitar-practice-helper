@@ -9,13 +9,20 @@ export const useProgressionGenerator = (currentKey: Key | null, skillLevel: stri
   const generateNewProgression = () => {
     if (!currentKey) return null;
     
-    const progression = getRandomProgression(currentKey, skillLevel);
-    setCurrentProgression(progression);
+    let newProgression = getRandomProgression(currentKey, skillLevel);
+    let regenAttempts = 0;
     
-    if (progression) {
-      const chords = progressionToChords(progression, currentKey);
+    while((currentProgression && newProgression && currentProgression.name === newProgression.name) && regenAttempts < 5) {
+      newProgression = getRandomProgression(currentKey, skillLevel);
+      regenAttempts++;
+    }
+
+    setCurrentProgression(newProgression);
+    
+    if (newProgression) {
+      const chords = progressionToChords(newProgression, currentKey);
       setCurrentChords(chords);
-      return progression;
+      return newProgression;
     }
     return null;
   };

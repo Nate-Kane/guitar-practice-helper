@@ -5,9 +5,15 @@ export const useExtensionGenerator = (skillLevel: string) => {
   const [currentExtension, setCurrentExtension] = useState<ChordExtension | null>(null);
 
   const generateNewExtension = () => {
-    const extension = getRandomExtension(skillLevel);
-    setCurrentExtension(extension);
-    return extension;
+    let newExtension = getRandomExtension(skillLevel);
+    let regenAttempts = 0;
+    while((currentExtension && newExtension && currentExtension.name === newExtension.name) && regenAttempts < 5) {
+      newExtension = getRandomExtension(skillLevel);
+      regenAttempts++;
+    }
+
+    setCurrentExtension(newExtension);
+    return newExtension;
   };
 
   // Initialize extension when key changes or skill level changes
