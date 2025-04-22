@@ -47,7 +47,7 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
         setCurrentKey(key);
     }, [skillLevel]);
 
-    
+
     useEffect(() => {
         if (currentKey) {
             const progression = getRandomProgression(currentKey, skillLevel);
@@ -87,7 +87,7 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
                 <div className={`${styles.practiceDataContainer}`}>
                     <div className={`${styles.practiceInfo}`}>
                         <h4>{currentProgression.name}</h4>
-                        <h5>{currentProgression.nashvilleRomanNums.join(' - ')} <span>({currentProgression.nashvilleNums.join(' - ')})</span></h5>
+                        <h5>{currentProgression.nashvilleRomanNums.join(' - ')} {/*<span>({currentProgression.nashvilleNums.join(' - ')})</span>*/}</h5>
                         <p>{currentChords.join(' - ')}</p>
                         {currentProgression.description && (
                             <p className={styles.description}>{currentProgression.description}</p>
