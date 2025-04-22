@@ -188,6 +188,10 @@ function progressionToChords(progression: ChordProgression, key: Key): string[] 
   const rootIndex = ALL_NOTES.indexOf(key.root);
   if (rootIndex === -1) return []; // Invalid root note
   
+  // Define semitone intervals for major and minor scales
+  const MAJOR_INTERVALS = [0, 2, 4, 5, 7, 9, 11];
+  const MINOR_INTERVALS = [0, 2, 3, 5, 7, 8, 10];
+  
   // Convert each Nashville number to an actual chord
   return progression.nashvilleNums.map(nashvilleNum => {
     // Parse the Nashville number to get the degree and quality
@@ -199,13 +203,11 @@ function progressionToChords(progression: ChordProgression, key: Key): string[] 
     const [_, flat, degreeStr, quality, slash] = match;
     const degree = parseInt(degreeStr) - 1; // Convert to 0-based index
     
-    // Calculate semitones based on scale degree
-    const semitones = degree % 7 === 0 ? 0 : 
-                     degree % 7 === 1 ? 2 : 
-                     degree % 7 === 2 ? 4 : 
-                     degree % 7 === 3 ? 5 : 
-                     degree % 7 === 4 ? 7 : 
-                     degree % 7 === 5 ? 9 : 11;
+    // Choose the correct intervals based on key quality
+    const intervals = key.quality === 'major' ? MAJOR_INTERVALS : MINOR_INTERVALS;
+    
+    // Calculate semitones based on scale degree using the appropriate interval set
+    const semitones = intervals[degree % 7];
     
     // Calculate the note index, considering flats
     const noteIndex = (rootIndex + semitones) % 12;
@@ -219,11 +221,24 @@ function progressionToChords(progression: ChordProgression, key: Key): string[] 
     if (quality) {
       chordQuality = quality === 'm' || quality === 'min' ? 'm' : quality;
     } else {
-      // If no explicit quality, use default based on key type
-      if (key.quality === 'minor' && (degree === 0 || degree === 3 || degree === 4)) {
-        chordQuality = 'm';
+      // If no explicit quality, use default based on key type and degree
+      if (key.quality === 'major') {
+        // In major keys: I, IV, V are major; ii, iii, vi are minor; vii° is diminished
+        if (degree === 1 || degree === 2 || degree === 5) {
+          chordQuality = 'm';
+        } else if (degree === 6) {
+          chordQuality = 'dim';
+        }
+        // else major quality is implied (degrees 0, 3, 4)
+      } else {
+        // In minor keys: i, iv, v are minor; III, VI, VII are major; ii° is diminished
+        if (degree === 0 || degree === 3 || degree === 4) {
+          chordQuality = 'm';
+        } else if (degree === 1) {
+          chordQuality = 'dim';
+        }
+        // else major quality is implied (degrees 2, 5, 6)
       }
-      // For major key, major quality is implied for I, IV, V (0, 3, 4)
     }
     
     // Handle slash chords
