@@ -1,9 +1,10 @@
 import { FC, useState, useEffect } from 'react';
 import { Practice } from '../../../types/practice';
-import { getRandomKey, Key } from '../../../practiceAssets/keys';
-import { getRandomProgression, progressionToChords, ChordProgression } from '../../../practiceAssets/progressions';
-import { getRandomExtension, ChordExtension } from '../../../practiceAssets/extensions';
-import styles from './index.module.css'
+import { useKeyGenerator } from '../../../components/practices/shared/hooks/useKeyGenerator'
+import { getRandomProgression, progressionToChords, ChordProgression } from '../../../assets/practiceAssets/progressions';
+import { getRandomExtension, ChordExtension } from '../../../assets/practiceAssets/extensions';
+import styles from '../practices.module.css'
+import KeyDisplay from '../shared/keyDisplay'
 
 interface SoloImprovisationProps {
     practice: Practice;
@@ -12,7 +13,7 @@ interface SoloImprovisationProps {
 
 const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
     // State for key and progression
-    const [currentKey, setCurrentKey] = useState<Key | null>(null);
+    const { currentKey, generateNewKey } = useKeyGenerator(skillLevel)
     const [currentProgression, setCurrentProgression] = useState<ChordProgression | null>(null);
     const [currentChords, setCurrentChords] = useState<string[]>([]);
     const [currentExtension, setCurrentExtension] = useState<ChordExtension | null>(null);
@@ -31,10 +32,10 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
     };
     
     // Generate new key and update progression to match
-    const generateNewKey = () => {
-        const key = getRandomKey(skillLevel);
-        setCurrentKey(key);
-    };
+    // const generateNewKey = () => {
+    //     const key = getRandomKey(skillLevel);
+    //     setCurrentKey(key);
+    // };
 
     const generateNewExtension = () => {
         const extension = getRandomExtension(skillLevel);
@@ -42,10 +43,10 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
     }
     
     // Initialize both key and progression on component mount or skill level change
-    useEffect(() => {
-        const key = getRandomKey(skillLevel);
-        setCurrentKey(key);
-    }, [skillLevel]);
+    // useEffect(() => {
+    //     const key = getRandomKey(skillLevel);
+    //     setCurrentKey(key);
+    // }, [skillLevel]);
 
 
     useEffect(() => {
@@ -69,18 +70,7 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
     return (
         <div>
             {currentKey && (
-                <div className={`${styles.practiceDataContainer}`}>
-                    <div className={`${styles.practiceInfo}`}>
-                        <h4>{currentKey.name} ({currentKey.relativeKey})</h4>
-                        <p>The notes of {currentKey.name} are {currentKey.notes.join(', ')}</p>
-                    </div>
-                    <button 
-                        className="button button-secondary button-regen"
-                        onClick={generateNewKey}
-                    >
-                        &#8635;
-                    </button>
-                </div>
+                <KeyDisplay currentKey={currentKey} onRegenerateKey={generateNewKey} />
             )}
             
             {currentProgression && currentChords.length > 0 && (
