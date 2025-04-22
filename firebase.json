@@ -4,7 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "site": "guitar-practice-assitant",
+    "site": "guitarhelp",
     "public": "dist",
     "ignore": [
       "firebase.json",
