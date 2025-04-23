@@ -26,6 +26,10 @@
   margin-bottom: 0;
 }
 
+.card ul > li {
+  color: var(--color-text-light);
+}
+
 .card-container {
   display: flex;
   flex-direction: column;

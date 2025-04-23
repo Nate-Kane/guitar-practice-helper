@@ -218,4 +218,33 @@
   text-align: center;
   padding: 2rem;
   color: var(--color-text-light);
+}
+
+.tipsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.tipItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background-color: var(--color-background-secondary);
+    border-radius: 4px;
+}
+
+.addTipContainer {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.addTipContainer input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
 } 

@@ -115,13 +115,22 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
         <div className={styles.practiceDetails}>
           {practice.customDirections && (
             <div className={styles.directions}>
+              <h4>DIRECTIONS</h4>
               <p>{practice.customDirections}</p>
             </div>
           )}
+          
 
-          {/* {practice.practiceTips && (
-            <div>{practice.practiceTips}</div>
-          )} */}
+          {practice.practiceTips && practice.practiceTips.length > 0 && (
+            <div className={styles.tips}>
+              <h4>PRACTICE TIPS</h4>
+              <ul>
+                {practice.practiceTips.map((tip, index) => (
+                  <li key={index}>{tip}</li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <PracticeRenderer practice={practice} skillLevel={skillLevel}/>
 

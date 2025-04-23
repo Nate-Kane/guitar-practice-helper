@@ -4,7 +4,7 @@ export interface Practice {
   description: string;
   customDirections?: string;
   skillLevels: string[];
-  practiceTips?: string;
+  practiceTips?: string[];
   createdAt?: Date | null;
   updatedAt?: Date | null;
 } 

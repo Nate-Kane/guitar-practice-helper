@@ -42,6 +42,24 @@
   border-radius: var(--border-radius-sm);
 }
 
+.tips {
+  padding: 1rem;
+  margin-top: 1.5rem;
+  background-color: rgba(0,0,0,0.03);
+  border-radius: var(--border-radius-sm);
+}
+
+.tips ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.tips li {
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
 @media (max-width: 960px) {
   :global(.header).practicePageHeader {
     margin-bottom: 0px;

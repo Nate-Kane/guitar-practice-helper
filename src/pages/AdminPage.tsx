@@ -19,7 +19,7 @@ const AdminPage: FC = () => {
         description: '',
         skillLevels: ['basics'],
         customDirections: '',
-        practiceTips: ''
+        practiceTips: []
     });
     const [editingPracticeId, setEditingPracticeId] = useState<string | null>(null);
     const [editedPractice, setEditedPractice] = useState<Omit<Practice, 'id'>>({
@@ -27,9 +27,10 @@ const AdminPage: FC = () => {
         description: '',
         skillLevels: ['basics'],
         customDirections: '',
-        practiceTips: ''
-    })
-
+        practiceTips: []
+    });
+    const [newTip, setNewTip] = useState<string>('');
+    const [editingTip, setEditingTip] = useState<string>('');
 
     const db = getFirestore(app);
 
@@ -111,7 +112,7 @@ const AdminPage: FC = () => {
                 description: '',
                 skillLevels: ['basics'],
                 customDirections: '',
-                practiceTips: ''
+                practiceTips: []
             });
             setIsAddingPractice(false);
             await fetchPractices();
@@ -135,7 +136,7 @@ const AdminPage: FC = () => {
                     description: practice.description,
                     skillLevels: practice.skillLevels,
                     customDirections: practice.customDirections || '',
-                    practiceTips: practice.practiceTips || ''
+                    practiceTips: Array.isArray(practice.practiceTips) ? practice.practiceTips : []
                 });
             }
         }
@@ -196,6 +197,40 @@ const AdminPage: FC = () => {
                 skillLevels: updatedSkillLevels
             };
         });
+    };
+
+    const handleAddTip = () => {
+        if (newTip.trim()) {
+            setNewPractice(prev => ({
+                ...prev,
+                practiceTips: [...(prev.practiceTips || []), newTip.trim()]
+            }));
+            setNewTip('');
+        }
+    };
+
+    const handleRemoveTip = (index: number) => {
+        setNewPractice(prev => ({
+            ...prev,
+            practiceTips: prev.practiceTips?.filter((_, i) => i !== index) || []
+        }));
+    };
+
+    const handleRemoveEditTip = (index: number) => {
+        setEditedPractice(prev => ({
+            ...prev,
+            practiceTips: prev.practiceTips?.filter((_, i) => i !== index) || []
+        }));
+    };
+
+    const handleAddEditTip = () => {
+        if (editingTip.trim()) {
+            setEditedPractice(prev => ({
+                ...prev,
+                practiceTips: [...(prev.practiceTips || []), editingTip.trim()]
+            }));
+            setEditingTip('');
+        }
     };
 
     if (!isAuthenticated) {
@@ -319,12 +354,36 @@ const AdminPage: FC = () => {
                             </div>
 
                             <div className={styles.formRow}>
-                                <label htmlFor="practiceTips">Practice Tips</label>
-                                <textarea
-                                    id="practiceTips"
-                                    value={newPractice.practiceTips || ''}
-                                    onChange={(e) => setNewPractice({...newPractice, practiceTips: e.target.value})}
-                                />
+                                <label>Practice Tips</label>
+                                <div className={styles.tipsContainer}>
+                                    {newPractice.practiceTips?.map((tip, index) => (
+                                        <div key={index} className={styles.tipItem}>
+                                            <span>{tip}</span>
+                                            <button
+                                                type="button"
+                                                className="button button-danger"
+                                                onClick={() => handleRemoveTip(index)}
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    ))}
+                                    <div className={styles.addTipContainer}>
+                                        <input
+                                            type="text"
+                                            value={newTip}
+                                            onChange={(e) => setNewTip(e.target.value)}
+                                            placeholder="Add a new practice tip"
+                                        />
+                                        <button
+                                            type="button"
+                                            className="button button-secondary"
+                                            onClick={handleAddTip}
+                                        >
+                                            Add Tip
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             
                             <div className={styles.formActions}>
@@ -444,12 +503,36 @@ const AdminPage: FC = () => {
                                           </div>
                                   
                                           <div className={styles.formRow}>
-                                            <label htmlFor={`practiceTips-${practice.id}`}>Practice Tips</label>
-                                            <textarea
-                                              id={`practiceTips-${practice.id}`}
-                                              value={editedPractice.practiceTips || ''}
-                                              onChange={(e) => setEditedPractice({...editedPractice, practiceTips: e.target.value})}
-                                            />
+                                            <label>Practice Tips</label>
+                                            <div className={styles.tipsContainer}>
+                                                {editedPractice.practiceTips?.map((tip, index) => (
+                                                    <div key={index} className={styles.tipItem}>
+                                                        <span>{tip}</span>
+                                                        <button
+                                                            type="button"
+                                                            className="button button-danger"
+                                                            onClick={() => handleRemoveEditTip(index)}
+                                                        >
+                                                            Remove
+                                                        </button>
+                                                    </div>
+                                                ))}
+                                                <div className={styles.addTipContainer}>
+                                                    <input
+                                                        type="text"
+                                                        value={editingTip}
+                                                        onChange={(e) => setEditingTip(e.target.value)}
+                                                        placeholder="Add a new practice tip"
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        className="button button-secondary"
+                                                        onClick={handleAddEditTip}
+                                                    >
+                                                        Add Tip
+                                                    </button>
+                                                </div>
+                                            </div>
                                           </div>
                                           
                                           <div className={styles.formActions}>
