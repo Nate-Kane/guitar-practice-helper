@@ -9,3 +9,7 @@
 .practiceInfo {
     margin-right: 20px;
 }
+
+.spanHighlight {
+    color: var(--color-primary);
+}
