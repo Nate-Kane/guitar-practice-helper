@@ -13,7 +13,7 @@ const FretLimitDisplay: FC<FretLimit> = ({ currentFretLimit, onRegenerateFretLim
     return (
         <div className={`${styles.practiceDataContainer}`}>
             <div className={`${styles.practiceInfo}`}>
-                <h4>Only use frets <span className={`${styles.spanHighlight}`}>{currentFretLimit}</span></h4>
+                <h4>Only use frets &nbsp; <span className={`${styles.spanHighlight}`}>{currentFretLimit}</span></h4>
             </div>
             <button 
                 className="button button-secondary button-regen"
