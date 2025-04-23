@@ -6,6 +6,8 @@ import { useExtensionGenerator } from '../shared/hooks/useExtensionGenerator';
 import KeyDisplay from '../shared/KeyDisplay';
 import ProgressionDisplay from '../shared/ProgressionDisplay';
 import ExtensionDisplay from '../shared/ExtensionDisplay';
+import { useFretLimitGenerator } from '../shared/hooks/useFretLimitGenerator';
+import FretLimitDisplay from '../shared/FretLimitDisplay';
 
 interface SoloImprovisationProps {
     practice: Practice;
@@ -17,6 +19,7 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
     const { currentKey, generateNewKey } = useKeyGenerator(skillLevel);
     const { currentProgression, currentChords, generateNewProgression } = useProgressionGenerator(currentKey, skillLevel);
     const { currentExtension, generateNewExtension, shouldShowExtension } = useExtensionGenerator(skillLevel);
+    const { currentFretLimit, generateNewFretLimit } = useFretLimitGenerator();
     
     return (
         <div>
@@ -37,8 +40,12 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
                     onRegenerateExtension={generateNewExtension}
                 />
             )}
+
+            <FretLimitDisplay
+                currentFretLimit={currentFretLimit}
+                onRegenerateFretLimit={generateNewFretLimit}
+            />
         
-            {/* add fret limitations */}
             {/* add tempo & time signature */}
         </div>
     );
