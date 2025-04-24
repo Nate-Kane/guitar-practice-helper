@@ -13,7 +13,7 @@ const KeyDisplay: FC<KeyDisplayProps> = ({ currentKey, onRegenerateKey }) => {
   return (
     <div className={`${styles.practiceDataContainer}`}>
       <div className={`${styles.practiceInfo}`}>
-        <h4>{currentKey.name} ({currentKey.relativeKey})</h4>
+        <h4>Key of {currentKey.name} <span className={`${styles.spanHighlight}`}>({currentKey.relativeKey})</span></h4>
         <p>The notes of {currentKey.name} are {currentKey.notes.join(', ')}</p>
       </div>
       <button 

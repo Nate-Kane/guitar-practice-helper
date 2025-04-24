@@ -16,7 +16,7 @@ const ExtensionDisplay: FC<ExtensionDisplayProps> = ({
   return (
     <div className={`${styles.practiceDataContainer}`}>
       <div className={`${styles.practiceInfo}`}>
-        <h4>Try incorporating {extension.name}'s</h4>
+        <h4>Try using {extension.name}'s</h4>
         <p>{extension.description}</p>
       </div>
       <button 

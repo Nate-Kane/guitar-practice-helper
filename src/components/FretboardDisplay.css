@@ -1,3 +1,17 @@
+.collapsible {
+  margin-bottom: 10px;
+}
+.collapsible h4 {
+  margin-bottom: 2px;
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+}
+
+.collapsible svg {
+  color: var(--color-primary);
+  width: 12px;
+}
+
 .fretboard-container {
   margin: 20px 0;
   width: 100%;
@@ -23,15 +37,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  color: #333;
+  color: var(--color-primary);
+  font-weight: 500;
 }
 
 .fretboard {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-width: 600px;
   width: 100%;
   max-width: 900px;
   border-left: 4px solid #888;
@@ -94,18 +107,46 @@
   align-items: center;
   justify-content: center;
   z-index: 3;
-}
-
-.highlighted .note-marker {
-  background-color: #3498db;
-  color: white;
-  font-weight: bold;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  position: relative;
 }
 
 .note-name {
   font-size: 0.75rem;
   font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.note-label {
+  font-size: 0.5rem;
+  line-height: 1;
+  margin-top: 1px;
+  font-weight: normal;
+  opacity: 0.9;
+}
+
+/* Interval legend */
+.interval-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.interval-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+}
+
+.interval-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .inlay-marker {
@@ -149,38 +190,50 @@
   flex-grow: 0;
 }
 
-@media (max-width: 768px) {
-  /* .fretboard-with-names {
-    min-width: 500px;
+/* Interval selector checkboxes */
+.interval-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.interval-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--font-size-sm);
+  margin-right: 5px;
+  font-weight: 600;
+}
+
+.interval-checkbox input {
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .collapsible h4 {
+    margin-bottom: 2px;
+    color: var(--color-primary);
+    font-size: var(--font-size-xs);
   }
   
-  .fretboard {
-    min-width: 475px;
+  .collapsible svg {
+    color: var(--color-primary);
+    width: 9px;
+  }
+
+  .interval-checkbox {
+    font-size: var(--font-size-xs);
+  }
+
+  .interval-item {
+    gap: 3px;
+    font-size: 0.7rem;
   }
   
-  .fret-numbers {
-    min-width: 500px;
+  .interval-color {
+    width: 10px;
+    height: 10px;
   }
-  
-  .string, .string-name {
-    height: 25px;
-  }
-  
-  .note-marker {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .note-name {
-    font-size: 0.65rem;
-  }
-  
-  .string-name {
-    font-size: 0.8rem;
-  }
-  
-  .inlay-dot {
-    width: 12px;
-    height: 12px;
-  } */
 } 

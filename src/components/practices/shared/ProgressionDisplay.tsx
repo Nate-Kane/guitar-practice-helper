@@ -18,8 +18,8 @@ const ProgressionDisplay: FC<ProgressionDisplayProps> = ({
   return (
     <div className={`${styles.practiceDataContainer}`}>
       <div className={`${styles.practiceInfo}`}>
-        <h4>{progression.name}</h4>
-        <h5>{progression.nashvilleRomanNums.join(' - ')}</h5>
+        <h4> {progression.name} <span className={`${styles.spanHighlight}`}>({progression.nashvilleRomanNums.join(' - ')})</span></h4>
+        {/* <h5>The {progression.name.toLowerCase()} is a {progression.nashvilleRomanNums.join(' - ')}</h5> */}
         <p>{chords.join(' - ')}</p>
         {progression.description && (
           <p className={styles.description}>{progression.description}</p>

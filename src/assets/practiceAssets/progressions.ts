@@ -77,7 +77,7 @@ const MINOR_PROGRESSIONS_basics = [
     commonIn: ["rock", "folk", "blues"]
   },
   {
-    name: "Ballad Progression (minor)",
+    name: "Ballad Progression",
     description: "Common minor progression with a strong emotional impact",
     nashvilleNums: ["1m", "6", "7"],
     nashvilleRomanNums: ["i", "VI", "VII"],

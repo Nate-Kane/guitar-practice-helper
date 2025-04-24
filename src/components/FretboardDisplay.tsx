@@ -1,27 +1,106 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './FretboardDisplay.css';
 import { useMapFretboard } from './practices/shared/hooks/useMapFretboard';
+import Collapsible from './Collapsible';
+
+interface HighlightedNoteInfo {
+  note: string;
+  color: string;
+  label?: string;
+}
+
+// Define intervals and their colors
+interface IntervalInfo {
+  name: string;
+  semitones: number;
+  color: string;
+  selected?: boolean;
+}
+
+const intervalOptions: IntervalInfo[] = [
+  { name: 'Minor 3rd', semitones: 3, color: '#8B4A55', selected: false },
+  { name: 'Major 3rd', semitones: 4, color: '#D9B166', selected: false },
+  { name: 'Perfect 4th', semitones: 5, color: '#7D6E8B', selected: false },
+  { name: 'Perfect 5th', semitones: 7, color: '#4C6B8B', selected: false },
+  { name: 'Major 6th', semitones: 9, color: '#8B9A6E', selected: false },
+  { name: 'Minor 7th', semitones: 10, color: '#6E8B85', selected: false },
+  { name: 'Major 7th', semitones: 11, color: '#8B7581', selected: false },
+];
 
 interface FretboardDisplayProps {
-  highlightedNote?: string;
+  highlightedNote?: string; // Kept for backward compatibility
+  highlightedNotes?: HighlightedNoteInfo[]; // For manually specifying highlighted notes
   maxFret?: number;
+  showIntervalSelector?: boolean; // Control whether to show interval selector
 }
 
 const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
   highlightedNote,
-  maxFret = 12
+  highlightedNotes = [],
+  maxFret = 12,
+  showIntervalSelector = false
 }) => {
   const { getNoteAt } = useMapFretboard(maxFret);
+  const [intervals, setIntervals] = useState<IntervalInfo[]>(intervalOptions);
   
   const stringNames = ['E', 'A', 'D', 'G', 'B', 'E']; // standard tuning!
   
   const getNoteAtPosition = (stringIndex: number, fret: number): string => {
     return getNoteAt(stringIndex, fret)?.note || '';
   };
+
+  // Calculate interval notes based on root note
+  const getIntervalNotes = (): HighlightedNoteInfo[] => {
+    if (!highlightedNote) return [];
+
+    const allNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+    const rootIndex = allNotes.indexOf(highlightedNote);
+    if (rootIndex === -1) return [];
+    
+    return intervals
+      .filter(interval => interval.selected)
+      .map(interval => {
+        const noteIndex = (rootIndex + interval.semitones) % 12;
+        return {
+          note: allNotes[noteIndex],
+          color: interval.color,
+          label: interval.name
+        };
+      });
+  };
+
+  // Toggle interval selection
+  const toggleInterval = (index: number) => {
+    const newIntervals = [...intervals];
+    newIntervals[index].selected = !newIntervals[index].selected;
+    setIntervals(newIntervals);
+  };
   
-  const shouldHighlight = (stringIndex: number, fret: number): boolean => {
-    if (!highlightedNote) return false;
-    return getNoteAt(stringIndex, fret)?.note === highlightedNote;
+  // Find if a position should be highlighted and with what info
+  const getHighlightInfo = (stringIndex: number, fret: number): HighlightedNoteInfo | null => {
+    const noteAtPosition = getNoteAtPosition(stringIndex, fret);
+    
+    // First, check if there's a direct match with the highlightedNote prop (for backward compatibility)
+    if (highlightedNote && noteAtPosition === highlightedNote) {
+      return { note: noteAtPosition, color: '#328647', label: 'Root' };
+    }
+    
+    // Check manually specified highlighted notes
+    for (const noteInfo of highlightedNotes) {
+      if (noteAtPosition === noteInfo.note) {
+        return noteInfo;
+      }
+    }
+    
+    // Check for interval-based highlights
+    const intervalBasedNotes = getIntervalNotes();
+    for (const noteInfo of intervalBasedNotes) {
+      if (noteAtPosition === noteInfo.note) {
+        return noteInfo;
+      }
+    }
+    
+    return null;
   };
   
   const hasFretMarker = (stringIndex: number, fret: number): boolean => {
@@ -45,6 +124,36 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
   
   return (
     <div className="fretboard-container">
+      {showIntervalSelector && (
+        <Collapsible title={`See more intervals`}>
+          <div className="interval-selector">
+            {intervals.map((interval, index) => (
+              <label key={interval.name} className="interval-checkbox">
+                <input
+                  type="checkbox"
+                  checked={interval.selected}
+                  onChange={() => toggleInterval(index)}
+                />
+                <span style={{ color: interval.color }}>{interval.name}</span>
+              </label>
+            ))}
+          </div>
+          
+            <div className="interval-legend">
+              <div className="interval-item">
+                <span className="interval-color" style={{ backgroundColor: '#328647' }}></span>
+                <span>Root</span>
+              </div>
+              {intervals.filter(i => i.selected).map(interval => (
+                <div key={interval.name} className="interval-item">
+                  <span className="interval-color" style={{ backgroundColor: interval.color }}></span>
+                  <span>{interval.name}</span>
+                </div>
+              ))}
+            </div>
+        </Collapsible>
+      )}
+      
       <div className="fretboard-with-names">
         <div className="string-names">
           {/* Render string names from high E to low E */}
@@ -62,32 +171,50 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
             const stringIndex = 5 - i;
             return (
               <div key={`string-${stringIndex}`} className="string">
-                {Array.from({ length: maxFret + 1 }).map((_, fretIndex) => (
-                  <div 
-                    key={`fret-${fretIndex}`} 
-                    className={`fret ${shouldHighlight(stringIndex, fretIndex) ? 'highlighted' : ''}`}
-                  >
-                    <div className="note-marker">
-                      {shouldHighlight(stringIndex, fretIndex) && (
-                        <div className="note-name">{getNoteAtPosition(stringIndex, fretIndex)}</div>
-                      )}
-                    </div>
-                    
-                    {/* Add fret markers directly on the fretboard */}
-                    {hasFretMarker(stringIndex, fretIndex) && (
-                      <div className="inlay-marker">
-                        {isDoubleDotMarker(fretIndex) ? (
-                          <>
-                            <div className="inlay-dot"></div>
-                            <div className="inlay-dot"></div>
-                          </>
-                        ) : (
-                          <div className="inlay-dot"></div>
+                {Array.from({ length: maxFret + 1 }).map((_, fretIndex) => {
+                  const highlightInfo = getHighlightInfo(stringIndex, fretIndex);
+                  return (
+                    <div 
+                      key={`fret-${fretIndex}`} 
+                      className={`fret ${highlightInfo ? 'highlighted' : ''}`}
+                    >
+                      <div 
+                        className="note-marker"
+                        style={{
+                          backgroundColor: highlightInfo ? highlightInfo.color : 'transparent',
+                          color: highlightInfo ? 'white' : 'inherit',
+                          boxShadow: highlightInfo ? '0 0 4px rgba(0, 0, 0, 0.3)' : 'none',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        {highlightInfo && (
+                          <div className="note-name">
+                            {getNoteAtPosition(stringIndex, fretIndex)}
+                            {/* {highlightInfo.label && (
+                              <span className="note-label">{highlightInfo.label}</span>
+                            )} */}
+                          </div>
                         )}
                       </div>
-                    )}
-                  </div>
-                ))}
+                      
+                      {/* Add fret markers directly on the fretboard */}
+                      {hasFretMarker(stringIndex, fretIndex) && (
+                        <div className="inlay-marker">
+                          {isDoubleDotMarker(fretIndex) ? (
+                            <>
+                              <div className="inlay-dot"></div>
+                              <div className="inlay-dot"></div>
+                            </>
+                          ) : (
+                            <div className="inlay-dot"></div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             );
           })}

@@ -5,7 +5,6 @@ import Collapsible from '../../Collapsible';
 import FretboardDisplay from '../../FretboardDisplay';
 import { FC } from 'react';
 
-
 interface FretboardMasteryProps {
     skillLevel: string;
 }
@@ -24,46 +23,49 @@ const FretboardMastery: FC<FretboardMasteryProps> = ({ skillLevel }) => {
     const { findAllPositionsOfNote } = useMapFretboard();
     const { currentKey, generateNewKey } = useKeyGenerator(skillLevel);
 
-    // Group positions by string name
-    const renderPositionsByString = () => {
+    // Group positions by fret position instead of string name
+    const renderPositionsByFret = () => {
         if (!currentKey) return null;
         
-        // Group the positions by string
-        const positionsByString: Record<string, Array<{fret: number, note: string}>> = {};
+        // Get all positions of the current note
+        const allPositions = findAllPositionsOfNote(currentKey.root);
         
-        // Initialize strings in order from high to low (for display purposes)
-        const orderedStringNames = Object.entries(stringNames)
-            .sort((a, b) => Number(a[0]) - Number(b[0])) // Sort from high to low
-            .map(entry => entry[1]);
+        // Group by fret number
+        const positionsByFret: Record<number, Array<{string: number, note: string}>> = {};
+        
+        // Initialize the object to store positions by fret
+        allPositions.forEach(pos => {
+            if (!positionsByFret[pos.fret]) {
+                positionsByFret[pos.fret] = [];
+            }
             
-        orderedStringNames.forEach(stringName => {
-            positionsByString[stringName] = [];
-        });
-        
-        // Fill with positions
-        findAllPositionsOfNote(currentKey.root).forEach(pos => {
-            const stringName = stringNames[pos.string];
-            positionsByString[stringName].push({
-                fret: pos.fret,
+            positionsByFret[pos.fret].push({
+                string: pos.string,
                 note: pos.note
             });
         });
         
-        // Render each string section
-        return Object.entries(positionsByString).map(([stringName, positions]) => (
-            <div key={stringName} className="string-positions">
-                <br/>
-                <h5>{stringName}:</h5>
-                <p>
-                    {positions.length === 0 ? 
-                        "None" : 
-                        positions.map(pos => 
-                            `${pos.fret === 0 ? "Open" : `Fret ${pos.fret}`}`
-                        ).join(", ")
-                    }
-                </p>
-            </div>
-        ));
+        // Format string name nicely
+        const formatStringName = (stringNum: number): string => {
+            switch(stringNum) {
+                case 0: return "Low E";
+                case 5: return "High e";
+                default: return `${stringNames[stringNum].slice(0, 1)} string`;
+            }
+        };
+        
+        // Render each fret section - sort frets from lowest to highest
+        return Object.entries(positionsByFret)
+            .sort((a, b) => Number(a[0]) - Number(b[0])) // Sort by fret number
+            .map(([fret, positions]) => (
+                <div key={`fret-${fret}`} className="fret-positions">
+                    <br/>
+                    <h5>{fret === "0" ? "Open" : `Fret ${fret}`}:</h5>
+                    <p>
+                        {positions.map(pos => formatStringName(pos.string)).join(", ")}
+                    </p>
+                </div>
+            ));
     };
 
     return (
@@ -75,15 +77,21 @@ const FretboardMastery: FC<FretboardMasteryProps> = ({ skillLevel }) => {
             
             {currentKey && (
                 <>
+                    <br/>
                     <h4>Find "{currentKey.root}" on the fretboard:</h4>
-                    <FretboardDisplay highlightedNote={currentKey.root} />
+                    
+                    {/* Fretboard with interval selector enabled */}
+                    <FretboardDisplay 
+                        highlightedNote={currentKey.root}
+                        showIntervalSelector={true} 
+                    />
                 </>
             )}
             
-            <br/>
-            <Collapsible title={`Find "${currentKey?.root}" everywhere on the fretboard (list view)`}>
+            {/* <br/> */}
+            <Collapsible title={`(Click here for a list view of "${currentKey?.root}" on the fretboard)`}>
                 <div className="fretboard-positions">
-                    {renderPositionsByString()}
+                    {renderPositionsByFret()}
                 </div>
             </Collapsible>
         </div>
@@ -91,11 +99,3 @@ const FretboardMastery: FC<FretboardMasteryProps> = ({ skillLevel }) => {
 }
 
 export default FretboardMastery;
-
-// save description and directions for this practice while displaying "in progress"
-/**
- * Description: Take the strain out of memorizing the notes on the fretboard. I'll help you locate and memorize the entire fretboard through patterns and repetition.
- * 
- * 
- * Directions: The hardest part of memorizing the fretboard is finding all of the notes for the first time. I'll take that strain away by helping you locate them. Patterns are crucial for fretboard mastery. To help you see the patterns, we'll start by mapping out the root of the key and then use that root to find every other interval.
- */
