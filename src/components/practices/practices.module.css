@@ -13,3 +13,7 @@
 .spanHighlight {
     color: var(--color-primary);
 }
+
+:global(h4) {
+    margin-bottom: 0;
+}
