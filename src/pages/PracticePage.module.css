@@ -6,6 +6,10 @@
   margin-bottom: 0;
 }
 
+:global(.card) {
+  min-width: 100%;
+}
+
 .desktopHeader {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -42,6 +46,10 @@
   border-radius: var(--border-radius-sm);
 }
 
+.directions h4, .tips h4 {
+  margin-bottom: 5px;
+}
+
 .tips {
   padding: 1rem;
   margin-top: 1.5rem;
@@ -52,7 +60,6 @@
 .tips ul {
     list-style-type: disc;
     padding-left: 20px;
-    margin-top: 10px;
 }
 
 .tips li {

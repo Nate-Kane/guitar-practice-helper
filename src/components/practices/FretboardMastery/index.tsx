@@ -2,6 +2,7 @@ import { useMapFretboard } from '../shared/hooks/useMapFretboard'
 import { useKeyGenerator } from '../shared/hooks/useKeyGenerator';
 import KeyDisplay from '../shared/KeyDisplay';
 import Collapsible from '../../Collapsible';
+import FretboardDisplay from '../../FretboardDisplay';
 import { FC } from 'react';
 
 
@@ -32,7 +33,7 @@ const FretboardMastery: FC<FretboardMasteryProps> = ({ skillLevel }) => {
         
         // Initialize strings in order from high to low (for display purposes)
         const orderedStringNames = Object.entries(stringNames)
-            .sort((a, b) => Number(b[0]) - Number(a[0])) // Sort from high to low
+            .sort((a, b) => Number(a[0]) - Number(b[0])) // Sort from high to low
             .map(entry => entry[1]);
             
         orderedStringNames.forEach(stringName => {
@@ -71,16 +72,16 @@ const FretboardMastery: FC<FretboardMasteryProps> = ({ skillLevel }) => {
                 currentKey={currentKey} 
                 onRegenerateKey={generateNewKey} 
             />
-            {/* <h3>Fretboard Map Test</h3>
-            <pre style={{ maxHeight: '400px', overflow: 'auto' }}>
-                {JSON.stringify(fretboardMap, null, 2)}
-            </pre>
             
-            <h4>Sample Note Lookup</h4>
-            <p>High E string, 5th fret: {getNoteAt(0, 5)?.note}</p>
-            <p>A string, 7th fret: {getNoteAt(1, 7)?.note}</p> */}
+            {currentKey && (
+                <>
+                    <h4>Find "{currentKey.root}" on the fretboard:</h4>
+                    <FretboardDisplay highlightedNote={currentKey.root} />
+                </>
+            )}
+            
             <br/>
-            <Collapsible title={`Find "${currentKey?.root}" everywhere on the fretboard`}>
+            <Collapsible title={`Find "${currentKey?.root}" everywhere on the fretboard (list view)`}>
                 <div className="fretboard-positions">
                     {renderPositionsByString()}
                 </div>

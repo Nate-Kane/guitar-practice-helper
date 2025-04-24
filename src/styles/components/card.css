@@ -49,4 +49,7 @@
   .card p {
     font-size: var(--font-size-xs);
   }
+  .card ul > li {
+    font-size: var(--font-size-xs);
+  }
 }

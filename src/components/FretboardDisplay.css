@@ -1,0 +1,186 @@
+.fretboard-container {
+  margin: 20px 0;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.fretboard-with-names {
+  display: flex;
+  min-width: 600px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.string-names {
+  display: flex;
+  flex-direction: column;
+  width: 25px;
+  margin-right: 10px;
+}
+
+.string-name {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #333;
+}
+
+.fretboard {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 600px;
+  width: 100%;
+  max-width: 900px;
+  border-left: 4px solid #888;
+  border-right: 1px solid #aaa;
+  background: #fff7d4;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  margin-bottom: 5px;
+}
+
+.string {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.string::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #9c6e3a;
+  opacity: 0.6;
+  z-index: 2;
+}
+
+/* Make the high E string thinner */
+.string:first-child::after {
+  height: 1.5px;
+  opacity: 0.4;
+}
+
+/* Make the low E string thicker */
+.string:last-child::after {
+  height: 2.5px;
+  opacity: 0.8;
+}
+
+.fret {
+  flex: 1;
+  height: 100%;
+  border-right: 2.5px solid #C0C0C0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.fret:first-child { /* Nut */
+  background-color: #e6e3d6;
+  flex-grow: 0;
+}
+
+.note-marker {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.highlighted .note-marker {
+  background-color: #3498db;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.note-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.inlay-marker {
+  position: absolute;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  bottom: 22px; 
+}
+
+.inlay-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #c9c9c9;
+  border: 1px solid #aaa;
+  box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+.fret-numbers {
+  display: flex;
+  min-width: 600px;
+  width: 100%;
+  max-width: 900px;
+  height: 20px;
+  margin-top: 15px;
+  padding-left: 30px;
+}
+
+.fret-number {
+  flex: 1;
+  text-align: center;
+  font-size: 0.7rem;
+  color: #555;
+}
+
+.fret-number:first-child {
+  flex-basis: 40px;
+  flex-grow: 0;
+}
+
+@media (max-width: 768px) {
+  /* .fretboard-with-names {
+    min-width: 500px;
+  }
+  
+  .fretboard {
+    min-width: 475px;
+  }
+  
+  .fret-numbers {
+    min-width: 500px;
+  }
+  
+  .string, .string-name {
+    height: 25px;
+  }
+  
+  .note-marker {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .note-name {
+    font-size: 0.65rem;
+  }
+  
+  .string-name {
+    font-size: 0.8rem;
+  }
+  
+  .inlay-dot {
+    width: 12px;
+    height: 12px;
+  } */
+} 
