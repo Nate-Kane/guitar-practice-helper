@@ -11,7 +11,7 @@ import { Key } from './keys';
 
 const MAJOR_PROGRESSIONS_basics = [
   {
-    name: "Major 1-4-5",
+    name: "Major 1-4-5 Progression",
     description: "The classic three-chord progression",
     nashvilleNums: ["1", "4", "5"],
     nashvilleRomanNums: ["I", "IV", "V"],
@@ -38,7 +38,7 @@ const MAJOR_PROGRESSIONS_INTERMEDIATE = [
     commonIn: ["jazz", "bossa nova", "fusion"]
   },
   {
-    name: "Circle of Fifths",
+    name: "Circle of Fifths Progression",
     description: "Progression moving through the circle of fifths, creates a sense of motion",
     nashvilleNums: ["6m", "2m", "5", "1"],
     nashvilleRomanNums: ["vi", "ii", "V", "I"],
@@ -49,7 +49,7 @@ const MAJOR_PROGRESSIONS_INTERMEDIATE = [
 
 const MAJOR_PROGRESSIONS_ADVANCED = [
   {
-    name: "Rhythm Changes",
+    name: "Rhythm Changes Progression",
     description: "Jazz progression based on Gershwin's 'I Got Rhythm'",
     nashvilleNums: ["1", "6m", "2m", "5", "1", "6", "2m", "5"],
     nashvilleRomanNums: ["I", "vi", "ii", "V", "I", "VI7", "ii", "V"],
@@ -57,7 +57,7 @@ const MAJOR_PROGRESSIONS_ADVANCED = [
     commonIn: ["jazz", "bebop"]
   },
   {
-    name: "Modal Interchange",
+    name: "Modal Interchange Progression",
     description: "Using chords borrowed from parallel modes for rich harmony",
     nashvilleNums: ["1", "b6", "b7", "1"],
     nashvilleRomanNums: ["I", "bVI", "bVII", "I"],
@@ -69,7 +69,7 @@ const MAJOR_PROGRESSIONS_ADVANCED = [
 // For minor progressions, we explicitly mark the chord quality
 const MINOR_PROGRESSIONS_basics = [
   {
-    name: "Minor 1-4-5",
+    name: "Minor 1-4-5 Progression",
     description: "The classic three-chord progression in minor",
     nashvilleNums: ["1m", "4m", "5m"],  // Using 'm' suffix for minor
     nashvilleRomanNums: ["i", "iv", "v"],  // Lowercase numerals indicate minor
@@ -88,7 +88,7 @@ const MINOR_PROGRESSIONS_basics = [
 
 const MINOR_PROGRESSIONS_INTERMEDIATE = [
   {
-    name: "Andalusian Cadence",
+    name: "Andalusian Cadence Progression",
     description: "Descending progression from Spanish/Flamenco music",
     nashvilleNums: ["1m", "7", "6", "5"],
     nashvilleRomanNums: ["i", "VII", "VI", "V"],
@@ -98,7 +98,7 @@ const MINOR_PROGRESSIONS_INTERMEDIATE = [
   // Love the idea of this progression with slash chords but it isn't taking super well with the letter
   // revisit and fix
   // {
-  //   name: "Minor Line Cliché",
+  //   name: "Minor Line Cliché Progression",
   //   description: "Creating tension with a descending chromatic line in the bass",
   //   nashvilleNums: ["1m", "1m/7", "1m/b7", "1m/6"],
   //   nashvilleRomanNums: ["i", "i/VII", "i/bVII", "i/VI"],
@@ -109,7 +109,7 @@ const MINOR_PROGRESSIONS_INTERMEDIATE = [
 
 const MINOR_PROGRESSIONS_ADVANCED = [
   {
-    name: "Minor with Diminished",
+    name: "Minor with Diminished Progression",
     description: "Using diminished chords for tension",
     nashvilleNums: ["1m", "6", "7dim", "1m"],
     nashvilleRomanNums: ["i", "VI", "vii°", "i"],
@@ -117,7 +117,7 @@ const MINOR_PROGRESSIONS_ADVANCED = [
     commonIn: ["classical", "jazz", "film music"]
   },
   {
-    name: "Harmonic Minor Cycle",
+    name: "Harmonic Minor Cycle Progression",
     description: "Utilizing the harmonic minor sound",
     nashvilleNums: ["1m", "4m", "5", "1m"],
     nashvilleRomanNums: ["i", "iv", "V", "i"],
