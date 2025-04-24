@@ -79,8 +79,6 @@ const FretboardMastery: FC<FretboardMasteryProps> = ({ skillLevel }) => {
                 <>
                     <br/>
                     <h4>Find "{currentKey.root}" on the fretboard:</h4>
-                    
-                    {/* Fretboard with interval selector enabled */}
                     <FretboardDisplay 
                         highlightedNote={currentKey.root}
                         showIntervalSelector={true} 

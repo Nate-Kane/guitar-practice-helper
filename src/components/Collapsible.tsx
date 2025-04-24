@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, useEffect } from 'react';
 
 interface CollapsibleProps {
   title: string | ReactNode;
@@ -14,6 +14,22 @@ const Collapsible: React.FC<CollapsibleProps> = ({
   className = '',
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 600);
+    };
+    
+    // Initial check
+    checkMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -34,8 +50,8 @@ const Collapsible: React.FC<CollapsibleProps> = ({
       >
         {typeof title === 'string' ? <h4>{title}</h4> : title}
         <svg 
-          width="14" 
-          height="8" 
+          width={isMobile ? "12" : "14"} 
+          height={isMobile ? "7" : "8"} 
           viewBox="0 0 14 8" 
           fill="none" 
           style={{

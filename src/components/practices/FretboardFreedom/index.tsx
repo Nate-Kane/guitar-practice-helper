@@ -5,6 +5,7 @@ import { useFretLimitGenerator } from '../shared/hooks/useFretLimitGenerator';
 import FretLimitDisplay from '../shared/FretLimitDisplay';
 import { useStringLimitGenerator } from '../shared/hooks/useStringLimitGenerator';
 import { StringLimitDisplay } from '../shared/StringLimitDisplay';
+import FretboardDisplay from '../../FretboardDisplay';
 
 interface FretboardFreedomProps {
     skillLevel: string;
@@ -17,10 +18,7 @@ const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
 
     return (
         <div>
-            <KeyDisplay 
-                currentKey={currentKey} 
-                onRegenerateKey={generateNewKey} 
-            />
+            
 
             <FretLimitDisplay
                 currentFretLimit={currentFretLimit}
@@ -30,6 +28,17 @@ const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
             <StringLimitDisplay
                 currentStringLimit={currentStringLimit}
                 onRegenerateStringLimit={generateNewStringLimit}
+            />
+
+            <KeyDisplay 
+                currentKey={currentKey} 
+                onRegenerateKey={generateNewKey} 
+            />
+            <br/>
+            <h4>Find "{currentKey?.root}" on the fretboard:</h4>
+            <FretboardDisplay
+                highlightedNote={currentKey?.root}
+                showIntervalSelector={true} 
             />
 
             {/* add tempo & time signature */}

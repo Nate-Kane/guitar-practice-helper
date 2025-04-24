@@ -1,13 +1,13 @@
-.collapsible {
+.fretboard-container .collapsible {
   margin-bottom: 10px;
 }
-.collapsible h4 {
+.fretboard-container .collapsible h4 {
   margin-bottom: 2px;
   color: var(--color-primary);
   font-size: var(--font-size-sm);
 }
 
-.collapsible svg {
+.fretboard-container .collapsible svg {
   color: var(--color-primary);
   width: 12px;
 }
@@ -212,13 +212,13 @@
 }
 
 @media (max-width: 600px) {
-  .collapsible h4 {
+  .fretboard-container .collapsible h4 {
     margin-bottom: 2px;
     color: var(--color-primary);
     font-size: var(--font-size-xs);
   }
   
-  .collapsible svg {
+  .fretboard-container .collapsible svg {
     color: var(--color-primary);
     width: 9px;
   }

@@ -8,6 +8,8 @@ import ProgressionDisplay from '../shared/ProgressionDisplay';
 import ExtensionDisplay from '../shared/ExtensionDisplay';
 import { useFretLimitGenerator } from '../shared/hooks/useFretLimitGenerator';
 import FretLimitDisplay from '../shared/FretLimitDisplay';
+import FretboardDisplay from '../../FretboardDisplay';
+import Collapsible from '../../Collapsible';
 
 interface SoloImprovisationProps {
     practice: Practice;
@@ -27,6 +29,13 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
                 currentKey={currentKey} 
                 onRegenerateKey={generateNewKey} 
             />
+            <br/>
+            <Collapsible title={`Click here to find "${currentKey?.root}" on the fretboard`} defaultOpen={false}>
+                <FretboardDisplay
+                    highlightedNote={currentKey?.root}
+                    showIntervalSelector={true} 
+                />
+            </Collapsible>
             
             <ProgressionDisplay 
                 progression={currentProgression}
@@ -45,6 +54,8 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
                 currentFretLimit={currentFretLimit}
                 onRegenerateFretLimit={generateNewFretLimit}
             />
+
+            
         
             {/* add tempo & time signature */}
         </div>
