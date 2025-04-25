@@ -18,6 +18,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [showIntro, setShowIntro] = useState(false);
+    const [activeSwitch, setActiveSwitch] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchPractices = async () => {
@@ -58,6 +59,14 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         onSkillSelect(skillLevels[nextIndex])
     }
 
+    const handleSwitchClick = (practiceId: string) => {
+        setActiveSwitch(practiceId);
+        
+        setTimeout(() => {
+            navigate(`/practice/${practiceId}`);
+        }, 650);
+    };
+
     const renderContent = () => {
         if (isLoading) {
             return <div className="loading-message">Loading practices...</div>;
@@ -77,10 +86,30 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                     <div 
                         className={`card card-clickable ${styles.practiceCard}`} 
                         key={practice.id}
-                        onClick={() => navigate(`/practice/${practice.id}`)}
                     >
+                        <div className={styles["rivet-top-left"]}></div>
+                        <div className={styles["rivet-bottom-left"]}></div>
+                        <div className={styles["rivet-bottom-right"]}></div>
                         <h3>{practice.title}</h3>
-                        <p>{practice.description}</p>
+                        <p>
+                            <span>{practice.description}</span>
+                            <div 
+                                className={styles["switch-container"]} 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleSwitchClick(practice.id || '');
+                                }}
+                            >
+                                <div className={`${styles["toggle-switch"]} ${activeSwitch === practice.id ? styles.active : ''}`}>
+                                    <div className={styles["toggle-handle"]}></div>
+                                    <div className={styles["switch-labels"]}>
+                                        <span>ON</span>
+                                        <span>OFF</span>
+                                    </div>
+                                </div>
+                                <div className={`${styles["indicator-light"]} ${activeSwitch === practice.id ? styles.active : ''}`}></div>
+                            </div>
+                        </p>
                     </div>
                 ))}
             </div>
