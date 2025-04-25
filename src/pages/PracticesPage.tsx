@@ -5,8 +5,6 @@ import { useWindowSize } from '../hooks/useWindowSize';
 import { getPracticesBySkillLevel } from '../services/practiceService';
 import { Practice } from '../types/practice';
 
-const MOBILE_BREAKPOINT = 960;
-
 interface PracticesPageProps {
     skillLevel: string;
     onSkillSelect: (level: string) => void;
@@ -14,7 +12,6 @@ interface PracticesPageProps {
 
 const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) => {
     const navigate = useNavigate();
-    const { width } = useWindowSize();
     const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
     const [practices, setPractices] = useState<Practice[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -44,36 +41,6 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         const nextIndex = (currentLevel + 1) % skillLevels.length;
         onSkillSelect(skillLevels[nextIndex])
     }
-
-    const renderDesktopHeader = () => (
-        <header className={`header ${styles.desktopHeader} ${styles.practicePageHeader}`}>
-            <div 
-                className={`button button-secondary ${styles.leftButton}`}
-                onClick={() => navigate('/')}
-            >Go Back</div>
-            <h1>Practice Methods</h1>
-            <div 
-                className={`button button-secondary ${styles.rightButton}`}
-                onClick={() => handleSkillLevelClick(skillLevel)}
-            >{capitalize(skillLevel)}</div>
-        </header>
-    );
-
-    const renderMobileHeader = () => (
-        <header className={`header ${styles.mobileHeader} ${styles.practicePageHeader}`}>
-            <h1>Practice Methods</h1>
-            <div className={styles.buttonContainer}>
-                <div 
-                    className="button button-secondary"
-                    onClick={() => navigate('/')}
-                >Go Back</div>
-                <div 
-                    className="button button-secondary"
-                    onClick={() => handleSkillLevelClick(skillLevel)}
-                >{capitalize(skillLevel)}</div>
-            </div>
-        </header>
-    );
 
     const renderContent = () => {
         if (isLoading) {
@@ -106,7 +73,13 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
 
     return (
         <div className="container">
-            {width > MOBILE_BREAKPOINT ? renderDesktopHeader() : renderMobileHeader()}
+            <header className={`header ${styles.practicePageHeader}`}>
+                <h1>Practice Methods</h1>
+                <div 
+                    className={`button button-secondary ${styles.rightButton}`}
+                    onClick={() => handleSkillLevelClick(skillLevel)}
+                >{capitalize(skillLevel)}</div>
+            </header>
             {renderContent()}
         </div>
     );

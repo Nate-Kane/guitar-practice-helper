@@ -1,24 +1,14 @@
 :global(.header).practicePageHeader {
     margin-bottom: 30px;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px;
+    justify-content: space-between;
 }
 
 :global(.header).practicePageHeader :global(h1) {
     margin-bottom: 0;
-}
-
-.desktopHeader {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-}
-
-.mobileHeader {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
 }
 
 .buttonContainer {
