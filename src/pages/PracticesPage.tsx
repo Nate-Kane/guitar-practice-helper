@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './PracticesPage.module.css';
-import { useWindowSize } from '../hooks/useWindowSize';
 import { getPracticesBySkillLevel } from '../services/practiceService';
 import { Practice } from '../types/practice';
+import IntroAnimation from '../components/IntroAnimation';
 
 interface PracticesPageProps {
     skillLevel: string;
@@ -12,10 +12,12 @@ interface PracticesPageProps {
 
 const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) => {
     const navigate = useNavigate();
+    const location = useLocation();
     const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
     const [practices, setPractices] = useState<Practice[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [showIntro, setShowIntro] = useState(false);
 
     useEffect(() => {
         const fetchPractices = async () => {
@@ -34,6 +36,20 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
 
         fetchPractices();
     }, [skillLevel]);
+
+    useEffect(() => {
+        // Only show intro animation when on root path
+        if (location.pathname === '/') {
+            setShowIntro(true);
+            
+            // Hide animation after it plays
+            const timer = setTimeout(() => {
+                setShowIntro(false);
+            }, 3000); // Adjust timing based on your animation duration
+            
+            return () => clearTimeout(timer);
+        }
+    }, [location.pathname]);
 
     const handleSkillLevelClick = (level: string) => {
         const skillLevels = ['basics', 'intermediate', 'advanced'];
@@ -73,6 +89,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
 
     return (
         <div className="container">
+            {showIntro && <IntroAnimation />}
             <header className={`header ${styles.practicePageHeader}`}>
                 <h1>Practice Methods</h1>
                 <div 
