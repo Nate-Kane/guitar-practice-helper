@@ -86,6 +86,10 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                     <div 
                         className={`card card-clickable ${styles.practiceCard}`} 
                         key={practice.id}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleSwitchClick(practice.id || '');
+                        }}
                     >
                         <div className={styles["rivet-top-left"]}></div>
                         <div className={styles["rivet-bottom-left"]}></div>
@@ -93,13 +97,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                         <h3>{practice.title}</h3>
                         <p>
                             <span>{practice.description}</span>
-                            <div 
-                                className={styles["switch-container"]} 
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleSwitchClick(practice.id || '');
-                                }}
-                            >
+                            <div className={styles["switch-container"]}>
                                 <div className={`${styles["toggle-switch"]} ${activeSwitch === practice.id ? styles.active : ''}`}>
                                     <div className={styles["toggle-handle"]}></div>
                                     <div className={styles["switch-labels"]}>
