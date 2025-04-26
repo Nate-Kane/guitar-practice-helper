@@ -39,14 +39,12 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
     }, [skillLevel]);
 
     useEffect(() => {
-        // Only show intro animation when on root path
         if (location.pathname === '/') {
             setShowIntro(true);
             
-            // Hide animation after it plays
             const timer = setTimeout(() => {
                 setShowIntro(false);
-            }, 3000); // Adjust timing based on your animation duration
+            }, 6000);
             
             return () => clearTimeout(timer);
         }

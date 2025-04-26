@@ -36,34 +36,20 @@
 /* Marshall Amp Card Styling */
 :global(.card).practiceCard {
   background-color: #000000;
-  border: none;
+  border: 10px solid black;
   border-radius: 12px;
   overflow: visible;
   padding: 0;
   position: relative;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
   max-width: 100%;
   cursor: default !important;
   margin-bottom: 10px;
 }
 
 :global(.card).practiceCard:hover {
-  transform: none;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-}
-
-/* Add "leather" border around the entire amp */
-:global(.card).practiceCard::before {
-  content: '';
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
-  background-color: #1a1a1a;
-  border-radius: 12px;
-  z-index: -1;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  transform: translateY(-0.5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
 }
 
 /* Set the top-right amp rivet */
