@@ -248,3 +248,13 @@
         font-size: var(--font-size-xs);
     }
 }
+
+/* Disable interactions while animation is playing */
+.disableInteractions > * {
+  pointer-events: none !important;
+}
+
+/* But keep the animation itself visible and working */
+.disableInteractions :global(.intro-animation) {
+  pointer-events: auto !important;
+}

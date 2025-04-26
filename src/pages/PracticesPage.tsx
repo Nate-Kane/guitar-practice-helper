@@ -18,6 +18,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [showIntro, setShowIntro] = useState(false);
+    const [disableInteractions, setDisableInteractions] = useState(false);
     const [activeSwitch, setActiveSwitch] = useState<string | null>(null);
 
     useEffect(() => {
@@ -41,10 +42,12 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
     useEffect(() => {
         if (location.pathname === '/') {
             setShowIntro(true);
+            setDisableInteractions(true);
             
             const timer = setTimeout(() => {
                 setShowIntro(false);
-            }, 6000);
+                setDisableInteractions(false);
+            }, 5000);
             
             return () => clearTimeout(timer);
         }
@@ -113,7 +116,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
     };
 
     return (
-        <div className="container">
+        <div className={`container ${disableInteractions ? styles.disableInteractions : ''}`}>
             {showIntro && <IntroAnimation />}
             <header className={`header ${styles.practicePageHeader}`}>
                 <h1>Practice Methods</h1>
