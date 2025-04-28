@@ -267,7 +267,7 @@
   :global(.card-container) {
     max-height: calc(100vh - 72px);
     overflow: scroll;
-    padding-bottom: 110px;
+    padding-bottom: 120px;
   }
   :global(.card).practiceCard {
     max-width: 100%;
