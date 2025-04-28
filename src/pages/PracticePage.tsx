@@ -3,10 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getPracticeById } from '../services/practiceService';
 import { Practice } from '../types/practice';
 import styles from './PracticePage.module.css';
-import { useWindowSize } from '../hooks/useWindowSize';
 import PracticeRenderer from '../components/practices/PracticeRenderer';
-
-const MOBILE_BREAKPOINT = 960;
 
 interface PracticePageProps {
   skillLevel: string;
@@ -16,7 +13,6 @@ interface PracticePageProps {
 const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { width } = useWindowSize();
   const [practice, setPractice] = useState<Practice | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
