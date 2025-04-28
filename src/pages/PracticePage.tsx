@@ -76,65 +76,44 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
       </div>
     );
   }
-  
-  const renderDesktopHeader = () => (
-    <header className={`header ${styles.desktopHeader} ${styles.practicePageHeader}`}>
-      <div 
-        className={`button button-secondary ${styles.leftButton}`}
-        onClick={() => navigate('/practices')}
-      >Go Back</div>
-      <h1>{practice.title}</h1>
-      <div 
-          className={`button button-secondary  ${styles.rightButton}`}
-          onClick={() => handleSkillLevelClick(skillLevel)}
-      >{capitalize(skillLevel)}</div>
-    </header>
-  );
-
-  const renderMobileHeader = () => (
-    <header className={`header ${styles.mobileHeader} ${styles.practicePageHeader}`}>
-      <h1>{practice.title}</h1>
-      <div className={styles.buttonContainer}>
-        <div 
-          className="button button-secondary"
-          onClick={() => navigate('/practices')}
-        >Go Back</div>
-        <div 
-          className="button button-secondary"
-          onClick={() => handleSkillLevelClick(skillLevel)}
-        >{capitalize(skillLevel)}</div>
-      </div>
-    </header>
-  );
 
   return (
-    <div className="container">
-      {width > MOBILE_BREAKPOINT ? renderDesktopHeader() : renderMobileHeader()}
-
-      <div className="card">
-        <div className={styles.practiceDetails}>
-          {practice.customDirections && (
-            <div className={styles.directions}>
-              <h4>DIRECTIONS</h4>
-              <p>{practice.customDirections}</p>
-            </div>
-          )}
-          
-
-          {practice.practiceTips && practice.practiceTips.length > 0 && (
-            <div className={styles.tips}>
-              <h4>PRACTICE TIPS</h4>
-              <ul>
-                {practice.practiceTips.map((tip, index) => (
-                  <li key={index}>{tip}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          <PracticeRenderer practice={practice} skillLevel={skillLevel}/>
-
+    <div className={`container ${styles.practiceContainer}`}>
+      <header className={`header ${styles.practicePageHeader}`}>
+        <div>
+          <h1>{practice.title}</h1>
+          <p onClick={() => navigate('/practices')}>
+          &#8592; Back to practices
+          </p>
         </div>
+        <div 
+            className={`button button-secondary`}
+            onClick={() => handleSkillLevelClick(skillLevel)}
+        >{capitalize(skillLevel)}</div>
+      </header>
+
+      <div className={styles.practiceDetails}>
+        {practice.customDirections && (
+          <div className={styles.directions}>
+            <h4>DIRECTIONS</h4>
+            <p>{practice.customDirections}</p>
+          </div>
+        )}
+        
+
+        {practice.practiceTips && practice.practiceTips.length > 0 && (
+          <div className={styles.tips}>
+            <h4>PRACTICE TIPS</h4>
+            <ul>
+              {practice.practiceTips.map((tip, index) => (
+                <li key={index}>{tip}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <PracticeRenderer practice={practice} skillLevel={skillLevel}/>
+
       </div>
     </div>
   );

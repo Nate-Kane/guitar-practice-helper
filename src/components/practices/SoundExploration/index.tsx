@@ -1,14 +1,14 @@
 import { FC } from 'react';
 import { Practice } from '../../../types/practice';
-import { useKeyGenerator } from '../shared/hooks/useKeyGenerator';
-import { useProgressionGenerator } from '../shared/hooks/useProgressionGenerator';
-import { useExtensionGenerator } from '../shared/hooks/useExtensionGenerator';
-import KeyDisplay from '../shared/KeyDisplay';
-import ProgressionDisplay from '../shared/ProgressionDisplay';
-import ExtensionDisplay from '../shared/ExtensionDisplay';
-import { useFretLimitGenerator } from '../shared/hooks/useFretLimitGenerator';
-import FretLimitDisplay from '../shared/FretLimitDisplay';
-import FretboardDisplay from '../../FretboardDisplay';
+import { useKeyGenerator } from '../sharedPracticeComponents/hooks/useKeyGenerator';
+import { useProgressionGenerator } from '../sharedPracticeComponents/hooks/useProgressionGenerator';
+import { useExtensionGenerator } from '../sharedPracticeComponents/hooks/useExtensionGenerator';
+import KeyDisplay from '../sharedPracticeComponents/KeyDisplay';
+import ProgressionDisplay from '../sharedPracticeComponents/ProgressionDisplay';
+import ExtensionDisplay from '../sharedPracticeComponents/ExtensionDisplay';
+import { useFretLimitGenerator } from '../sharedPracticeComponents/hooks/useFretLimitGenerator';
+import FretLimitDisplay from '../sharedPracticeComponents/FretLimitDisplay';
+import FretboardDisplay from '../sharedPracticeComponents/FretboardDisplay';
 import Collapsible from '../../Collapsible';
 
 interface SoloImprovisationProps {

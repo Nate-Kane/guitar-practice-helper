@@ -1,8 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Moneypenny&display=swap');
 
+:global(.card-container) {
+  max-height: calc(100vh - 138px);
+  max-width: none !important;
+  overflow: scroll;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 :global(.header).practicePageHeader {
-    margin-bottom: 30px;
+    margin-bottom: 0px;
     display: flex;
     margin-left: auto;
     margin-right: auto;
@@ -42,7 +55,8 @@
   padding: 0;
   position: relative;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-  max-width: 100%;
+  max-width: var(--card-max-width);
+  min-width: var(--card-max-width);
   cursor: default !important;
   margin-bottom: 10px;
 }
@@ -247,6 +261,21 @@
     :global(.card).practiceCard :global(p) {
         font-size: var(--font-size-xs);
     }
+}
+
+@media (max-width: 600px) {
+  :global(.card-container) {
+    max-height: calc(100vh - 72px);
+    overflow: scroll;
+  }
+  :global(.card).practiceCard {
+    max-width: 100%;
+    min-width: 0px;
+    box-shadow: none;
+  }
+  :global(.card).practiceCard:hover {
+    box-shadow: none;
+  }
 }
 
 /* Disable interactions while animation is playing */

@@ -1,8 +1,8 @@
-import { useMapFretboard } from '../shared/hooks/useMapFretboard'
-import { useKeyGenerator } from '../shared/hooks/useKeyGenerator';
-import KeyDisplay from '../shared/KeyDisplay';
+import { useMapFretboard } from '../sharedPracticeComponents/hooks/useMapFretboard'
+import { useKeyGenerator } from '../sharedPracticeComponents/hooks/useKeyGenerator';
+import KeyDisplay from '../sharedPracticeComponents/KeyDisplay';
 import Collapsible from '../../Collapsible';
-import FretboardDisplay from '../../FretboardDisplay';
+import FretboardDisplay from '../sharedPracticeComponents/FretboardDisplay';
 import { FC } from 'react';
 
 interface FretboardMasteryProps {
@@ -78,7 +78,6 @@ const FretboardMastery: FC<FretboardMasteryProps> = ({ skillLevel }) => {
             {currentKey && (
                 <>
                     <br/>
-                    <h4>Find "{currentKey.root}" on the fretboard:</h4>
                     <FretboardDisplay 
                         highlightedNote={currentKey.root}
                         showIntervalSelector={true} 

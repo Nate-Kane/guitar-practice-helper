@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import { useKeyGenerator } from '../shared/hooks/useKeyGenerator';
-import KeyDisplay from '../shared/KeyDisplay';
-import { useFretLimitGenerator } from '../shared/hooks/useFretLimitGenerator';
-import FretLimitDisplay from '../shared/FretLimitDisplay';
-import { useStringLimitGenerator } from '../shared/hooks/useStringLimitGenerator';
-import { StringLimitDisplay } from '../shared/StringLimitDisplay';
-import FretboardDisplay from '../../FretboardDisplay';
+import { useKeyGenerator } from '../sharedPracticeComponents/hooks/useKeyGenerator';
+import KeyDisplay from '../sharedPracticeComponents/KeyDisplay';
+import { useFretLimitGenerator } from '../sharedPracticeComponents/hooks/useFretLimitGenerator';
+import FretLimitDisplay from '../sharedPracticeComponents/FretLimitDisplay';
+import { useStringLimitGenerator } from '../sharedPracticeComponents/hooks/useStringLimitGenerator';
+import { StringLimitDisplay } from '../sharedPracticeComponents/StringLimitDisplay';
+import FretboardDisplay from '../sharedPracticeComponents/FretboardDisplay';
 
 interface FretboardFreedomProps {
     skillLevel: string;
@@ -35,7 +35,6 @@ const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
                 onRegenerateKey={generateNewKey} 
             />
             <br/>
-            <h4>Find "{currentKey?.root}" on the fretboard:</h4>
             <FretboardDisplay
                 highlightedNote={currentKey?.root}
                 showIntervalSelector={true} 

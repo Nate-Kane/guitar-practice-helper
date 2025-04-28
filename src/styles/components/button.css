@@ -39,6 +39,8 @@
   border: none;
   border-radius: 100px;
   padding: 6px 8px;
+  width: 36px;
+  margin-right: 5px;
 }
 
 @media (max-width: 600px) {
@@ -49,5 +51,7 @@
   .button-regen {
     font-size: 18px;
     padding: 12px;
+    height: 30px;
+    width: 30px;
   }
 }

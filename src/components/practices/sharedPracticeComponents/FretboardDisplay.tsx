@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './FretboardDisplay.css';
-import { useMapFretboard } from './practices/shared/hooks/useMapFretboard';
-import Collapsible from './Collapsible';
+import { useMapFretboard } from './hooks/useMapFretboard';
+import Collapsible from '../../Collapsible';
 
 interface HighlightedNoteInfo {
   note: string;
@@ -18,13 +18,14 @@ interface IntervalInfo {
 }
 
 const intervalOptions: IntervalInfo[] = [
-  { name: 'Minor 3rd', semitones: 3, color: '#8B4A55', selected: false },
-  { name: 'Major 3rd', semitones: 4, color: '#D9B166', selected: false },
-  { name: 'Perfect 4th', semitones: 5, color: '#7D6E8B', selected: false },
-  { name: 'Perfect 5th', semitones: 7, color: '#4C6B8B', selected: false },
-  { name: 'Major 6th', semitones: 9, color: '#8B9A6E', selected: false },
-  { name: 'Minor 7th', semitones: 10, color: '#6E8B85', selected: false },
-  { name: 'Major 7th', semitones: 11, color: '#8B7581', selected: false },
+  { name: 'Major 2nd', semitones: 2, color: '#3DA2C7', selected: false }, // Deeper amber/orange
+  { name: 'Minor 3rd', semitones: 3, color: '#C13C28', selected: false }, // Brighter cherry red
+  { name: 'Major 3rd', semitones: 4, color: '#D68C00', selected: false }, // Vibrant gold
+  { name: 'Perfect 4th', semitones: 5, color: '#A67C4E', selected: false }, // Lighter rosewood
+  { name: 'Perfect 5th', semitones: 7, color: '#4668B0', selected: false }, // Blue (vintage amp blue)
+  { name: 'Major 6th', semitones: 9, color: '#D17832', selected: false }, // Bright maple 
+  { name: 'Minor 7th', semitones: 10, color: '#B87346', selected: false }, // Brighter mahogany
+  { name: 'Major 7th', semitones: 11, color: '#CA8C4D', selected: false }, // Brighter sunburst
 ];
 
 interface FretboardDisplayProps {

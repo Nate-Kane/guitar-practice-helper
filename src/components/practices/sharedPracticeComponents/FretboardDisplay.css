@@ -49,7 +49,7 @@
   max-width: 900px;
   border-left: 4px solid #888;
   border-right: 1px solid #aaa;
-  background: #fff7d4;
+  background: #ffeea3;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   margin-bottom: 5px;
 }
@@ -130,7 +130,7 @@
 /* Interval legend */
 .interval-legend {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
   margin: 10px 0;
 }
@@ -193,7 +193,7 @@
 /* Interval selector checkboxes */
 .interval-selector {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 10px;
   margin-top: 10px;
 }
@@ -205,6 +205,7 @@
   font-size: var(--font-size-sm);
   margin-right: 5px;
   font-weight: 600;
+  min-width: fit-content;
 }
 
 .interval-checkbox input {

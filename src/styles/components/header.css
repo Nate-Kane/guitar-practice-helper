@@ -1,7 +1,7 @@
 .header {
   text-align: center;
   color: var(--color-text);
-  padding-top: var(--spacing-lg);
+  padding-top: var(--spacing-sm);
   padding-bottom: var(--spacing-sm);
   align-items: center;
 }

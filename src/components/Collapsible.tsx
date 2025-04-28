@@ -74,8 +74,9 @@ const Collapsible: React.FC<CollapsibleProps> = ({
         className="collapsible-content"
         style={{
           maxHeight: isOpen ? '1000px' : '0',
-          overflow: 'hidden',
-          transition: 'max-height 0.5s ease',
+          // overflow: 'hidden',
+          visibility: isOpen ? 'visible' : 'hidden',
+          transition: 'max-height 0.3s ease',
         }}
       >
         {children}
