@@ -47,7 +47,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
             const timer = setTimeout(() => {
                 setShowIntro(false);
                 setDisableInteractions(false);
-            }, 5000);
+            }, 3500);
             
             return () => clearTimeout(timer);
         }

@@ -11,7 +11,7 @@
   z-index: 1000;
   pointer-events: none;
   background-color: rgba(0, 0, 0, 0.4);
-  animation: backdrop-fade 5s ease-in-out forwards;
+  animation: backdrop-fade 3.5s ease-in-out forwards;
 }
 
 @keyframes backdrop-fade {
