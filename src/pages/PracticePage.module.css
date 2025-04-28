@@ -88,6 +88,6 @@
   .practiceDetails {
     height: calc(100vh - 79px);
     overflow: scroll;
-    padding-bottom: 110px;
+    padding-bottom: 120px;
   }
 }
