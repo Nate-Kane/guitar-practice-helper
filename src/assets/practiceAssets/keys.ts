@@ -123,13 +123,6 @@ function normalizeKeyName(key: Key): Key {
 
 // Combine major and minor keys and normalize names
 export const ALL_KEYS: Key[] = [...majorKeys, ...minorKeys]
-  .map(normalizeKeyName)
-  .filter(key => {
-    // Remove theoretical keys that aren't commonly used
-    const uncommonKeys = ["F#", "C#", "G#", "D#", "A#"].map(r => `${r} Major`).concat(
-                        ["D#", "A#", "E#", "B#"].map(r => `${r} Minor`));
-    return !uncommonKeys.includes(key.name);
-  })
   .sort((a, b) => a.name.localeCompare(b.name));
 
 // Common keys for reference
