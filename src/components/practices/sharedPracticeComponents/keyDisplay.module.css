@@ -110,6 +110,7 @@
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 14px;
+    color: var(--color-primary);
 }
 
 .toggleButton:not(:last-child) {
