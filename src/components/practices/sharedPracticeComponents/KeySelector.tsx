@@ -1,6 +1,5 @@
 import { FC, useState } from 'react';
-import { ALL_KEYS, basics_KEYS, INTERMEDIATE_KEYS, ADVANCED_KEYS, Key } from '../../../assets/practiceAssets/keys';
-import styles from '../practices.module.css';
+import { ALL_KEYS, basics_KEYS, INTERMEDIATE_KEYS, Key } from '../../../assets/practiceAssets/keys';
 import keyStyles from './keyDisplay.module.css';
 
 interface KeySelectorProps {

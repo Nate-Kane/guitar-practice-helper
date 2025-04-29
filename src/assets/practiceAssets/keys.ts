@@ -91,35 +91,35 @@ const minorKeys: Key[] = ALL_NOTES.map(root => {
 });
 
 // Alternative note names (for flats)
-const FLAT_ALTERNATIVES: Record<string, string> = {
-  "C#": "Db",
-  "D#": "Eb",
-  "F#": "Gb",
-  "G#": "Ab",
-  "A#": "Bb"
-};
+// const FLAT_ALTERNATIVES: Record<string, string> = {
+//   "C#": "Db",
+//   "D#": "Eb",
+//   "F#": "Gb",
+//   "G#": "Ab",
+//   "A#": "Bb"
+// };
 
-// Keys that are conventionally written with flats
-const FLAT_KEYS = ["F", "Bb", "Eb", "Ab", "Db", "Gb", "Cb", "D", "G", "C"];
+// // Keys that are conventionally written with flats
+// const FLAT_KEYS = ["F", "Bb", "Eb", "Ab", "Db", "Gb", "Cb", "D", "G", "C"];
 
-// Normalize key names to use conventional notation (using flats where appropriate)
-function normalizeKeyName(key: Key): Key {
-  // Skip if the root doesn't have a flat alternative
-  if (!FLAT_ALTERNATIVES[key.root]) return key;
+// // Normalize key names to use conventional notation (using flats where appropriate)
+// function normalizeKeyName(key: Key): Key {
+//   // Skip if the root doesn't have a flat alternative
+//   if (!FLAT_ALTERNATIVES[key.root]) return key;
   
-  // If it's a key that conventionally uses flats, rename it
-  if (FLAT_KEYS.includes(key.root) || 
-      (key.quality === "minor" && FLAT_KEYS.includes(ALL_NOTES[(ALL_NOTES.indexOf(key.root) + 3) % 12]))) {
-    const flatRoot = FLAT_ALTERNATIVES[key.root];
-    return {
-      ...key,
-      name: `${flatRoot} ${key.quality === "major" ? "Major" : "Minor"}`,
-      root: flatRoot
-    };
-  }
+//   // If it's a key that conventionally uses flats, rename it
+//   if (FLAT_KEYS.includes(key.root) || 
+//       (key.quality === "minor" && FLAT_KEYS.includes(ALL_NOTES[(ALL_NOTES.indexOf(key.root) + 3) % 12]))) {
+//     const flatRoot = FLAT_ALTERNATIVES[key.root];
+//     return {
+//       ...key,
+//       name: `${flatRoot} ${key.quality === "major" ? "Major" : "Minor"}`,
+//       root: flatRoot
+//     };
+//   }
   
-  return key;
-}
+//   return key;
+// }
 
 // Combine major and minor keys and normalize names
 export const ALL_KEYS: Key[] = [...majorKeys, ...minorKeys]
