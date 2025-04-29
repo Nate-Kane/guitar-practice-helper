@@ -1,10 +1,10 @@
 export interface ChordProgression {
-  name: string;              // Human readable name (e.g., "the pop punk progression")
-  description?: string;      // Optional description of the progression
-  nashvilleNums: string[];    // nashville system but not in roman numerals. I.e, 1, 4, 5.
-  nashvilleRomanNums: string[];       // Nashville roman number system notation (e.g., ["I", "IV", "V"])
-  difficulty: string;        // "basics", "intermediate", or "advanced"
-  commonIn?: string[];       // Music styles where this progression is common
+  name: string; // Easily readable name (e.g., "the pop punk progression")
+  description?: string;
+  nashvilleNums: string[]; // nashville system but not in roman numerals. I.e, 1, 4, 5.
+  nashvilleRomanNums: string[]; // Nashville roman number system notation (e.g., ["I", "IV", "V"])
+  difficulty: string; // "basics", "intermediate", or "advanced"
+  commonIn?: string[];
 }
 
 import { Key } from './keys';
@@ -25,10 +25,23 @@ const MAJOR_PROGRESSIONS_basics = [
     nashvilleRomanNums: ["I", "V", "vi", "IV"],
     difficulty: "basics",
     commonIn: ["pop", "rock", "punk", "contemporary"]
-  }
-];
-
-const MAJOR_PROGRESSIONS_INTERMEDIATE = [
+  },
+  {
+    name: "50s Progression",
+    description: "Classic doo-wop sequence used in countless hits from the 50s onwards",
+    nashvilleNums: ["1", "6m", "4", "5"],
+    nashvilleRomanNums: ["I", "vi", "IV", "V"],
+    difficulty: "basics",
+    commonIn: ["doo-wop", "pop", "rock", "ballads"]
+  },
+  {
+    name: "Blues Progression",
+    description: "Simple 12-bar blues structure, foundation of blues and rock",
+    nashvilleNums: ["1", "1", "1", "1", "4", "4", "1", "1", "5", "4", "1", "5"],
+    nashvilleRomanNums: ["I", "I", "I", "I", "IV", "IV", "I", "I", "V", "IV", "I", "V"],
+    difficulty: "basics",
+    commonIn: ["blues", "rock", "country", "jazz"]
+  },
   {
     name: "Simple Jazz Progression",
     description: "The jazz fundamental progression, the backbone of jazz harmony",
@@ -37,6 +50,17 @@ const MAJOR_PROGRESSIONS_INTERMEDIATE = [
     difficulty: "intermediate",
     commonIn: ["jazz", "bossa nova", "fusion"]
   },
+  {
+    name: "Unexpected Turn",
+    description: "Takes a unexpected turn when the V chord moves to vi instead of I",
+    nashvilleNums: ["1", "4", "5", "6m"],
+    nashvilleRomanNums: ["I", "IV", "V", "vi"],
+    difficulty: "intermediate",
+    commonIn: ["pop", "rock", "film music", "classical"]
+  }
+];
+
+const MAJOR_PROGRESSIONS_INTERMEDIATE = [
   {
     name: "Circle of Fifths Progression",
     description: "Progression moving through the circle of fifths, creates a sense of motion",
@@ -71,8 +95,8 @@ const MINOR_PROGRESSIONS_basics = [
   {
     name: "Minor 1-4-5 Progression",
     description: "The classic three-chord progression in minor",
-    nashvilleNums: ["1m", "4m", "5m"],  // Using 'm' suffix for minor
-    nashvilleRomanNums: ["i", "iv", "v"],  // Lowercase numerals indicate minor
+    nashvilleNums: ["1m", "4m", "5m"],
+    nashvilleRomanNums: ["i", "iv", "v"],
     difficulty: "basics",
     commonIn: ["rock", "folk", "blues"]
   },
@@ -83,7 +107,39 @@ const MINOR_PROGRESSIONS_basics = [
     nashvilleRomanNums: ["i", "VI", "VII"],
     difficulty: "basics",
     commonIn: ["pop", "ballads", "film music"]
-  }
+  },
+  {
+    name: "Minor Pop Progression",
+    description: "A simple, catchy progression commonly used in minor key pop songs",
+    nashvilleNums: ["1m", "6", "7", "5"],
+    nashvilleRomanNums: ["i", "VI", "VII", "v"],
+    difficulty: "basics",
+    commonIn: ["pop", "indie", "alternative", "rock"]
+  },
+  {
+    name: "Dark Rock Progression",
+    description: "Common in rock and metal for a darker, more intense feel",
+    nashvilleNums: ["1m", "5", "6", "5"],
+    nashvilleRomanNums: ["i", "v", "VI", "v"],
+    difficulty: "basics",
+    commonIn: ["rock", "metal", "alternative", "grunge"]
+  },
+  {
+    name: "Sad Ballad Progression",
+    description: "Creates a melancholic, emotional atmosphere",
+    nashvilleNums: ["1m", "3", "4m", "6"],
+    nashvilleRomanNums: ["i", "III", "iv", "VI"],
+    difficulty: "basics",
+    commonIn: ["ballads", "folk", "pop", "singer-songwriter"]
+  },
+  {
+    name: "Dramatic Minor Progression",
+    description: "Creates a tense, dramatic feel often used in film",
+    nashvilleNums: ["1m", "6", "3", "5"],
+    nashvilleRomanNums: ["i", "VI", "III", "V"],
+    difficulty: "intermediate",
+    commonIn: ["film scores", "dramatic pop", "classical", "rock"]
+  },
 ];
 
 const MINOR_PROGRESSIONS_INTERMEDIATE = [
@@ -95,27 +151,26 @@ const MINOR_PROGRESSIONS_INTERMEDIATE = [
     difficulty: "intermediate",
     commonIn: ["flamenco", "rock", "classical"]
   },
-  // Love the idea of this progression with slash chords but it isn't taking super well with the letter
-  // revisit and fix
-  // {
-  //   name: "Minor Line Cliché Progression",
-  //   description: "Creating tension with a descending chromatic line in the bass",
-  //   nashvilleNums: ["1m", "1m/7", "1m/b7", "1m/6"],
-  //   nashvilleRomanNums: ["i", "i/VII", "i/bVII", "i/VI"],
-  //   difficulty: "intermediate",
-  //   commonIn: ["jazz", "film scores", "ballads"]
-  // }
+  {
+    name: "Minor Jazz Turnaround",
+    description: "Common turnaround used in minor key jazz standards",
+    nashvilleNums: ["1m", "4m", "5", "1m"],
+    nashvilleRomanNums: ["i", "iv", "V", "i"],
+    difficulty: "intermediate",
+    commonIn: ["jazz", "blues", "fusion", "soul"]
+  }
 ];
 
 const MINOR_PROGRESSIONS_ADVANCED = [
-  {
-    name: "Minor with Diminished Progression",
-    description: "Using diminished chords for tension",
-    nashvilleNums: ["1m", "6", "7dim", "1m"],
-    nashvilleRomanNums: ["i", "VI", "vii°", "i"],
-    difficulty: "advanced",
-    commonIn: ["classical", "jazz", "film music"]
-  },
+  // I just don't like this progression honestly
+  // {
+  //   name: "Minor with Diminished Progression",
+  //   description: "Using diminished chords for tension",
+  //   nashvilleNums: ["1m", "6", "7dim", "1m"],
+  //   nashvilleRomanNums: ["i", "VI", "vii°", "i"],
+  //   difficulty: "advanced",
+  //   commonIn: ["classical", "jazz", "film music"]
+  // },
   {
     name: "Harmonic Minor Cycle Progression",
     description: "Utilizing the harmonic minor sound",
@@ -126,16 +181,11 @@ const MINOR_PROGRESSIONS_ADVANCED = [
   }
 ];
 
-/**
- * Get a random chord progression based on key and skill level
- */
 function getRandomProgression(key: Key | null, skillLevel: string = 'basics'): ChordProgression | null {
-  // If no key is provided, return null
   if (!key) return null;
   
   let availableProgressions: ChordProgression[] = [];
   
-  // Select progressions based on key quality and skill level
   if (key.quality === 'major') {
     // For major keys
     switch(skillLevel) {
@@ -168,7 +218,6 @@ function getRandomProgression(key: Key | null, skillLevel: string = 'basics'): C
     }
   }
   
-  // Return a random progression from the available options
   if (availableProgressions.length === 0) return null;
   const randomIndex = Math.floor(Math.random() * availableProgressions.length);
   return availableProgressions[randomIndex];
@@ -181,10 +230,8 @@ function progressionToChords(progression: ChordProgression, key: Key): string[] 
   // Early return if progression is invalid
   if (!progression || !progression.nashvilleNums) return [];
   
-  // Get all notes of the chromatic scale
   const ALL_NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
   
-  // Get the index of the root note
   const rootIndex = ALL_NOTES.indexOf(key.root);
   if (rootIndex === -1) return []; // Invalid root note
   
@@ -214,7 +261,6 @@ function progressionToChords(progression: ChordProgression, key: Key): string[] 
     const finalNoteIndex = (noteIndex - flat.length + 12) % 12;
     const note = ALL_NOTES[finalNoteIndex];
     
-    // Determine the chord quality
     let chordQuality = '';
     
     // Apply explicit quality from the Nashville number if present
