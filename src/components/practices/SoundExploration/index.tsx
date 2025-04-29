@@ -18,7 +18,14 @@ interface SoloImprovisationProps {
 
 const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
     // State for key and progression using custom hooks
-    const { currentKey, generateNewKey } = useKeyGenerator(skillLevel);
+    const { 
+        currentKey, 
+        generateNewKey, 
+        selectKey, 
+        isKeySelectorOpen, 
+        openKeySelector, 
+        closeKeySelector 
+    } = useKeyGenerator(skillLevel);
     const { currentProgression, currentChords, generateNewProgression } = useProgressionGenerator(currentKey, skillLevel);
     const { currentExtension, generateNewExtension, shouldShowExtension } = useExtensionGenerator(skillLevel);
     const { currentFretLimit, generateNewFretLimit } = useFretLimitGenerator();
@@ -27,7 +34,12 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
         <div>
             <KeyDisplay 
                 currentKey={currentKey} 
-                onRegenerateKey={generateNewKey} 
+                onRegenerateKey={generateNewKey}
+                skillLevel={skillLevel}
+                isKeySelectorOpen={isKeySelectorOpen}
+                openKeySelector={openKeySelector}
+                closeKeySelector={closeKeySelector}
+                onSelectKey={selectKey}
             />
             <br/>
             <Collapsible title={`Click here to find "${currentKey?.root}" on the fretboard`} defaultOpen={false}>

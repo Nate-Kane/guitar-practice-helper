@@ -1,0 +1,77 @@
+.keyComponentHeader {
+    display: flex;
+    /* justify-content: space-between;
+    align-items: center;
+    width: 100%; */
+}
+
+.keyComponentHeader :global(.button) {
+    font-size: 12px;
+    height: fit-content;
+    padding: 0px 5px;
+    border-radius: 4px;
+    margin: auto 0px auto 5px;
+}
+.keyComponentHeader :global(.button):hover {
+    transform: none;
+}
+
+@media (max-width: 600px) {
+    .keyComponentHeader :global(.button) {
+        margin: -1px 0px 1px 5px;
+        font-size: 11px;
+    }
+}
+
+/* Modal styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    width: 80%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.modalHeader h1 {
+    cursor: pointer;
+    margin-top: -10px;
+}
+
+.keyGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+}
+
+.keyButton {
+    padding: 12px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.keyButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

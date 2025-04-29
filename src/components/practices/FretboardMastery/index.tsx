@@ -21,7 +21,14 @@ const stringNames: Record<number, string> = {
 
 const FretboardMastery: FC<FretboardMasteryProps> = ({ skillLevel }) => {
     const { findAllPositionsOfNote } = useMapFretboard();
-    const { currentKey, generateNewKey } = useKeyGenerator(skillLevel);
+    const { 
+        currentKey, 
+        generateNewKey,
+        selectKey,
+        isKeySelectorOpen,
+        openKeySelector,
+        closeKeySelector
+    } = useKeyGenerator(skillLevel);
 
     // Group positions by fret position instead of string name
     const renderPositionsByFret = () => {
@@ -72,7 +79,12 @@ const FretboardMastery: FC<FretboardMasteryProps> = ({ skillLevel }) => {
         <div>
             <KeyDisplay 
                 currentKey={currentKey} 
-                onRegenerateKey={generateNewKey} 
+                onRegenerateKey={generateNewKey}
+                skillLevel={skillLevel}
+                isKeySelectorOpen={isKeySelectorOpen}
+                openKeySelector={openKeySelector}
+                closeKeySelector={closeKeySelector}
+                onSelectKey={selectKey}
             />
             
             {currentKey && (

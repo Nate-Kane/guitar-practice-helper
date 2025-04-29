@@ -12,14 +12,19 @@ interface FretboardFreedomProps {
 }
 
 const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
-    const { currentKey, generateNewKey } = useKeyGenerator(skillLevel);
+    const { 
+        currentKey, 
+        generateNewKey,
+        selectKey,
+        isKeySelectorOpen,
+        openKeySelector,
+        closeKeySelector
+    } = useKeyGenerator(skillLevel);
     const { currentFretLimit, generateNewFretLimit } = useFretLimitGenerator();
     const { currentStringLimit, generateNewStringLimit } = useStringLimitGenerator();
 
     return (
         <div>
-            
-
             <FretLimitDisplay
                 currentFretLimit={currentFretLimit}
                 onRegenerateFretLimit={generateNewFretLimit}
@@ -32,7 +37,12 @@ const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
 
             <KeyDisplay 
                 currentKey={currentKey} 
-                onRegenerateKey={generateNewKey} 
+                onRegenerateKey={generateNewKey}
+                skillLevel={skillLevel}
+                isKeySelectorOpen={isKeySelectorOpen}
+                openKeySelector={openKeySelector}
+                closeKeySelector={closeKeySelector}
+                onSelectKey={selectKey}
             />
             <br/>
             <FretboardDisplay

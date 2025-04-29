@@ -3,6 +3,7 @@ import { getRandomKey, Key } from '../../../../assets/practiceAssets/keys.ts';
 
 export const useKeyGenerator = (skillLevel: string) => {
   const [currentKey, setCurrentKey] = useState<Key | null>(null);
+  const [isKeySelectorOpen, setIsKeySelectorOpen] = useState<boolean>(false);
 
   const generateNewKey = () => {
     let newKey = getRandomKey(skillLevel);
@@ -17,6 +18,22 @@ export const useKeyGenerator = (skillLevel: string) => {
     return newKey;
   };
 
+  // Manually select a key
+  const selectKey = (key: Key) => {
+    setCurrentKey(key);
+    return key;
+  };
+
+  // Open key selector modal
+  const openKeySelector = () => {
+    setIsKeySelectorOpen(true);
+  };
+
+  // Close key selector modal
+  const closeKeySelector = () => {
+    setIsKeySelectorOpen(false);
+  };
+
   // Initialize key on mount or skill level change
   useEffect(() => {
     generateNewKey();
@@ -24,6 +41,10 @@ export const useKeyGenerator = (skillLevel: string) => {
 
   return {
     currentKey,
-    generateNewKey
+    generateNewKey,
+    selectKey,
+    isKeySelectorOpen,
+    openKeySelector,
+    closeKeySelector
   };
 };
