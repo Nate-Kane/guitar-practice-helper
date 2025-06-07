@@ -90,7 +90,7 @@
     overflow: scroll;
     padding-bottom: 120px;
   }
-  .practiceContainer :global(.button) {
+  .practiceContainer :global(.button).skill-level {
     font-size: var(--font-size-sm);
     height: 40px;
     padding: var(--spacing-xs) var(--spacing-sm);

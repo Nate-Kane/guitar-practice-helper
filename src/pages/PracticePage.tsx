@@ -83,7 +83,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
           </p>
         </div>
         <div 
-            className={`button button-secondary`}
+            className={`button button-secondary skill-level`}
             onClick={() => handleSkillLevelClick(skillLevel)}
         >{capitalize(skillLevel)}</div>
       </header>
