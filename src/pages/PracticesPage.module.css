@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Moneypenny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
 
 :global(.card-container) {
   max-height: calc(100vh - 138px);
@@ -57,12 +56,12 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
   max-width: var(--card-max-width);
   min-width: var(--card-max-width);
-  cursor: default !important;
+  cursor: pointer;
   margin-bottom: 10px;
 }
 
 :global(.card).practiceCard:hover {
-  transform: translateY(-0.5px);
+  transform: translateY(-2px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
 }
 
@@ -123,8 +122,9 @@
   color: #ffffff;
   padding: 10px;
   margin: 0;
-  font-family: 'Moneypenny', 'Satisfy', cursive;
-  font-size: 35px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 40px;
   font-weight: 400;
   text-align: center;
   letter-spacing: 8px;
@@ -250,9 +250,6 @@
 }
 
 @media (max-width: 960px) {
-    :global(.header).practicePageHeader {
-        margin-bottom: 20px;
-    }
     :global(.card).practiceCard :global(h3) {
         font-size: 30px;
         letter-spacing: 5px;
@@ -288,3 +285,4 @@
 .disableInteractions :global(.intro-animation) {
   pointer-events: auto !important;
 }
+

@@ -44,8 +44,8 @@
   --shadow-lg: 0 8px 15px rgba(0, 0, 0, 0.2);
   
   /* Border Radius */
-  --border-radius-sm: 0.5rem;
-  --border-radius-md: 0.8rem;
+  --border-radius-sm: 12px;
+  --border-radius-md: 20px;
   
   /* Transitions */
   --transition-fast: 0.2s ease;

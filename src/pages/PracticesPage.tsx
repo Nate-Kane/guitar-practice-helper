@@ -118,12 +118,13 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
     return (
         <div className={`container ${disableInteractions ? styles.disableInteractions : ''}`}>
             {showIntro && <IntroAnimation />}
+            <header className={`header ${styles.practicePageHeader}`}><h1>Fretboard Mapper</h1></header>
             <header className={`header ${styles.practicePageHeader}`}>
                 <h1>Practice Methods</h1>
                 <div 
                     className={`button button-secondary ${styles.rightButton}`}
                     onClick={() => handleSkillLevelClick(skillLevel)}
-                >{capitalize(skillLevel)}</div>
+                >Difficulty: &nbsp; {capitalize(skillLevel)}</div>
             </header>
             {renderContent()}
         </div>

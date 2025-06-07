@@ -7,7 +7,7 @@
 }
 
 .header h1 {
-  font-size: var(--font-size-xxxl);
+  font-size: var(--font-size-xl);
   margin-bottom: var(--spacing-sm);
   background: var(--gradient-primary);
   -webkit-background-clip: text;

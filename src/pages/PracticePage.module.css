@@ -6,7 +6,6 @@
 }
 
 :global(.header).practicePageHeader {
-  margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -25,7 +24,8 @@
 .practiceDetails {
   height: calc(100vh - 161px);
   overflow: scroll;
-  padding-bottom: 20px;
+  padding-top: 30px;
+  padding-bottom: 50px;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -89,5 +89,10 @@
     height: calc(100vh - 79px);
     overflow: scroll;
     padding-bottom: 120px;
+  }
+  .practiceContainer :global(.button) {
+    font-size: var(--font-size-sm);
+    height: 40px;
+    padding: var(--spacing-xs) var(--spacing-sm);
   }
 }
