@@ -4,6 +4,7 @@ import styles from './PracticesPage.module.css';
 import { getPracticesBySkillLevel } from '../services/practiceService';
 import { Practice } from '../types/practice';
 import IntroAnimation from '../components/IntroAnimation';
+import fretboardImg from '../assets/fretboard_img.png';
 
 interface PracticesPageProps {
     skillLevel: string;
@@ -27,7 +28,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
             setError(null);
             try {
                 const practices = await getPracticesBySkillLevel(skillLevel);
-                setPractices(practices);
+                setPractices(practices.filter(p => p.title !== 'Fretboard Mapper' && p.id !== 'fretboard-mapper'));
             } catch (error) {
                 console.error('Error fetching practices:', error);
                 setError('Failed to load practices. Please try again later.');
@@ -68,7 +69,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         }, 650);
     };
 
-    const renderContent = () => {
+    const renderPractices = () => {
         if (isLoading) {
             return <div className="loading-message">Loading practices...</div>;
         }
@@ -119,6 +120,9 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         <div className={`container ${disableInteractions ? styles.disableInteractions : ''}`}>
             {showIntro && <IntroAnimation />}
             <header className={`header ${styles.practicePageHeader}`}><h1>Fretboard Mapper</h1></header>
+            <div className={styles.fretboardContainer} onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}>
+                <img src={fretboardImg} alt="Guitar Fretboard" className={styles.fretboardImage} />
+            </div>
             <header className={`header ${styles.practicePageHeader}`}>
                 <h1>Practice Methods</h1>
                 <div 
@@ -126,7 +130,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                     onClick={() => handleSkillLevelClick(skillLevel)}
                 >Difficulty: &nbsp; {capitalize(skillLevel)}</div>
             </header>
-            {renderContent()}
+            {renderPractices()}
         </div>
     );
 };

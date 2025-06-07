@@ -12,6 +12,14 @@
   max-width: var(--container-max-width);
   margin: 0 auto;
   padding: var(--spacing-lg);
+  overflow: scroll;
+  max-height: 100vh;
+  min-height: 100vh;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 @media (max-width: 600px) {

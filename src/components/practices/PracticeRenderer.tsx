@@ -6,6 +6,7 @@ const PRACTICE_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'Sound Exploration': lazy(() => import('./SoundExploration')),
   'Fretboard Freedom': lazy(() => import('./FretboardFreedom')),
   'Fretboard Mastery': lazy(() => import('./FretboardMastery')),
+  'Fretboard Mapper': lazy(() => import('./FretboardMapper')),
   // Add a lead guitar practice; limit frets; generate style and key;
   /** add a timing practice (metronome!); play w/ metronome, start slow 
    * and move towards faster. This practice tells you choose one thing 

@@ -22,7 +22,7 @@
 }
 
 .practiceDetails {
-  height: calc(100vh - 161px);
+  /* height: calc(100vh - 161px); */
   overflow: scroll;
   padding-top: 30px;
   padding-bottom: 50px;
@@ -86,7 +86,7 @@
     font-size: var(--font-size-sm);
   }
   .practiceDetails {
-    height: calc(100vh - 79px);
+    /* height: calc(100vh - 79px); */
     overflow: scroll;
     padding-bottom: 120px;
   }
@@ -94,5 +94,11 @@
     font-size: var(--font-size-sm);
     height: 40px;
     padding: var(--spacing-xs) var(--spacing-sm);
+  }
+}
+
+@media (max-height: 500px) {
+  :global(.container).practiceContainer {
+    padding: 0;
   }
 }

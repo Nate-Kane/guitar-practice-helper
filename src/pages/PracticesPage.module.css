@@ -1,16 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
 
 :global(.card-container) {
-  max-height: calc(100vh - 138px);
+  
   max-width: none !important;
-  overflow: scroll;
+  /* overflow: scroll; */
   padding-top: 30px;
   padding-bottom: 30px;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 :global(.header).practicePageHeader {
@@ -58,6 +53,7 @@
   min-width: var(--card-max-width);
   cursor: pointer;
   margin-bottom: 10px;
+  transition: all 0.3s ease;
 }
 
 :global(.card).practiceCard:hover {
@@ -249,33 +245,6 @@
   margin-top: 3px;
 }
 
-@media (max-width: 960px) {
-    :global(.card).practiceCard :global(h3) {
-        font-size: 30px;
-        letter-spacing: 5px;
-        padding: 15px;
-    }
-    :global(.card).practiceCard :global(p) {
-        font-size: var(--font-size-xs);
-    }
-}
-
-@media (max-width: 600px) {
-  :global(.card-container) {
-    max-height: calc(100vh - 72px);
-    overflow: scroll;
-    padding-bottom: 130px;
-  }
-  :global(.card).practiceCard {
-    max-width: 100%;
-    min-width: 0px;
-    box-shadow: none;
-  }
-  :global(.card).practiceCard:hover {
-    box-shadow: none;
-  }
-}
-
 /* Disable interactions while animation is playing */
 .disableInteractions > * {
   pointer-events: none !important;
@@ -284,5 +253,59 @@
 /* But keep the animation itself visible and working */
 .disableInteractions :global(.intro-animation) {
   pointer-events: auto !important;
+}
+
+.fretboardContainer {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto 50px;
+    max-width: var(--card-max-width);
+    cursor: pointer;
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+}
+
+.fretboardContainer:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.fretboardImage {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-sm);
+}
+
+@media (max-width: 960px) {
+  :global(.card).practiceCard :global(h3) {
+      font-size: 30px;
+      letter-spacing: 5px;
+      padding: 15px;
+  }
+  :global(.card).practiceCard :global(p) {
+      font-size: var(--font-size-xs);
+  }
+}
+
+@media (max-width: 600px) {
+:global(.card-container) {
+  max-height: calc(100vh - 72px);
+  overflow: scroll;
+  padding-bottom: 130px;
+}
+:global(.card).practiceCard {
+  max-width: 100%;
+  min-width: 0px;
+  box-shadow: none;
+}
+:global(.card).practiceCard:hover {
+  box-shadow: none;
+}
+.fretboardImage {
+  min-height: 140px;
+  object-fit: cover;
+  object-position: left;
+}
 }
 
