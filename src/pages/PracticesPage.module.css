@@ -291,7 +291,7 @@
 @media (max-width: 600px) {
 :global(.card-container) {
   max-height: calc(100vh - 72px);
-  overflow: scroll;
+  /* overflow: scroll; */
   padding-bottom: 130px;
 }
 :global(.card).practiceCard {

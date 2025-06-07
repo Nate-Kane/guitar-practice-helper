@@ -23,7 +23,7 @@
 
 .practiceDetails {
   /* height: calc(100vh - 161px); */
-  overflow: scroll;
+  /* overflow: scroll; */
   padding-top: 30px;
   padding-bottom: 50px;
   &::-webkit-scrollbar {
@@ -87,7 +87,7 @@
   }
   .practiceDetails {
     /* height: calc(100vh - 79px); */
-    overflow: scroll;
+    /* overflow: scroll; */
     padding-bottom: 120px;
   }
   .practiceContainer :global(.button).skill-level {
