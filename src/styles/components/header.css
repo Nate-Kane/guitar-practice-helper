@@ -30,3 +30,13 @@
     font-size: var(--font-size-sm);
   }
 } 
+
+@media (max-height: 500px) {
+  .header h1 {
+    font-size: var(--font-size-lg);
+  }
+  
+  .header-subtitle {
+    font-size: var(--font-size-sm);
+  }
+} 

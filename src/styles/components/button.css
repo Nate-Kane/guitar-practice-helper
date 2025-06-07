@@ -56,3 +56,17 @@
     width: 30px;
   }
 }
+
+@media (max-height: 500px) {
+  .button {
+    font-size: var(--font-size-sm);
+    height: 40px;
+    padding: var(--spacing-xs) var(--spacing-xs);
+  }
+  .button-regen {
+    font-size: 18px;
+    padding: 12px;
+    height: 30px;
+    width: 30px;
+  }
+}
