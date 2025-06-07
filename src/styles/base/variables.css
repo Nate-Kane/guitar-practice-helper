@@ -21,22 +21,22 @@
   --gradient-primary: linear-gradient(145deg, var(--color-wood-brown), var(--color-wood-brown));
   
   /* Spacing - keep existing */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 1.5rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 3rem;
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --spacing-xl: 48px;
   
   /* Typography - updated for Nashville theme */
   --font-family: 'Cabin', -apple-system, sans-serif;
   --font-size-base: 16px;
-  --font-size-xs: 0.7rem;
-  --font-size-sm: 0.9rem;
-  --font-size-md: 1.1rem;
-  --font-size-lg: 1.5rem;
-  --font-size-xl: 2rem;
-  --font-size-xxl: 2.5rem;
-  --font-size-xxxl: 3rem;
+  --font-size-xs: 11px;
+  --font-size-sm: 14px;
+  --font-size-md: 18px;
+  --font-size-lg: 24px;
+  --font-size-xl: 32px;
+  --font-size-xxl: 40px;
+  --font-size-xxxl: 48px;
   
   /* Shadows - enhanced for Nashville theme */
   --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -45,7 +45,7 @@
   
   /* Border Radius */
   --border-radius-sm: 12px;
-  --border-radius-md: 20px;
+  --border-radius-md: 10px;
   
   /* Transitions */
   --transition-fast: 0.2s ease;
