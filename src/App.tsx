@@ -5,6 +5,7 @@ import PracticesPage from './pages/PracticesPage';
 import AdminPage from './pages/AdminPage';
 import PracticePage from './pages/PracticePage';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import './tailwind.css';
 
 const App: FC = () => {
@@ -18,14 +19,17 @@ const App: FC = () => {
 
   return (
     <Router>
-      <div className="min-h-screen bg-amber-50">
+      <div className="min-h-screen bg-amber-50 flex flex-col">
         <Navbar />
-        <Routes>
-          <Route path="/" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
-          <Route path="/practices" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
-          <Route path="/practice/:id" element={<PracticePage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
-          <Route path="/admin" element={<AdminPage />} />
-        </Routes>
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
+            <Route path="/practices" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
+            <Route path="/practice/:id" element={<PracticePage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
+            <Route path="/admin" element={<AdminPage />} />
+          </Routes>
+        </div>
+        <Footer />
       </div>
     </Router>
   );
