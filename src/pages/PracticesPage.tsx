@@ -218,7 +218,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-700 text-amber-700 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-amber-500"
                             >
-                                Difficulty: {capitalize(skillLevel)}
+                                Difficulty:&nbsp; {capitalize(skillLevel)}
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ml-2 h-4 w-4 text-amber-700 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}>
                                     <path d="M6 9l6 6 6-6"></path>
                                 </svg>
@@ -231,7 +231,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                             onSkillSelect('basics');
                                             setIsDropdownOpen(false);
                                         }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors ${skillLevel === 'basics' ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${skillLevel === 'basics' ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
                                     >
                                         Basics
                                     </button>
@@ -249,7 +249,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                             onSkillSelect('advanced');
                                             setIsDropdownOpen(false);
                                         }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors ${skillLevel === 'advanced' ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${skillLevel === 'advanced' ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
                                     >
                                         Advanced
                                     </button>
