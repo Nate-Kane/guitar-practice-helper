@@ -26,7 +26,7 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
   return (
     <div className="space-y-4">
       {/* Select a Key Section */}
-      <h2 className="text-xl font-bold text-amber-900 dark:text-amber-100">
+      <h2 className="text-xl font-bold text-amber-900 text-amber-100">
         Select a Key
       </h2>
       
@@ -38,7 +38,7 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
             role="combobox" 
             aria-expanded={isKeySelectorOpen}
             onClick={openKeySelector}
-            className="flex h-9 items-center justify-between whitespace-nowrap rounded-md border px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 w-full bg-amber-50 dark:bg-amber-950/30 border-amber-300 dark:border-amber-800 cursor-pointer"
+            className="flex h-9 items-center justify-between whitespace-nowrap rounded-md border px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 w-full bg-amber-100 border-amber-200 border-amber-800 cursor-pointer"
           >
             <span style={{ pointerEvents: 'none' }}>
               {currentKey.name} ({currentKey.relativeKey})
@@ -48,36 +48,23 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
             </svg>
           </button>
         </div>
-        
-        <button 
-          onClick={onRegenerateKey}
-          className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border bg-background shadow-sm hover:text-accent-foreground h-9 px-4 py-2 border-amber-300 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/50 cursor-pointer"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-refresh-cw h-4 w-4 mr-2" aria-hidden="true">
-            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
-            <path d="M21 3v5h-5"></path>
-            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
-            <path d="M8 16H3v5"></path>
-          </svg>
-          Random Key
-        </button>
       </div>
       
       {/* Key Information Card */}
-      <div className="rounded-xl border bg-card text-card-foreground shadow border-amber-200 dark:border-amber-800">
-        <div className="p-4 bg-amber-50 dark:bg-amber-950/10">
+      <div className="rounded-xl border bg-card text-card-foreground shadow border-amber-200 border-amber-800">
+        <div className="p-4 bg-amber-50 rounded-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h3 className="text-lg font-bold text-amber-900 dark:text-amber-100">
+              <h3 className="text-lg font-bold text-amber-900 text-amber-100">
                 Key of {currentKey.name} ({currentKey.relativeKey})
               </h3>
-              <p className="text-amber-800 dark:text-amber-200">
-                The notes of {currentKey.name.split(' ')[0]} are {currentKey.notes.join(', ')}
+              <p className="text-amber-800 text-amber-200">
+                The notes of {currentKey.name} are {currentKey.notes.join(', ')}
               </p>
             </div>
             <button 
               onClick={onRegenerateKey}
-              className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border bg-background shadow-sm hover:text-accent-foreground h-8 rounded-md px-3 text-xs border-amber-300 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/50 self-end sm:self-auto cursor-pointer"
+              className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border bg-white shadow-sm hover:text-accent-foreground h-8 rounded-md px-3 text-xs border-amber-700 hover:bg-amber-100 self-end sm:self-auto cursor-pointer text-amber-700"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-refresh-cw h-4 w-4 mr-2" aria-hidden="true">
                 <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
@@ -85,7 +72,7 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
                 <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
                 <path d="M8 16H3v5"></path>
               </svg>
-              Change Key
+              Random Key
             </button>
           </div>
         </div>
