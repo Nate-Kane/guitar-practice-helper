@@ -31,7 +31,7 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
     const { currentFretLimit, generateNewFretLimit } = useFretLimitGenerator();
     
     return (
-        <div>
+        <div className="space-y-6">
             <KeyDisplay 
                 currentKey={currentKey} 
                 onRegenerateKey={generateNewKey}
@@ -41,7 +41,7 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
                 closeKeySelector={closeKeySelector}
                 onSelectKey={selectKey}
             />
-            <br/>
+            
             <Collapsible title={`Click here to find "${currentKey?.root}" on the fretboard`} defaultOpen={false}>
                 <FretboardDisplay
                     highlightedNote={currentKey?.root}
@@ -67,8 +67,6 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
                 onRegenerateFretLimit={generateNewFretLimit}
             />
 
-            
-        
             {/* add tempo & time signature */}
         </div>
     );

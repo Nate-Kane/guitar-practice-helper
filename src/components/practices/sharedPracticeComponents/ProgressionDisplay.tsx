@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { ChordProgression } from '../../../assets/practiceAssets/progressions';
-import styles from '../practices.module.css';
 
 interface ProgressionDisplayProps {
   progression: ChordProgression | null;
@@ -16,21 +15,46 @@ const ProgressionDisplay: FC<ProgressionDisplayProps> = ({
   if (!progression || chords.length === 0) return null;
   
   return (
-    <div className={`${styles.practiceDataContainer}`}>
-      <div className={`${styles.practiceInfo}`}>
-        <h4> {progression.name} <span className={`${styles.spanHighlight}`}>({progression.nashvilleRomanNums.join(' - ')})</span></h4>
-        {/* <h5>The {progression.name.toLowerCase()} is a {progression.nashvilleRomanNums.join(' - ')}</h5> */}
-        <p>{chords.join(' - ')}</p>
-        {progression.description && (
-          <p className={styles.description}>{progression.description}</p>
-        )}
+    <div className="rounded-xl border bg-card text-card-foreground shadow border-amber-200 dark:border-amber-800">
+      <div className="flex flex-col space-y-1.5 p-6 bg-amber-100 dark:bg-amber-900/30 border-b border-amber-200 dark:border-amber-800 pb-3">
+        <h3 className="tracking-tight text-lg font-bold flex items-center text-amber-900 dark:text-amber-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-music h-5 w-5 mr-2 text-amber-600 dark:text-amber-400" aria-hidden="true">
+            <path d="M9 18V5l12-2v13"></path>
+            <circle cx="6" cy="18" r="3"></circle>
+            <circle cx="18" cy="16" r="3"></circle>
+          </svg>
+          Chord Progression
+        </h3>
       </div>
-      <button 
-        className="button button-secondary button-regen"
-        onClick={onRegenerateProgression}
-      >
-        &#8635;
-      </button>
+      <div className="p-6 pt-4 bg-amber-50 dark:bg-amber-950/10">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h4 className="text-lg font-medium text-amber-900 dark:text-amber-100 mb-2">
+              {progression.name} <span className="font-bold text-amber-700 dark:text-amber-300">({progression.nashvilleRomanNums.join(' - ')})</span>
+            </h4>
+            <p className="text-amber-800 dark:text-amber-200 font-medium">
+              {chords.join(' - ')}
+            </p>
+            {progression.description && (
+              <p className="text-amber-700 dark:text-amber-300 text-sm mt-1">
+                {progression.description}
+              </p>
+            )}
+          </div>
+          <button 
+            onClick={onRegenerateProgression}
+            className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border bg-background shadow-sm hover:text-accent-foreground h-8 rounded-md px-3 text-xs border-amber-300 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/50 self-end sm:self-auto cursor-pointer"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-refresh-cw h-4 w-4 mr-2" aria-hidden="true">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+              <path d="M21 3v5h-5"></path>
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+              <path d="M8 16H3v5"></path>
+            </svg>
+            Regenerate
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
