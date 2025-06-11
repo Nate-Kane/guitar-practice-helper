@@ -2,7 +2,6 @@ import { FC, useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getPracticesBySkillLevel } from '../services/practiceService';
 import { Practice } from '../types/practice';
-import IntroAnimation from '../components/IntroAnimation';
 import fretboardImg from '../assets/fretboard_img.png';
 
 interface PracticesPageProps {
@@ -12,12 +11,10 @@ interface PracticesPageProps {
 
 const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) => {
     const navigate = useNavigate();
-    const location = useLocation();
     const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
     const [practices, setPractices] = useState<Practice[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const [activeSwitch, setActiveSwitch] = useState<string | null>(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -52,16 +49,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleSkillLevelClick = (level: string) => {
-        const skillLevels = ['basics', 'intermediate', 'advanced'];
-        let currentLevel = skillLevels.indexOf(level);
-        const nextIndex = (currentLevel + 1) % skillLevels.length;
-        onSkillSelect(skillLevels[nextIndex])
-    }
-
     const handleSwitchClick = (practiceId: string) => {
-        setActiveSwitch(practiceId);
-        
         setTimeout(() => {
             navigate(`/practice/${practiceId}`);
         }, 650);
