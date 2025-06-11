@@ -96,11 +96,11 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
                 </>
             )}
             
-            <Collapsible title={`(Click here for a list view of "${currentKey?.root}" on the fretboard)`}>
+            {/* <Collapsible title={`(Click here for a list view of "${currentKey?.root}" on the fretboard)`}>
                 <div className="fretboard-positions">
                     {renderPositionsByFret()}
                 </div>
-            </Collapsible>
+            </Collapsible> */}
         </div>
     )
 }
