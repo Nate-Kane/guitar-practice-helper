@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPracticeById } from '../services/practiceService';
 import { Practice } from '../types/practice';
-import styles from './PracticePage.module.css';
 import PracticeRenderer from '../components/practices/PracticeRenderer';
 
 interface PracticePageProps {
@@ -74,8 +73,8 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
   }
 
   return (
-    <div className={`container ${styles.practiceContainer}`}>
-      <header className={`header ${styles.practicePageHeader}`}>
+    <div className="container">
+      <header className="header">
         <div>
           <h1>{practice.title}</h1>
           <p onClick={() => navigate('/practices')}>
@@ -83,14 +82,14 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
           </p>
         </div>
         <div 
-            className={`button button-secondary skill-level`}
+            className="button button-secondary skill-level"
             onClick={() => handleSkillLevelClick(skillLevel)}
         >{capitalize(skillLevel)}</div>
       </header>
 
-      <div className={styles.practiceDetails}>
+      <div>
         {practice.customDirections && (
-          <div className={styles.directions}>
+          <div>
             <h4>DIRECTIONS</h4>
             <p>{practice.customDirections}</p>
           </div>
@@ -98,7 +97,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
         
 
         {practice.practiceTips && practice.practiceTips.length > 0 && (
-          <div className={styles.tips}>
+          <div>
             <h4>PRACTICE TIPS</h4>
             <ul>
               {practice.practiceTips.map((tip, index) => (

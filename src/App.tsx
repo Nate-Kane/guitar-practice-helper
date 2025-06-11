@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PracticesPage from './pages/PracticesPage';
 import AdminPage from './pages/AdminPage';
 import PracticePage from './pages/PracticePage';
-import './App.css';
+import Navbar from './components/Navbar';
 import './tailwind.css';
 
 const App: FC = () => {
@@ -18,7 +18,8 @@ const App: FC = () => {
 
   return (
     <Router>
-      <div className="app">
+      <div className="min-h-screen bg-amber-50">
+        <Navbar />
         <Routes>
           <Route path="/" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
           <Route path="/practices" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
