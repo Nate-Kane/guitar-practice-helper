@@ -97,7 +97,8 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                         <div className={styles["rivet-bottom-left"]}></div>
                         <div className={styles["rivet-bottom-right"]}></div>
                         <h3>{practice.title}</h3>
-                        <p>
+                        <div>
+                        {/* was p. using <div> break styling, but that's fine */}
                             <span>{practice.description}</span>
                             <div className={styles["switch-container"]}>
                                 <div className={`${styles["toggle-switch"]} ${activeSwitch === practice.id ? styles.active : ''}`}>
@@ -109,7 +110,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                 </div>
                                 <div className={`${styles["indicator-light"]} ${activeSwitch === practice.id ? styles.active : ''}`}></div>
                             </div>
-                        </p>
+                        </div>
                     </div>
                 ))}
             </div>
@@ -124,7 +125,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                 <img src={fretboardImg} alt="Guitar Fretboard" className={styles.fretboardImage} />
             </div>
             <header className={`header ${styles.practicePageHeader}`}>
-                <h1>Practice Methods</h1>
+                <h1 className="bg-red-500 text-white p-4" >Practice Methods test</h1>
                 <div 
                     className={`button button-secondary ${styles.rightButton}`}
                     onClick={() => handleSkillLevelClick(skillLevel)}

@@ -5,6 +5,7 @@ import PracticesPage from './pages/PracticesPage';
 import AdminPage from './pages/AdminPage';
 import PracticePage from './pages/PracticePage';
 import './App.css';
+import './tailwind.css';
 
 const App: FC = () => {
   const [skillLevel, setSkillLevel] = useState<string>(() => {
