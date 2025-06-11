@@ -1,5 +1,5 @@
 import { FC, useEffect, useState, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getPracticesBySkillLevel } from '../services/practiceService';
 import { Practice } from '../types/practice';
 import fretboardImg from '../assets/fretboard_img.png';
@@ -62,19 +62,46 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
 
     const renderPractices = () => {
         if (isLoading) {
-            return <div className="text-center py-8 text-amber-700">Loading practices...</div>;
+            return (
+                <div className="min-h-[255px] flex items-center justify-center">
+                    <div className="text-center text-amber-700">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-700 mx-auto mb-4"></div>
+                        Loading practices...
+                    </div>
+                </div>
+            );
         }
 
         if (error) {
-            return <div className="text-center py-8 text-red-600">{error}</div>;
+            return (
+                <div className="min-h-[255px] flex items-center justify-center">
+                    <div className="text-center text-red-600">{error}</div>
+                </div>
+            );
         }
 
         if (practices.length === 0) {
-            return <div className="text-center py-8 text-amber-700">No practices available for this skill level.</div>;
+            return (
+                <div className="min-h-[255px] flex items-center justify-center">
+                    <div className="text-center text-amber-700">No practices available for this skill level.</div>
+                </div>
+            );
         }
 
         if (filteredPractices.length === 0 && searchQuery) {
-            return <div className="text-center py-8 text-amber-700">No practices found matching "{searchQuery}".</div>;
+            return (
+                <div className="min-h-[255px] flex items-center justify-center">
+                    <div className="text-center text-amber-700">
+                        <div className="mb-2">No practices found matching "{searchQuery}"</div>
+                        <button 
+                            onClick={() => setSearchQuery('')}
+                            className="text-sm text-amber-600 hover:text-amber-800 underline cursor-pointer"
+                        >
+                            Clear search
+                        </button>
+                    </div>
+                </div>
+            );
         }
 
         return (
