@@ -76,7 +76,7 @@ const FretboardMastery: FC<FretboardMasteryProps> = ({ skillLevel }) => {
     };
 
     return (
-        <div>
+        <div className="space-y-6">
             <KeyDisplay 
                 currentKey={currentKey} 
                 onRegenerateKey={generateNewKey}
@@ -88,21 +88,17 @@ const FretboardMastery: FC<FretboardMasteryProps> = ({ skillLevel }) => {
             />
             
             {currentKey && (
-                <>
-                    <br/>
-                    <FretboardDisplay 
-                        highlightedNote={currentKey.root}
-                        showIntervalSelector={true} 
-                    />
-                </>
+                <FretboardDisplay 
+                    highlightedNote={currentKey.root}
+                    showIntervalSelector={true} 
+                />
             )}
             
-            {/* <br/> */}
-            <Collapsible title={`(Click here for a list view of "${currentKey?.root}" on the fretboard)`}>
+            {/* <Collapsible title={`(Click here for a list view of "${currentKey?.root}" on the fretboard)`}>
                 <div className="fretboard-positions">
                     {renderPositionsByFret()}
                 </div>
-            </Collapsible>
+            </Collapsible> */}
         </div>
     )
 }

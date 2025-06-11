@@ -24,7 +24,7 @@ const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
     const { currentStringLimit, generateNewStringLimit } = useStringLimitGenerator();
 
     return (
-        <div>
+        <div className="space-y-6">
             <FretLimitDisplay
                 currentFretLimit={currentFretLimit}
                 onRegenerateFretLimit={generateNewFretLimit}
@@ -44,7 +44,7 @@ const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
                 closeKeySelector={closeKeySelector}
                 onSelectKey={selectKey}
             />
-            <br/>
+            
             <FretboardDisplay
                 highlightedNote={currentKey?.root}
                 showIntervalSelector={true} 

@@ -76,7 +76,7 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
     };
 
     return (
-        <div>
+        <div className="space-y-4">
             <KeyDisplay 
                 currentKey={currentKey} 
                 onRegenerateKey={generateNewKey}
@@ -89,7 +89,6 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
             
             {currentKey && (
                 <>
-                    <br/>
                     <FretboardDisplay 
                         highlightedNote={currentKey.root}
                         showIntervalSelector={true} 
@@ -97,12 +96,11 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
                 </>
             )}
             
-            {/* <br/> */}
-            <Collapsible title={`(Click here for a list view of "${currentKey?.root}" on the fretboard)`}>
+            {/* <Collapsible title={`(Click here for a list view of "${currentKey?.root}" on the fretboard)`}>
                 <div className="fretboard-positions">
                     {renderPositionsByFret()}
                 </div>
-            </Collapsible>
+            </Collapsible> */}
         </div>
     )
 }

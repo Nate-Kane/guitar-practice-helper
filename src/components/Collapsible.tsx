@@ -45,7 +45,9 @@ const Collapsible: React.FC<CollapsibleProps> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          maxWidth: 'fit-content'
+          maxWidth: 'fit-content',
+          fontSize: '14px',
+          fontWeight: '600'
         }}
       >
         {typeof title === 'string' ? <h4>{title}</h4> : title}

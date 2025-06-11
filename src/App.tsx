@@ -4,7 +4,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PracticesPage from './pages/PracticesPage';
 import AdminPage from './pages/AdminPage';
 import PracticePage from './pages/PracticePage';
-import './App.css';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import './tailwind.css';
 
 const App: FC = () => {
   const [skillLevel, setSkillLevel] = useState<string>(() => {
@@ -17,13 +19,17 @@ const App: FC = () => {
 
   return (
     <Router>
-      <div className="app">
-        <Routes>
-          <Route path="/" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
-          <Route path="/practices" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
-          <Route path="/practice/:id" element={<PracticePage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
-          <Route path="/admin" element={<AdminPage />} />
-        </Routes>
+      <div className="min-h-screen bg-amber-50 flex flex-col">
+        <Navbar />
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
+            <Route path="/practices" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
+            <Route path="/practice/:id" element={<PracticePage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
+            <Route path="/admin" element={<AdminPage />} />
+          </Routes>
+        </div>
+        <Footer />
       </div>
     </Router>
   );

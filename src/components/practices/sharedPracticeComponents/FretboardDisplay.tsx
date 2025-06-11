@@ -124,112 +124,115 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
   };
   
   return (
-    <div className="fretboard-container">
-      {showIntervalSelector && (
-        <Collapsible title={`See more intervals`}>
-          <div className="interval-selector">
-            {intervals.map((interval, index) => (
-              <label key={interval.name} className="interval-checkbox">
-                <input
-                  type="checkbox"
-                  checked={interval.selected}
-                  onChange={() => toggleInterval(index)}
-                />
-                <span style={{ color: interval.color }}>{interval.name}</span>
-              </label>
+    <>
+      <div className="fretboard-container">
+        {showIntervalSelector && (
+          <Collapsible title={`See more intervals`}>
+            <div className="interval-selector">
+              {intervals.map((interval, index) => (
+                <label key={interval.name} className="interval-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={interval.selected}
+                    onChange={() => toggleInterval(index)}
+                  />
+                  <span style={{ color: interval.color }}>{interval.name}</span>
+                </label>
+              ))}
+            </div>
+            
+              <div className="interval-legend">
+                <div className="interval-item">
+                  <span className="interval-color" style={{ backgroundColor: '#328647' }}></span>
+                  <span>Root</span>
+                </div>
+                {intervals.filter(i => i.selected).map(interval => (
+                  <div key={interval.name} className="interval-item">
+                    <span className="interval-color" style={{ backgroundColor: interval.color }}></span>
+                    <span>{interval.name}</span>
+                  </div>
+                ))}
+              </div>
+          </Collapsible>
+        )}
+        
+        <div className="fretboard-with-names">
+          <div className="string-names">
+            {/* Render string names from high E to low E */}
+            {[...Array(6)].map((_, i) => (
+              <div key={`string-name-${i}`} className="string-name">
+                {getStringNameDisplay(5 - i)}
+              </div>
             ))}
           </div>
           
-            <div className="interval-legend">
-              <div className="interval-item">
-                <span className="interval-color" style={{ backgroundColor: '#328647' }}></span>
-                <span>Root</span>
-              </div>
-              {intervals.filter(i => i.selected).map(interval => (
-                <div key={interval.name} className="interval-item">
-                  <span className="interval-color" style={{ backgroundColor: interval.color }}></span>
-                  <span>{interval.name}</span>
-                </div>
-              ))}
-            </div>
-        </Collapsible>
-      )}
-      
-      <div className="fretboard-with-names">
-        <div className="string-names">
-          {/* Render string names from high E to low E */}
-          {[...Array(6)].map((_, i) => (
-            <div key={`string-name-${i}`} className="string-name">
-              {getStringNameDisplay(5 - i)}
-            </div>
-          ))}
-        </div>
-        
-        <div className="fretboard">
-          {/* Render strings from high to low (reverse the order) */}
-          {[...Array(6)].map((_, i) => {
-            // Map from high E (index 5) down to low E (index 0)
-            const stringIndex = 5 - i;
-            return (
-              <div key={`string-${stringIndex}`} className="string">
-                {Array.from({ length: maxFret + 1 }).map((_, fretIndex) => {
-                  const highlightInfo = getHighlightInfo(stringIndex, fretIndex);
-                  return (
-                    <div 
-                      key={`fret-${fretIndex}`} 
-                      className={`fret ${highlightInfo ? 'highlighted' : ''}`}
-                    >
+          <div className="fretboard">
+            {/* Render strings from high to low (reverse the order) */}
+            {[...Array(6)].map((_, i) => {
+              // Map from high E (index 5) down to low E (index 0)
+              const stringIndex = 5 - i;
+              return (
+                <div key={`string-${stringIndex}`} className="string">
+                  {Array.from({ length: maxFret + 1 }).map((_, fretIndex) => {
+                    const highlightInfo = getHighlightInfo(stringIndex, fretIndex);
+                    return (
                       <div 
-                        className="note-marker"
-                        style={{
-                          backgroundColor: highlightInfo ? highlightInfo.color : 'transparent',
-                          color: highlightInfo ? 'white' : 'inherit',
-                          boxShadow: highlightInfo ? '0 0 4px rgba(0, 0, 0, 0.3)' : 'none',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}
+                        key={`fret-${fretIndex}`} 
+                        className={`fret ${highlightInfo ? 'highlighted' : ''}`}
                       >
-                        {highlightInfo && (
-                          <div className="note-name">
-                            {getNoteAtPosition(stringIndex, fretIndex)}
-                            {/* {highlightInfo.label && (
-                              <span className="note-label">{highlightInfo.label}</span>
-                            )} */}
+                        <div 
+                          className="note-marker"
+                          style={{
+                            backgroundColor: highlightInfo ? highlightInfo.color : 'transparent',
+                            color: highlightInfo ? 'white' : 'inherit',
+                            boxShadow: highlightInfo ? '0 0 4px rgba(0, 0, 0, 0.3)' : 'none',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          {highlightInfo && (
+                            <div className="note-name">
+                              {getNoteAtPosition(stringIndex, fretIndex)}
+                              {/* {highlightInfo.label && (
+                                <span className="note-label">{highlightInfo.label}</span>
+                              )} */}
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* Add fret markers directly on the fretboard */}
+                        {hasFretMarker(stringIndex, fretIndex) && (
+                          <div className="inlay-marker">
+                            {isDoubleDotMarker(fretIndex) ? (
+                              <>
+                                <div className="inlay-dot"></div>
+                                <div className="inlay-dot"></div>
+                              </>
+                            ) : (
+                              <div className="inlay-dot"></div>
+                            )}
                           </div>
                         )}
                       </div>
-                      
-                      {/* Add fret markers directly on the fretboard */}
-                      {hasFretMarker(stringIndex, fretIndex) && (
-                        <div className="inlay-marker">
-                          {isDoubleDotMarker(fretIndex) ? (
-                            <>
-                              <div className="inlay-dot"></div>
-                              <div className="inlay-dot"></div>
-                            </>
-                          ) : (
-                            <div className="inlay-dot"></div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        
+        <div className="fret-numbers">
+          {Array.from({ length: maxFret + 1 }).map((_, fretIndex) => (
+            <div key={`fret-num-${fretIndex}`} className="fret-number">
+              {fretIndex === 0 ? 'Open' : fretIndex}
+            </div>
+          ))}
         </div>
       </div>
-      
-      <div className="fret-numbers">
-        {Array.from({ length: maxFret + 1 }).map((_, fretIndex) => (
-          <div key={`fret-num-${fretIndex}`} className="fret-number">
-            {fretIndex === 0 ? 'Open' : fretIndex}
-          </div>
-        ))}
-      </div>
-    </div>
+      <br/>
+    </>
   );
 };
 
