@@ -17,10 +17,9 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
     const [practices, setPractices] = useState<Practice[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const [showIntro, setShowIntro] = useState(false);
-    const [disableInteractions, setDisableInteractions] = useState(false);
     const [activeSwitch, setActiveSwitch] = useState<string | null>(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState<string>('');
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -40,20 +39,6 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
 
         fetchPractices();
     }, [skillLevel]);
-
-    useEffect(() => {
-        if (location.pathname === '/') {
-            setShowIntro(true);
-            setDisableInteractions(true);
-            
-            const timer = setTimeout(() => {
-                setShowIntro(false);
-                setDisableInteractions(false);
-            }, 3500);
-            
-            return () => clearTimeout(timer);
-        }
-    }, [location.pathname]);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -82,6 +67,11 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         }, 650);
     };
 
+    const filteredPractices = practices.filter(practice => 
+        practice.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        practice.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     const renderPractices = () => {
         if (isLoading) {
             return <div className="text-center py-8 text-amber-700">Loading practices...</div>;
@@ -95,9 +85,13 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
             return <div className="text-center py-8 text-amber-700">No practices available for this skill level.</div>;
         }
 
+        if (filteredPractices.length === 0 && searchQuery) {
+            return <div className="text-center py-8 text-amber-700">No practices found matching "{searchQuery}".</div>;
+        }
+
         return (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {practices.map((practice, index) => {
+                {filteredPractices.map((practice, index) => {
                     // Define different icons for each practice
                     const icons = [
                         <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/>,
@@ -180,8 +174,6 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
 
     return (
         <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
-            {showIntro && <IntroAnimation />}
-            
             <div className="space-y-10">
                 {/* Hero Section */}
                 <section className="text-center space-y-6">
@@ -263,7 +255,9 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                             </svg>
                             <input 
                                 type="text" 
-                                className="flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-sm transition-colors pl-10 border-amber-300 bg-amber-50" 
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-sm transition-colors pl-10 border-amber-300 bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500" 
                                 placeholder="Search practices..."
                             />
                         </div>
