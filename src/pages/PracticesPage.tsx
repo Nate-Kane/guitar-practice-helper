@@ -213,7 +213,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                         >
                             Fretboard Mapper
                         </button>
-                        <div className="relative" ref={dropdownRef}>
+                        <div className="relative inline-flex mx-auto sm:mx-0" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-700 text-amber-700 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-amber-500"
@@ -225,7 +225,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                             </button>
                             
                             {isDropdownOpen && (
-                                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-amber-700 rounded-md shadow-lg z-10">
+                                <div className="absolute top-full left-0 mt-1 bg-white border border-amber-700 rounded-md shadow-lg z-10 w-full">
                                     <button
                                         onClick={() => {
                                             onSkillSelect('basics');
