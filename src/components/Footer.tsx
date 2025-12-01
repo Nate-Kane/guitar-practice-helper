@@ -21,6 +21,14 @@ const Footer: FC = () => {
             >
               Fretboard Mapper
             </button>
+            <a
+              href="https://www.natekaneofficial.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-200 hover:text-white transition-colors cursor-pointer"
+            >
+              Meet The Creator
+            </a>
           </div>
           <div className="mt-8 md:mt-0">
             <p className="text-center md:text-right text-sm">

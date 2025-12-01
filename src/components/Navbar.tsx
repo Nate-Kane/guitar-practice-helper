@@ -41,6 +41,14 @@ const Navbar: FC = () => {
               >
                 Fretboard Mapper
               </button>
+              <a
+                href="https://www.natekaneofficial.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-amber-700 transition-colors cursor-pointer"
+              >
+                Meet The Creator
+              </a>
             </div>
           </div>
 
@@ -81,6 +89,14 @@ const Navbar: FC = () => {
               >
                 Fretboard Mapper
               </button>
+              <a
+                href="https://www.natekaneofficial.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-3 py-2 rounded-md text-base font-medium hover:bg-amber-700 transition-colors w-full text-left cursor-pointer"
+              >
+                Meet The Creator
+              </a>
             </div>
           </div>
         )}
