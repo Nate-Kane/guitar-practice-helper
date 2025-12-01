@@ -59,19 +59,6 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
 
 
 
-  const getDifficultyBadgeColor = (difficulty: string) => {
-    switch (difficulty.toLowerCase()) {
-      case 'basics':
-        return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-      case 'intermediate':
-        return 'bg-amber-100 text-amber-800 border-amber-200';
-      case 'advanced':
-        return 'bg-rose-100 text-rose-800 border-rose-200';
-      default:
-        return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-    }
-  }
-
   if (isLoading) {
     return (
       <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
@@ -121,15 +108,12 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
                 </svg>
                 Back to practices
               </a>
-              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getDifficultyBadgeColor(skillLevel)}`}>
-                {capitalize(skillLevel)}
-              </span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-amber-900 text-amber-100">
               {practice.title}
             </h1>
           </div>
-          <div className="relative" ref={dropdownRef}>
+          <div className="relative inline-flex" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-700 text-amber-700 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-amber-500"
@@ -141,7 +125,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
             </button>
             
             {isDropdownOpen && (
-              <div className="absolute top-full right-0 mt-1 bg-white border border-amber-700 rounded-md shadow-lg z-10 min-w-[140px]">
+              <div className="absolute top-full left-0 md:right-0 md:left-auto mt-1 bg-white border border-amber-700 rounded-md shadow-lg z-10 w-full">
                 <button
                   onClick={() => {
                     onSkillSelect('basics');

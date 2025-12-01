@@ -154,14 +154,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-bold text-amber-100 mb-1">{practice.title}</h3>
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border mb-3 ${
-                                            skillLevel === 'basics' ? 'bg-emerald-100 text-emerald-800 border-emerald-200' :
-                                            skillLevel === 'intermediate' ? 'bg-amber-100 text-amber-800 border-amber-200' :
-                                            'bg-rose-100 text-rose-800 border-rose-200'
-                                        }`}>
-                                            {capitalize(skillLevel)}
-                                        </span>
-                                        <p className="text-amber-200/80 line-clamp-3">{practice.description}</p>
+                                        <p className="text-amber-200/80 line-clamp-3 mt-3">{practice.description}</p>
                                     </div>
                                 </div>
                             </div>
