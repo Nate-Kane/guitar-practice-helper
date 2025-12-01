@@ -10,7 +10,7 @@ import './tailwind.css';
 
 const App: FC = () => {
   const [skillLevel, setSkillLevel] = useState<string>(() => {
-    return localStorage.getItem('skillLevel') || "basics";
+    return localStorage.getItem('skillLevel') || "intermediate";
   });
 
   useEffect(() => {

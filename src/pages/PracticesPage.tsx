@@ -153,7 +153,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                         </svg>
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-bold text-amber-100 mb-1">{practice.title}</h3>
+                                        <h3 className="text-xl md:text-2xl font-bold text-amber-100 mb-1">{practice.title}</h3>
                                         <p className="text-amber-200/80 line-clamp-3 mt-3">{practice.description}</p>
                                     </div>
                                 </div>
@@ -195,12 +195,9 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                             </svg>
                         </div>
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-bold text-amber-900">Build a Mental Guitar Map</h1>
-                    <p className="text-xl text-amber-800 max-w-2xl mx-auto">
-                        Our practice tools will help you build a mental map of your guitar so you can effortlessly play up and down the neck.
-                    </p>
-                    <p className="text-xl text-amber-800 max-w-2xl mx-auto">
-                        Choose your desired difficulty level and get practicing!
+                    <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-amber-900">Build a Mental Guitar Map</h1>
+                    <p className="text-base md:text-xl text-amber-800 max-w-2xl mx-auto text-left">
+                        Our practice tools will help you build a mental map of your guitar so you can effortlessly play up and down the neck. Choose your desired difficulty level and get practicing!
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
                         <button 
@@ -258,7 +255,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                 {/* Practice Methods Section */}
                 <section>
                     <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                        <h2 className="text-3xl font-bold text-amber-900">Practice Methods</h2>
+                        <h2 className="text-2xl font-bold text-amber-900">Practice Methods</h2>
                         <div className="relative w-full md:w-64">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500 h-4 w-4">
                                 <path d="m21 21-4.34-4.34"></path>
@@ -281,7 +278,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                 <section className="bg-gradient-to-r from-amber-800 to-amber-700 text-amber-50 rounded-lg p-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                         <div className="space-y-4">
-                            <h2 className="text-3xl font-bold">Fretboard Mapper</h2>
+                            <h2 className="text-2xl md:text-3xl font-bold">Fretboard Mapper</h2>
                             <p className="text-amber-100">
                                 Our interactive fretboard tool helps you visualize notes, scales, and patterns across the guitar neck. Perfect for beginners learning the fretboard or advanced players exploring new musical concepts.
                             </p>
