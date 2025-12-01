@@ -202,14 +202,14 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                             </svg>
                         </div>
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-bold text-amber-900">Guitar Practice Tools</h1>
+                    <h1 className="text-4xl md:text-5xl font-bold text-amber-900">Build a Mental Guitar Map</h1>
                     <p className="text-xl text-amber-800 max-w-2xl mx-auto">
-                        Improve your guitar skills with our collection of interactive practice tools and exercises designed for players of all levels.
+                        Our practice tools will help you build a mental map of your guitar so you can effortlessly play up and down the neck.
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
                         <button 
                             onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
-                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors shadow h-10 rounded-md px-8 bg-amber-700 hover:bg-amber-600 text-white cursor-pointer"
+                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors shadow h-10 rounded-md px-8 bg-amber-700 hover:bg-amber-600 text-white cursor-pointer max-w-[215px] w-full mx-auto sm:mx-0"
                         >
                             Fretboard Mapper
                         </button>
