@@ -199,6 +199,9 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                     <p className="text-xl text-amber-800 max-w-2xl mx-auto">
                         Our practice tools will help you build a mental map of your guitar so you can effortlessly play up and down the neck.
                     </p>
+                    <p className="text-xl text-amber-800 max-w-2xl mx-auto">
+                        Choose your desired difficulty level and get practicing!
+                    </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
                         <button 
                             onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}

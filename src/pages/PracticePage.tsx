@@ -61,7 +61,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
 
   if (isLoading) {
     return (
-      <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
+      <main className="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-[1280px]">
         <div className="min-h-[255px] flex items-center justify-center">
           <div className="text-center text-amber-700">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-700 mx-auto mb-4"></div>
@@ -74,7 +74,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
 
   if (error || !practice) {
     return (
-      <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
+      <main className="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-[1280px]">
         <div className="min-h-[255px] flex items-center justify-center">
           <div className="text-center">
             <div className="text-red-600 mb-4">{error || 'Practice not found'}</div>
@@ -91,7 +91,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
   }
 
   return (
-    <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
+    <main className="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-[1280px]">
       <div className="space-y-8">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
