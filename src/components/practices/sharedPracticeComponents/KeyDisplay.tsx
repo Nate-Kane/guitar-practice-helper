@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Key } from '../../../assets/practiceAssets/keys';
 import KeySelector from './KeySelector';
 
-const DEFAULT_HEADING = 'Choose a key to practice';
+const DEFAULT_HEADING = 'Choose or randomize a key';
 
 interface KeyDisplayProps {
   currentKey: Key | null;
@@ -84,7 +84,7 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
                     fill="currentColor"
                   />
                 </svg>
-                Choose the Key
+                Choose a Key
               </button>
               <button
                 onClick={onRegenerateKey}
