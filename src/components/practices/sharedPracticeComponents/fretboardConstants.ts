@@ -49,3 +49,17 @@ export const PERFECT_FIFTH_INTERVAL_COLOR = '#A8B5C4';
 /** Section heading above fretboard on reference practices */
 export const FRETBOARD_REFERENCE_HEADING =
   "Here's the interactive fretboard mapper to use as a reference";
+
+/** Common triad string groups (string index 0 = low E … 5 = high e) */
+export type TriadStringSetId = 'all' | 'low-ead' | 'dgb' | 'gbe';
+
+export const TRIAD_STRING_SETS: {
+  id: TriadStringSetId;
+  label: string;
+  strings: number[];
+}[] = [
+  { id: 'all', label: 'All strings', strings: [0, 1, 2, 3, 4, 5] },
+  { id: 'low-ead', label: 'Low E, A, D', strings: [0, 1, 2] },
+  { id: 'dgb', label: 'D, G, B', strings: [2, 3, 4] },
+  { id: 'gbe', label: 'G, B, High E', strings: [3, 4, 5] },
+];

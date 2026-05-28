@@ -8,7 +8,10 @@ import {
   MINOR_THIRD_INTERVAL_COLOR,
   PERFECT_FIFTH_INTERVAL_COLOR,
   ROOT_INTERVAL_COLOR,
+  TRIAD_STRING_SETS,
+  TriadStringSetId,
 } from './fretboardConstants';
+import { useMapFretboard } from './hooks/useMapFretboard';
 
 interface TriadsDisplayProps {
   currentKey: Key;
@@ -16,8 +19,10 @@ interface TriadsDisplayProps {
 }
 
 const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => {
+  const { findAllPositionsOfNote } = useMapFretboard(maxFret);
   const triads = useMemo(() => getDiatonicTriadsForKey(currentKey), [currentKey]);
   const [selectedTriadRoot, setSelectedTriadRoot] = useState<string | null>(null);
+  const [selectedStringSet, setSelectedStringSet] = useState<TriadStringSetId>('gbe');
 
   useEffect(() => {
     setSelectedTriadRoot(triads[0]?.root ?? null);
@@ -49,27 +54,47 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => 
         : MINOR_THIRD_INTERVAL_COLOR;
     const thirdLabel = currentKey.quality === 'major' ? 'M3' : 'm3';
 
-    return [
+    const triadNoteSpecs = [
       {
         note: selectedTriad.notes[0],
         color: ROOT_INTERVAL_COLOR,
         label: 'Root',
-        variant: 'interval',
       },
       {
         note: selectedTriad.notes[1],
         color: thirdColor,
         label: thirdLabel,
-        variant: 'interval',
       },
       {
         note: selectedTriad.notes[2],
         color: PERFECT_FIFTH_INTERVAL_COLOR,
         label: 'P5',
-        variant: 'interval',
       },
     ];
-  }, [selectedTriad, currentKey.quality]);
+
+    if (selectedStringSet === 'all') {
+      return triadNoteSpecs.map((spec) => ({
+        ...spec,
+        variant: 'interval' as const,
+      }));
+    }
+
+    const allowedStrings =
+      TRIAD_STRING_SETS.find((set) => set.id === selectedStringSet)?.strings ?? [];
+
+    return triadNoteSpecs.flatMap((spec) =>
+      findAllPositionsOfNote(spec.note)
+        .filter((position) => allowedStrings.includes(position.string))
+        .map((position) => ({
+          note: spec.note,
+          color: spec.color,
+          label: spec.label,
+          variant: 'interval' as const,
+          string: position.string,
+          fret: position.fret,
+        }))
+    );
+  }, [selectedTriad, currentKey.quality, selectedStringSet, findAllPositionsOfNote]);
 
   if (triads.length === 0) {
     return (
@@ -119,11 +144,39 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => 
         })}
       </div>
 
+      <div className="space-y-2">
+        <h3 className="text-base font-bold text-amber-900">String set</h3>
+        <p className="text-amber-800 text-sm md:text-base max-w-3xl">
+          Triads are easiest to learn in small string groups. Choose one set to focus on at a time.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {TRIAD_STRING_SETS.map((stringSet) => {
+            const isSelected = selectedStringSet === stringSet.id;
+            return (
+              <button
+                key={stringSet.id}
+                type="button"
+                aria-pressed={isSelected}
+                onClick={() => setSelectedStringSet(stringSet.id)}
+                className={`inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors h-9 px-4 cursor-pointer ${
+                  isSelected
+                    ? 'bg-amber-900 text-stone-50 shadow'
+                    : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
+                }`}
+              >
+                {stringSet.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {selectedTriad && (
         <FretboardDisplay
           maxFret={maxFret}
           highlightedNotes={highlightedNotes}
           disableKeyHighlights
+          showOpenStringLabels={false}
           staticIntervalLegend={staticIntervalLegend}
           mutedFretLabels
           fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT}
