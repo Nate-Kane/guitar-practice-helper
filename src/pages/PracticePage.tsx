@@ -5,10 +5,6 @@ import { Practice } from '../types/practice';
 import PracticeRenderer from '../components/practices/PracticeRenderer';
 import DirectionsSection from '../components/practices/sharedPracticeComponents/DirectionsSection';
 import PracticeTipsSection from '../components/practices/sharedPracticeComponents/PracticeTipsSection';
-import {
-  FRETBOARD_MAPPER_DIRECTIONS,
-  FRETBOARD_MAPPER_PRACTICE_TIPS,
-} from '../components/practices/FretboardMapper/practiceContent';
 
 interface PracticePageProps {
   skillLevel: string;
@@ -78,17 +74,6 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
     );
   }
 
-  const isFretboardMapper = practice?.title === 'Fretboard Mapper';
-  const directions =
-    practice?.customDirections ||
-    (isFretboardMapper ? FRETBOARD_MAPPER_DIRECTIONS : undefined);
-  const practiceTips =
-    practice?.practiceTips && practice.practiceTips.length > 0
-      ? practice.practiceTips
-      : isFretboardMapper
-        ? FRETBOARD_MAPPER_PRACTICE_TIPS
-        : undefined;
-
   if (error || !practice) {
     return (
       <main className="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-[1280px]">
@@ -106,6 +91,13 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
       </main>
     );
   }
+
+  const isFretboardMapper = practice.title === 'Fretboard Mapper';
+  const directions = practice.customDirections;
+  const practiceTips =
+    practice.practiceTips && practice.practiceTips.length > 0
+      ? practice.practiceTips
+      : undefined;
 
   return (
     <main className="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-[1280px]">
