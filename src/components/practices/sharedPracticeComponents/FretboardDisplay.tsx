@@ -92,6 +92,8 @@ interface FretboardDisplayProps {
   fretLabelTextColor?: string;
   /** Amber h2 above the fretboard (KeyDisplay-style section label) */
   sectionHeading?: string;
+  /** Filled, non-interactive legend only (no scale-mode radios or toggles) */
+  staticIntervalLegend?: { name: string; color: string }[];
 }
 
 const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
@@ -105,6 +107,7 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
   mutedFretLabels = false,
   fretLabelTextColor,
   sectionHeading,
+  staticIntervalLegend,
 }) => {
   const { getNoteAt } = useMapFretboard(maxFret);
   const [intervals, setIntervals] = useState<IntervalInfo[]>(intervalOptions);
@@ -212,6 +215,19 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
     return stringNames[index];
   };
 
+  const renderStaticLegendItem = (name: string, color: string, key: string) => (
+    <div key={key} className="interval-item interval-item--static">
+      <span
+        className="interval-color"
+        style={{
+          backgroundColor: color,
+          border: `2px solid ${color}`,
+        }}
+      />
+      <span>{name}</span>
+    </div>
+  );
+
   const renderIntervalToggle = (
     name: string,
     color: string,
@@ -247,7 +263,14 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
             : undefined
         }
       >
-        {showIntervalSelector && (
+        {staticIntervalLegend && staticIntervalLegend.length > 0 && (
+          <div className="interval-legend" aria-label="Triad intervals">
+            {staticIntervalLegend.map((item) =>
+              renderStaticLegendItem(item.name, item.color, item.name)
+            )}
+          </div>
+        )}
+        {showIntervalSelector && !staticIntervalLegend && (
           <>
             <div
               className="scale-mode-selector"

@@ -1,9 +1,14 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { Key } from '../../../assets/practiceAssets/keys';
 import { getDiatonicTriadsForKey } from './diatonicTriads';
 import FretboardDisplay, { HighlightedNoteInfo } from './FretboardDisplay';
-import PracticeToolCard from './PracticeToolCard';
-import { NEUTRAL_MARKER_COLOR, NEUTRAL_MARKER_ROOT_COLOR } from './fretboardConstants';
+import {
+  DARK_ROSEWOOD_LABEL_TEXT,
+  MAJOR_THIRD_INTERVAL_COLOR,
+  MINOR_THIRD_INTERVAL_COLOR,
+  PERFECT_FIFTH_INTERVAL_COLOR,
+  ROOT_INTERVAL_COLOR,
+} from './fretboardConstants';
 
 interface TriadsDisplayProps {
   currentKey: Key;
@@ -12,76 +17,112 @@ interface TriadsDisplayProps {
 
 const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => {
   const triads = useMemo(() => getDiatonicTriadsForKey(currentKey), [currentKey]);
+  const [selectedTriadRoot, setSelectedTriadRoot] = useState<string | null>(null);
 
-  const qualityLabel = currentKey.quality === 'major' ? 'major' : 'minor';
+  useEffect(() => {
+    setSelectedTriadRoot(triads[0]?.root ?? null);
+  }, [currentKey, triads]);
+
+  const selectedTriad =
+    triads.find((t) => t.root === selectedTriadRoot) ?? triads[0] ?? null;
+
+  const staticIntervalLegend = useMemo(() => {
+    const thirdName = currentKey.quality === 'major' ? 'Major 3' : 'Minor 3';
+    const thirdColor =
+      currentKey.quality === 'major'
+        ? MAJOR_THIRD_INTERVAL_COLOR
+        : MINOR_THIRD_INTERVAL_COLOR;
+
+    return [
+      { name: 'Root', color: ROOT_INTERVAL_COLOR },
+      { name: thirdName, color: thirdColor },
+      { name: 'Perfect 5', color: PERFECT_FIFTH_INTERVAL_COLOR },
+    ];
+  }, [currentKey.quality]);
 
   const highlightedNotes = useMemo((): HighlightedNoteInfo[] => {
-    const triadRoots = new Set(triads.map((t) => t.root));
-    const notesInTriads = new Set<string>();
+    if (!selectedTriad) return [];
 
-    triads.forEach((triad) => {
-      triad.notes.forEach((note) => notesInTriads.add(note));
-    });
+    const thirdColor =
+      currentKey.quality === 'major'
+        ? MAJOR_THIRD_INTERVAL_COLOR
+        : MINOR_THIRD_INTERVAL_COLOR;
+    const thirdLabel = currentKey.quality === 'major' ? 'M3' : 'm3';
 
-    return [...notesInTriads].map((note) => ({
-      note,
-      color: triadRoots.has(note) ? NEUTRAL_MARKER_ROOT_COLOR : NEUTRAL_MARKER_COLOR,
-      variant: 'neutral' as const,
-    }));
-  }, [triads]);
+    return [
+      {
+        note: selectedTriad.notes[0],
+        color: ROOT_INTERVAL_COLOR,
+        label: 'Root',
+        variant: 'interval',
+      },
+      {
+        note: selectedTriad.notes[1],
+        color: thirdColor,
+        label: thirdLabel,
+        variant: 'interval',
+      },
+      {
+        note: selectedTriad.notes[2],
+        color: PERFECT_FIFTH_INTERVAL_COLOR,
+        label: 'P5',
+        variant: 'interval',
+      },
+    ];
+  }, [selectedTriad, currentKey.quality]);
 
-  const triadSummary = triads.map((t) => t.name).join(', ');
+  if (triads.length === 0) {
+    return (
+      <p className="text-amber-800">No diatonic triads found for this key.</p>
+    );
+  }
 
   return (
-    <PracticeToolCard
-      heading="Diatonic triads in this key"
-      title={`${qualityLabel.charAt(0).toUpperCase() + qualityLabel.slice(1)} triads in ${currentKey.name}`}
-      description={
-        triads.length > 0
-          ? `${triadSummary} — each uses root, ${qualityLabel === 'major' ? 'major 3rd' : 'minor 3rd'}, and perfect 5th.`
-          : 'No diatonic triads found for this key.'
-      }
-      icon={
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="h-6 w-6"
-          aria-hidden="true"
-        >
-          <path d="M12 3v18" />
-          <path d="M3 12h18" />
-          <path d="m8 8 8 8" />
-          <path d="m16 8-8 8" />
-        </svg>
-      }
-    >
-      {triads.length > 0 && (
-        <ul className="flex flex-wrap gap-2">
-          {triads.map((triad) => (
-            <li
+    <div className="space-y-4 w-full">
+      <h2 className="text-xl font-bold text-amber-900">
+        Choose a triad to visualize
+      </h2>
+
+      <div className="flex flex-wrap gap-2">
+        {triads.map((triad) => {
+          const isSelected = selectedTriad?.root === triad.root;
+          return (
+            <button
               key={triad.root}
-              className="text-sm text-stone-300 bg-stone-50/10 border border-stone-50/20 rounded-lg px-3 py-1.5"
+              type="button"
+              aria-pressed={isSelected}
+              onClick={() => setSelectedTriadRoot(triad.root)}
+              className={`inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors h-9 px-4 cursor-pointer ${
+                isSelected
+                  ? 'bg-amber-900 text-stone-50 shadow'
+                  : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
+              }`}
             >
-              <span className="font-semibold text-stone-50">{triad.name}</span>
-              <span className="text-stone-400"> — {triad.notes.join(', ')}</span>
-            </li>
-          ))}
-        </ul>
+              {triad.name}
+            </button>
+          );
+        })}
+      </div>
+
+      {selectedTriad && (
+        <p className="text-amber-800 text-sm md:text-base">
+          <span className="font-semibold">{selectedTriad.name}</span>
+          {' — '}
+          {selectedTriad.notes.join(', ')}
+        </p>
       )}
-      <FretboardDisplay
-        maxFret={maxFret}
-        highlightedNotes={highlightedNotes}
-        disableKeyHighlights
-        showOpenStringLabels={false}
-      />
-    </PracticeToolCard>
+
+      {selectedTriad && (
+        <FretboardDisplay
+          maxFret={maxFret}
+          highlightedNotes={highlightedNotes}
+          disableKeyHighlights
+          staticIntervalLegend={staticIntervalLegend}
+          mutedFretLabels
+          fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT}
+        />
+      )}
+    </div>
   );
 };
 

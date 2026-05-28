@@ -38,6 +38,11 @@ export const DARK_ROSEWOOD_LABEL_TEXT = '#3d2a22';
 /** Note letters on bright interval / root dots */
 export const INTERVAL_MARKER_TEXT = '#27272a';
 
+/** Interval dot colors (match main fretboard mapper) */
+export const ROOT_INTERVAL_COLOR = '#2E9B4A';
+export const MAJOR_THIRD_INTERVAL_COLOR = '#FF9340';
+export const MINOR_THIRD_INTERVAL_COLOR = '#6B7FD7';
+
 /** Perfect 5 — shared by interval legend and single-string mapper */
 export const PERFECT_FIFTH_INTERVAL_COLOR = '#A8B5C4';
 

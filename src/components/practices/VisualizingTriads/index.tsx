@@ -18,7 +18,7 @@ const VisualizingTriads: FC<VisualizingTriadsProps> = ({ skillLevel }) => {
   } = useKeyGenerator(skillLevel);
 
   return (
-    <div className="space-y-6">
+    <div className="w-full space-y-8">
       <KeyDisplay
         currentKey={currentKey}
         onRegenerateKey={generateNewKey}

@@ -201,6 +201,15 @@
   outline-offset: 2px;
 }
 
+.interval-item--static {
+  cursor: default;
+  pointer-events: none;
+}
+
+.interval-item--static:hover {
+  background-color: transparent;
+}
+
 .interval-color {
   width: 16px;
   height: 16px;
