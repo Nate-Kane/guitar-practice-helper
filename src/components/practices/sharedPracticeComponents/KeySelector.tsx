@@ -62,17 +62,19 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
   });
   
   const filterTriggerClass =
-    'inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 w-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-800/50 bg-zinc-800/80 900 text-stone-50';
+    'inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border-2 shadow-sm h-10 rounded-md px-4 w-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-stone-50/30 border-stone-50/25 bg-stone-50/5 text-stone-50 hover:bg-stone-50/10 hover:border-stone-50/40';
 
   const dropdownMenuClass =
-    'absolute top-full left-0 right-0 mt-1 rounded-md shadow-lg z-10 overflow-hidden bg-zinc-800 border border-amber-900';
+    'absolute top-full left-0 right-0 mt-1 rounded-md shadow-lg z-10 overflow-hidden bg-zinc-800/95 border border-stone-50/25 backdrop-blur-sm';
 
   const dropdownOptionClass = (isSelected: boolean, rounded: 't' | 'b' | 'none') =>
     [
-      'w-full text-left px-4 py-2 text-sm transition-colors hover:bg-amber-900/30',
+      'w-full text-left px-4 py-2 text-sm transition-colors cursor-pointer',
       rounded === 't' ? 'rounded-t-md' : '',
       rounded === 'b' ? 'rounded-b-md' : '',
-      isSelected ? 'bg-amber-900/40 text-stone-50' : 'text-stone-300',
+      isSelected
+        ? 'bg-stone-300 text-zinc-800 font-medium'
+        : 'text-stone-300 hover:bg-stone-50/10 hover:text-stone-50',
     ].join(' ');
 
   return (
@@ -104,7 +106,7 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
               onClick={() => setIsQualityDropdownOpen(!isQualityDropdownOpen)}
               className={filterTriggerClass}
             >
-              Quality: {qualityFilter}
+              {qualityFilter}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -115,7 +117,7 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className={`ml-2 h-4 w-4 text-stone-50 transition-transform ${isQualityDropdownOpen ? 'rotate-180' : ''}`}
+                className={`ml-2 h-4 w-4 text-stone-300 transition-transform ${isQualityDropdownOpen ? 'rotate-180' : ''}`}
                 aria-hidden="true"
               >
                 <path d="M6 9l6 6 6-6" />
@@ -154,7 +156,7 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
               onClick={() => setIsSharpsDropdownOpen(!isSharpsDropdownOpen)}
               className={filterTriggerClass}
             >
-              Keys: {onlyShowSharps ? 'Sharps' : 'No sharps'}
+              {onlyShowSharps ? 'Sharps' : 'No sharps'}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -165,7 +167,7 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className={`ml-2 h-4 w-4 text-stone-50 transition-transform ${isSharpsDropdownOpen ? 'rotate-180' : ''}`}
+                className={`ml-2 h-4 w-4 text-stone-300 transition-transform ${isSharpsDropdownOpen ? 'rotate-180' : ''}`}
                 aria-hidden="true"
               >
                 <path d="M6 9l6 6 6-6" />
@@ -222,8 +224,10 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
         )}
 
         <div className="mt-7">
-          <p className="text-sm text-stone-50/80">
-            * Note that the keys you see are limited by your selected practice level
+          <p className="text-sm text-stone-300">
+            * The keys you can choose from are limited by your selected practice level. 
+            <br/>
+            * To see more or less keys, change your practice level
             <br/>
             * Your currently selected practice level is {' '}
             <span className="text-amber-400 font-medium">
