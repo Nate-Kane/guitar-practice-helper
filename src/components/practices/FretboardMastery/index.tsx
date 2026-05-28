@@ -32,6 +32,7 @@ const FretboardMastery: FC<FretboardMasteryProps> = ({ skillLevel }) => {
             {currentKey && (
                 <FretboardDisplay 
                     highlightedNote={currentKey.root}
+                    keyQuality={currentKey.quality}
                     showIntervalSelector={true} 
                 />
             )}

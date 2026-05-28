@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './FretboardDisplay.css';
 import { useMapFretboard } from './hooks/useMapFretboard';
 interface HighlightedNoteInfo {
@@ -34,9 +34,33 @@ const intervalOptions: IntervalInfo[] = [
   { name: 'Major 7', semitones: 11, color: '#CA8C4D', selected: false }, // Brighter sunburst
 ];
 
+type ScaleMode = 'major' | 'minor' | 'chromatic';
+
+const MAJOR_SCALE_SEMITONES = new Set([2, 4, 5, 7, 9, 11]);
+const MINOR_SCALE_SEMITONES = new Set([2, 3, 5, 7, 8, 10]);
+
+const getDefaultScaleMode = (quality?: string): ScaleMode => {
+  if (quality === 'minor') return 'minor';
+  if (quality === 'major') return 'major';
+  return 'chromatic';
+};
+
+const isIntervalInScale = (semitones: number, mode: ScaleMode): boolean => {
+  if (mode === 'chromatic') return true;
+  if (mode === 'major') return MAJOR_SCALE_SEMITONES.has(semitones);
+  return MINOR_SCALE_SEMITONES.has(semitones);
+};
+
+const createResetIntervals = (): IntervalInfo[] =>
+  intervalOptions.map((interval) => ({
+    ...interval,
+    selected: false,
+  }));
+
 interface FretboardDisplayProps {
   highlightedNote?: string; // Kept for backward compatibility
   highlightedNotes?: HighlightedNoteInfo[]; // For manually specifying highlighted notes
+  keyQuality?: string; // "major" | "minor" — sets default scale filter
   maxFret?: number;
   showIntervalSelector?: boolean; // Control whether to show interval selector
 }
@@ -44,12 +68,21 @@ interface FretboardDisplayProps {
 const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
   highlightedNote,
   highlightedNotes = [],
+  keyQuality,
   maxFret = 12,
   showIntervalSelector = false
 }) => {
   const { getNoteAt } = useMapFretboard(maxFret);
   const [intervals, setIntervals] = useState<IntervalInfo[]>(intervalOptions);
   const [rootSelected, setRootSelected] = useState(true);
+  const [scaleMode, setScaleMode] = useState<ScaleMode>(() => getDefaultScaleMode(keyQuality));
+
+  useEffect(() => {
+    const mode = getDefaultScaleMode(keyQuality);
+    setScaleMode(mode);
+    setIntervals(createResetIntervals());
+    setRootSelected(true);
+  }, [highlightedNote, keyQuality]);
   
   const stringNames = ['E', 'A', 'D', 'G', 'B', 'E']; // standard tuning!
   
@@ -66,7 +99,10 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
     if (rootIndex === -1) return [];
     
     return intervals
-      .filter(interval => interval.selected)
+      .filter(
+        (interval) =>
+          interval.selected && isIntervalInScale(interval.semitones, scaleMode)
+      )
       .map(interval => {
         const noteIndex = (rootIndex + interval.semitones) % 12;
         return {
@@ -160,18 +196,45 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
     <>
       <div className="fretboard-container">
         {showIntervalSelector && (
-          <div className="interval-legend">
-            {renderIntervalToggle('Root', ROOT_COLOR, rootSelected, () => setRootSelected((v) => !v), 'root')}
-            {intervals.map((interval, index) =>
-              renderIntervalToggle(
-                interval.name,
-                interval.color,
-                !!interval.selected,
-                () => toggleInterval(index),
-                interval.name
-              )
-            )}
-          </div>
+          <>
+            <div
+              className="scale-mode-selector"
+              role="radiogroup"
+              aria-label="Interval scale filter"
+            >
+              {(
+                [
+                  { value: 'major' as const, label: 'Major Scale Intervals' },
+                  { value: 'minor' as const, label: 'Minor Scale Intervals' },
+                  { value: 'chromatic' as const, label: 'Chromatic Intervals' },
+                ] as const
+              ).map(({ value, label }) => (
+                <button
+                  key={value}
+                  type="button"
+                  role="radio"
+                  aria-checked={scaleMode === value}
+                  className={`scale-mode-option${scaleMode === value ? ' scale-mode-option--active' : ''}`}
+                  onClick={() => setScaleMode(value)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="interval-legend">
+              {renderIntervalToggle('Root', ROOT_COLOR, rootSelected, () => setRootSelected((v) => !v), 'root')}
+              {intervals.map((interval, index) => {
+                if (!isIntervalInScale(interval.semitones, scaleMode)) return null;
+                return renderIntervalToggle(
+                  interval.name,
+                  interval.color,
+                  !!interval.selected,
+                  () => toggleInterval(index),
+                  interval.name
+                );
+              })}
+            </div>
+          </>
         )}
         
         <div className="fretboard-with-names">

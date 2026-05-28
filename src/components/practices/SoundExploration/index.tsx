@@ -43,6 +43,7 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
 
             <FretboardDisplay
                 highlightedNote={currentKey?.root}
+                keyQuality={currentKey?.quality}
                 showIntervalSelector={true} 
             />
             
