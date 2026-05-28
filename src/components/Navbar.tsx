@@ -33,7 +33,7 @@ const Navbar: FC = () => {
                 onClick={() => navigate('/')}
                 className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-amber-900 transition-colors cursor-pointer"
               >
-                Home
+                Practices
               </button>
               <button
                 onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
@@ -78,7 +78,7 @@ const Navbar: FC = () => {
                 }}
                 className="block px-3 py-2 rounded-lg text-base font-medium hover:bg-amber-900 transition-colors w-full text-left cursor-pointer"
               >
-                Home
+                Practices
               </button>
               <button
                 onClick={() => {

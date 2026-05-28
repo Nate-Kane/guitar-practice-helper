@@ -13,7 +13,7 @@ const Footer: FC = () => {
               onClick={() => navigate('/')}
               className="text-stone-50 hover:text-white transition-colors cursor-pointer"
             >
-              Home
+              Practices
             </button>
             <button
               onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
