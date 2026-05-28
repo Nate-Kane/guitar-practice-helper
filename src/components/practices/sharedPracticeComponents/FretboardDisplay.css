@@ -11,22 +11,6 @@
   max-width: 900px;
 }
 
-.string-names {
-  display: flex;
-  flex-direction: column;
-  width: 25px;
-  margin-right: 10px;
-}
-
-.string-name {
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #78350f; /* text-amber-900 */
-  font-weight: 500;
-}
-
 .fretboard {
   display: flex;
   flex-direction: column;
@@ -80,9 +64,13 @@
   position: relative;
 }
 
-.fret:first-child { /* Nut */
-  background-color: linear-gradient(180deg, #6b4a3a 0%, #4a3228 55%, #3d2a22 100%);
+.fret:first-child { /* Nut / open */
+  background-color: #5a4238;
   flex-grow: 0;
+}
+
+.note-marker--open-string {
+  box-sizing: border-box;
 }
 
 .note-marker {
@@ -94,6 +82,7 @@
   justify-content: center;
   z-index: 3;
   position: relative;
+  box-sizing: border-box;
 }
 
 .note-name {
@@ -180,7 +169,7 @@
   max-width: 900px;
   height: 20px;
   margin-top: 15px;
-  padding-left: 30px;
+  padding-left: 0;
 }
 
 .fret-number {

@@ -17,6 +17,11 @@ interface IntervalInfo {
 
 const ROOT_COLOR = '#2D632D';
 
+/** Default open-string marker when no interval/root highlight applies */
+const OPEN_STRING_COLOR = '#5a4238';
+const OPEN_STRING_BORDER = '#6b4a3a';
+const OPEN_STRING_TEXT = '#e8dcc8';
+
 const intervalOptions: IntervalInfo[] = [
   { name: 'Major 2nd', semitones: 2, color: '#3DA2C7', selected: false }, // Deeper amber/orange
   { name: 'Minor 3rd', semitones: 3, color: '#C13C28', selected: false }, // Brighter cherry red
@@ -169,15 +174,6 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
         )}
         
         <div className="fretboard-with-names">
-          <div className="string-names">
-            {/* Render string names from high E to low E */}
-            {[...Array(6)].map((_, i) => (
-              <div key={`string-name-${i}`} className="string-name">
-                {getStringNameDisplay(5 - i)}
-              </div>
-            ))}
-          </div>
-          
           <div className="fretboard">
             {/* Render strings from high to low (reverse the order) */}
             {[...Array(6)].map((_, i) => {
@@ -187,29 +183,52 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
                 <div key={`string-${stringIndex}`} className="string">
                   {Array.from({ length: maxFret + 1 }).map((_, fretIndex) => {
                     const highlightInfo = getHighlightInfo(stringIndex, fretIndex);
+                    const isOpenString = fretIndex === 0;
+                    const showMarker = highlightInfo || isOpenString;
+
+                    const markerStyle = highlightInfo
+                      ? {
+                          backgroundColor: highlightInfo.color,
+                          color: 'white',
+                          border: 'none',
+                          boxShadow: '0 0 4px rgba(0, 0, 0, 0.3)',
+                        }
+                      : isOpenString
+                        ? {
+                            backgroundColor: OPEN_STRING_COLOR,
+                            color: OPEN_STRING_TEXT,
+                            border: `2px solid ${OPEN_STRING_BORDER}`,
+                            boxShadow: 'none',
+                          }
+                        : {
+                            backgroundColor: 'transparent',
+                            color: 'inherit',
+                            border: 'none',
+                            boxShadow: 'none',
+                          };
+
+                    const markerLabel = showMarker
+                      ? highlightInfo
+                        ? getNoteAtPosition(stringIndex, fretIndex)
+                        : getStringNameDisplay(stringIndex)
+                      : null;
+
                     return (
                       <div 
                         key={`fret-${fretIndex}`} 
-                        className={`fret ${highlightInfo ? 'highlighted' : ''}`}
+                        className={`fret ${showMarker ? 'highlighted' : ''}`}
                       >
                         <div 
-                          className="note-marker"
+                          className={`note-marker ${isOpenString && !highlightInfo ? 'note-marker--open-string' : ''}`}
                           style={{
-                            backgroundColor: highlightInfo ? highlightInfo.color : 'transparent',
-                            color: highlightInfo ? 'white' : 'inherit',
-                            boxShadow: highlightInfo ? '0 0 4px rgba(0, 0, 0, 0.3)' : 'none',
+                            ...markerStyle,
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
                           }}
                         >
-                          {highlightInfo && (
-                            <div className="note-name">
-                              {getNoteAtPosition(stringIndex, fretIndex)}
-                              {/* {highlightInfo.label && (
-                                <span className="note-label">{highlightInfo.label}</span>
-                              )} */}
-                            </div>
+                          {markerLabel && (
+                            <div className="note-name">{markerLabel}</div>
                           )}
                         </div>
                         
