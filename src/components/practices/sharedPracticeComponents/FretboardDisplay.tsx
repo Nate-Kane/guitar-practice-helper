@@ -15,7 +15,7 @@ interface IntervalInfo {
   selected?: boolean;
 }
 
-const ROOT_COLOR = '#328647';
+const ROOT_COLOR = '#2D632D';
 
 const intervalOptions: IntervalInfo[] = [
   { name: 'Major 2nd', semitones: 2, color: '#3DA2C7', selected: false }, // Deeper amber/orange
