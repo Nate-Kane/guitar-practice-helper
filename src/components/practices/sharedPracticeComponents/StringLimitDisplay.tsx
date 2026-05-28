@@ -8,7 +8,7 @@ interface StringLimit {
 export const StringLimitDisplay: FC<StringLimit> = ({ currentStringLimit, onRegenerateStringLimit}) => {
     return (
         <>
-            <div className="rounded-xl border bg-card text-card-foreground shadow border-amber-200 border-amber-800">
+            <div className="rounded-xl border bg-card text-card-foreground shadow border-stone-50 border-amber-800">
                 <div className="p-4 bg-stone-50 rounded-xl">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div>

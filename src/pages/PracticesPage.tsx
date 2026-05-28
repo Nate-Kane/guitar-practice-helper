@@ -154,7 +154,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                     </div>
                                     <div>
                                         <h3 className="text-xl md:text-2xl font-bold text-amber-100 mb-1">{practice.title}</h3>
-                                        <p className="text-amber-200/80 line-clamp-3 mt-3">{practice.description}</p>
+                                        <p className="text-stone-50/80 line-clamp-3 mt-3">{practice.description}</p>
                                     </div>
                                 </div>
                             </div>

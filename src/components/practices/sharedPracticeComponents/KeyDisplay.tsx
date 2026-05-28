@@ -38,7 +38,7 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
             role="combobox" 
             aria-expanded={isKeySelectorOpen}
             onClick={openKeySelector}
-            className="flex h-9 items-center justify-between whitespace-nowrap rounded-md border px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 w-full bg-amber-100 border-amber-200 border-amber-800 cursor-pointer"
+            className="flex h-9 items-center justify-between whitespace-nowrap rounded-md border px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 w-full bg-amber-100 border-stone-50 border-amber-800 cursor-pointer"
           >
             <span style={{ pointerEvents: 'none' }}>
               {currentKey.name} ({currentKey.relativeKey})
@@ -51,14 +51,14 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
       </div>
       
       {/* Key Information Card */}
-      <div className="rounded-xl border bg-card text-card-foreground shadow border-amber-200 border-amber-800">
+      <div className="rounded-xl border bg-card text-card-foreground shadow border-stone-50 border-amber-800">
         <div className="p-4 bg-stone-50 rounded-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h3 className="text-lg font-bold text-amber-900 text-amber-100">
                 Key of {currentKey.name} ({currentKey.relativeKey})
               </h3>
-              <p className="text-amber-800 text-amber-200">
+              <p className="text-amber-800 text-stone-50">
                 The notes of {currentKey.name} are {currentKey.notes.join(', ')}
               </p>
             </div>

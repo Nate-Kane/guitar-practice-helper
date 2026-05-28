@@ -63,7 +63,7 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
   
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black/70 flex justify-center items-center z-[1000]">
-      <div className="bg-white rounded-xl p-6 w-4/5 max-w-2xl max-h-[80vh] overflow-y-auto border border-amber-200 shadow-xl">
+      <div className="bg-white rounded-xl p-6 w-4/5 max-w-2xl max-h-[80vh] overflow-y-auto border border-stone-50 shadow-xl">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-bold text-amber-900">Select a Key</h3>
           <button 

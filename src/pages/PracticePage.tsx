@@ -160,8 +160,8 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
 
         {/* Directions Section */}
         {practice.customDirections && (
-          <div className="rounded-xl border bg-card text-card-foreground shadow border-amber-200 border-amber-800">
-            <div className="flex flex-col space-y-1.5 p-6 bg-amber-100 border-b border-amber-200 border-amber-800 pb-3 rounded-t-xl">
+          <div className="rounded-xl border bg-card text-card-foreground shadow border-stone-50 border-amber-800">
+            <div className="flex flex-col space-y-1.5 p-6 bg-amber-100 border-b border-stone-50 border-amber-800 pb-3 rounded-t-xl">
               <h3 className="tracking-tight text-lg font-bold flex items-center text-amber-900 text-amber-100">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-circle-help h-5 w-5 mr-2 text-amber-600 text-amber-400" aria-hidden="true">
                   <circle cx="12" cy="12" r="10"></circle>
@@ -172,7 +172,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
               </h3>
             </div>
             <div className="p-6 pt-4 bg-stone-50 rounded-b-xl">
-              <p className="text-amber-900 text-amber-200">
+              <p className="text-amber-900 text-stone-50">
                 {practice.customDirections}
               </p>
             </div>
@@ -181,8 +181,8 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
 
         {/* Practice Tips Section */}
         {practice.practiceTips && practice.practiceTips.length > 0 && (
-          <div className="rounded-xl border bg-card text-card-foreground shadow border-amber-200 border-amber-800">
-            <div className="flex flex-col space-y-1.5 p-6 bg-amber-100 border-b border-amber-200 border-amber-800 pb-3 rounded-t-xl">
+          <div className="rounded-xl border bg-card text-card-foreground shadow border-stone-50 border-amber-800">
+            <div className="flex flex-col space-y-1.5 p-6 bg-amber-100 border-b border-stone-50 border-amber-800 pb-3 rounded-t-xl">
               <h3 className="tracking-tight text-lg font-bold flex items-center text-amber-900 text-amber-100">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-lightbulb h-5 w-5 mr-2 text-amber-600 text-amber-400" aria-hidden="true">
                   <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
@@ -195,7 +195,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
             <div className="p-6 pt-4 bg-stone-50 rounded-b-xl">
               <ul className="list-disc list-inside space-y-2">
                 {practice.practiceTips.map((tip, index) => (
-                  <li key={index} className="text-amber-900 text-amber-200">
+                  <li key={index} className="text-amber-900 text-stone-50">
                     {tip}
                   </li>
                 ))}

@@ -11,13 +11,13 @@ const Footer: FC = () => {
           <div className="flex justify-center md:justify-start space-x-6">
             <button
               onClick={() => navigate('/')}
-              className="text-amber-200 hover:text-white transition-colors cursor-pointer"
+              className="text-stone-50 hover:text-white transition-colors cursor-pointer"
             >
               Home
             </button>
             <button
               onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
-              className="text-amber-200 hover:text-white transition-colors cursor-pointer"
+              className="text-stone-50 hover:text-white transition-colors cursor-pointer"
             >
               Fretboard Mapper
             </button>
@@ -25,7 +25,7 @@ const Footer: FC = () => {
               href="https://www.natekaneofficial.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-amber-200 hover:text-white transition-colors cursor-pointer"
+              className="text-stone-50 hover:text-white transition-colors cursor-pointer"
             >
               Meet The Creator
             </a>
