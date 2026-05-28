@@ -18,6 +18,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const practiceGridRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const fetchPractices = async () => {
@@ -59,6 +60,52 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         practice.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         practice.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    const showPracticeGrid =
+        !isLoading &&
+        !error &&
+        practices.length > 0 &&
+        !(filteredPractices.length === 0 && searchQuery);
+
+    const practiceCardKey = filteredPractices.map((p) => p.id).join(',');
+
+    useEffect(() => {
+        const grid = practiceGridRef.current;
+        if (!grid || !showPracticeGrid) return;
+
+        const equalizeCardHeights = () => {
+            const cards = grid.querySelectorAll<HTMLElement>('[data-practice-card]');
+            if (cards.length === 0) return;
+
+            cards.forEach((card) => {
+                card.style.minHeight = '';
+            });
+
+            let maxHeight = 0;
+            cards.forEach((card) => {
+                maxHeight = Math.max(maxHeight, card.getBoundingClientRect().height);
+            });
+
+            const heightPx = `${maxHeight}px`;
+            cards.forEach((card) => {
+                card.style.minHeight = heightPx;
+            });
+        };
+
+        equalizeCardHeights();
+
+        const resizeObserver = new ResizeObserver(equalizeCardHeights);
+        resizeObserver.observe(grid);
+        grid.querySelectorAll('[data-practice-card]').forEach((card) => {
+            resizeObserver.observe(card);
+        });
+
+        window.addEventListener('resize', equalizeCardHeights);
+        return () => {
+            resizeObserver.disconnect();
+            window.removeEventListener('resize', equalizeCardHeights);
+        };
+    }, [showPracticeGrid, practiceCardKey, skillLevel]);
 
     const renderPractices = () => {
         if (isLoading) {
@@ -105,30 +152,32 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         }
 
         return (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-                {filteredPractices.map((practice, index) => {
-                    // Define different icons for each practice
-                    const icons = [
-                        <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/>,
-                        <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>,
-                        <path d="M9 18V5l12-2v13"/>,
-                        <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>,
-                        <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>
-                    ];
-                    
-                    const iconPaths = icons[index % icons.length];
-                    
+            <div
+                ref={practiceGridRef}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
+            >
+                {filteredPractices.map((practice) => {
+                    // Practice card icons (index-based) — disabled until per-practice mapping exists
+                    // const icons = [
+                    //     <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/>,
+                    //     <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>,
+                    //     <path d="M9 18V5l12-2v13"/>,
+                    //     <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>,
+                    //     <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>
+                    // ];
+                    // const iconPaths = icons[index % icons.length];
+
                     return (
                         <div 
+                            data-practice-card
                             className="flex h-full flex-col rounded-lg border shadow overflow-hidden bg-gradient-to-br from-zinc-900 to-zinc-800 border-amber-800/30"
                             key={practice.id}
                         >
                             <div className="flex flex-1 flex-col p-6">
                                 <div className="flex items-start flex-1">
-                                    <div className="bg-amber-900 p-3 rounded-lg mr-4 text-stone-50">
+                                    {/* <div className="bg-amber-900 p-3 rounded-lg mr-4 text-stone-50 shrink-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
                                             {iconPaths}
-                                            {/* Additional paths for specific icons */}
                                             {index === 0 && (
                                                 <>
                                                     <path d="M15 5.764v15"></path>
@@ -151,9 +200,9 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                                 <circle cx="12" cy="12" r="10"></circle>
                                             )}
                                         </svg>
-                                    </div>
+                                    </div> */}
                                     <div className="min-w-0 flex-1">
-                                        <h3 className="text-xl md:text-2xl font-bold text-stone-50 mb-1">{practice.title}</h3>
+                                        <h3 className="text-xl md:text-2xl font-bold text-stone-50 border-b border-stone-50 pb-2 mb-1">{practice.title}</h3>
                                         <p className="text-stone-50 line-clamp-3 mt-3">{practice.description}</p>
                                     </div>
                                 </div>
