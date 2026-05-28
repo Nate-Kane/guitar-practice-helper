@@ -23,14 +23,15 @@ const OPEN_STRING_BORDER = '#6b4a3a';
 const OPEN_STRING_TEXT = '#e8dcc8';
 
 const intervalOptions: IntervalInfo[] = [
-  { name: 'Major 2nd', semitones: 2, color: '#3DA2C7', selected: false }, // Deeper amber/orange
-  { name: 'Minor 3rd', semitones: 3, color: '#C13C28', selected: false }, // Brighter cherry red
-  { name: 'Major 3rd', semitones: 4, color: '#D68C00', selected: false }, // Vibrant gold
-  { name: 'Perfect 4th', semitones: 5, color: '#A67C4E', selected: false }, // Lighter rosewood
-  { name: 'Perfect 5th', semitones: 7, color: '#4668B0', selected: false }, // Blue (vintage amp blue)
-  { name: 'Major 6th', semitones: 9, color: '#D17832', selected: false }, // Bright maple 
-  { name: 'Minor 7th', semitones: 10, color: '#B87346', selected: false }, // Brighter mahogany
-  { name: 'Major 7th', semitones: 11, color: '#CA8C4D', selected: false }, // Brighter sunburst
+  { name: 'Major 2', semitones: 2, color: '#3DA2C7', selected: false }, // Deeper amber/orange
+  { name: 'Minor 3', semitones: 3, color: '#C13C28', selected: false }, // Brighter cherry red
+  { name: 'Major 3', semitones: 4, color: '#D68C00', selected: false }, // Vibrant gold
+  { name: 'Perfect 4', semitones: 5, color: '#A67C4E', selected: false }, // Lighter rosewood
+  { name: 'Perfect 5', semitones: 7, color: '#4668B0', selected: false }, // Blue (vintage amp blue)
+  { name: 'Minor 6', semitones: 8, color: '#C45A30', selected: false },
+  { name: 'Major 6', semitones: 9, color: '#D17832', selected: false }, // Bright maple 
+  { name: 'Minor 7', semitones: 10, color: '#B87346', selected: false }, // Brighter mahogany
+  { name: 'Major 7', semitones: 11, color: '#CA8C4D', selected: false }, // Brighter sunburst
 ];
 
 interface FretboardDisplayProps {
