@@ -3,7 +3,6 @@ import KeyDisplay from '../sharedPracticeComponents/KeyDisplay';
 import FretboardDisplay from '../sharedPracticeComponents/FretboardDisplay';
 import { DARK_ROSEWOOD_LABEL_TEXT } from '../sharedPracticeComponents/fretboardConstants';
 import StringNotesDisplay from '../sharedPracticeComponents/StringNotesDisplay';
-import TriadsDisplay from '../sharedPracticeComponents/TriadsDisplay';
 import { FC } from 'react';
 
 interface FretboardMapperyProps {
@@ -31,7 +30,7 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
                 openKeySelector={openKeySelector}
                 closeKeySelector={closeKeySelector}
                 onSelectKey={selectKey}
-                heading="Practice with a key"
+                heading="Choose a key, then explore the interactive fretboard"
             />
 
             {currentKey && (
@@ -44,7 +43,7 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
                         fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT} /* label text only */
                     />
                     <br/>
-                    <StringNotesDisplay heading="Memorize the notes of a single String" />
+                    <StringNotesDisplay heading="Memorize the notes of a single string" />
                 </>
             )}
         </div>

@@ -3,6 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getPracticeById } from '../services/practiceService';
 import { Practice } from '../types/practice';
 import PracticeRenderer from '../components/practices/PracticeRenderer';
+import DirectionsSection from '../components/practices/sharedPracticeComponents/DirectionsSection';
+import PracticeTipsSection from '../components/practices/sharedPracticeComponents/PracticeTipsSection';
+import {
+  FRETBOARD_MAPPER_DIRECTIONS,
+  FRETBOARD_MAPPER_PRACTICE_TIPS,
+} from '../components/practices/FretboardMapper/practiceContent';
 
 interface PracticePageProps {
   skillLevel: string;
@@ -71,6 +77,17 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
       </main>
     );
   }
+
+  const isFretboardMapper = practice?.title === 'Fretboard Mapper';
+  const directions =
+    practice?.customDirections ||
+    (isFretboardMapper ? FRETBOARD_MAPPER_DIRECTIONS : undefined);
+  const practiceTips =
+    practice?.practiceTips && practice.practiceTips.length > 0
+      ? practice.practiceTips
+      : isFretboardMapper
+        ? FRETBOARD_MAPPER_PRACTICE_TIPS
+        : undefined;
 
   if (error || !practice) {
     return (
@@ -158,50 +175,10 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
           </div>
         </div>
 
-        {/* Directions Section */}
-        {practice.customDirections && (
-          <div className="rounded-xl border bg-card text-card-foreground shadow border-stone-50 border-amber-800">
-            <div className="flex flex-col space-y-1.5 p-6 bg-amber-100 border-b border-stone-50 border-amber-800 pb-3 rounded-t-xl">
-              <h3 className="tracking-tight text-lg font-bold flex items-center text-amber-900 text-amber-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-circle-help h-5 w-5 mr-2 text-amber-600 text-amber-400" aria-hidden="true">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                  <path d="M12 17h.01"></path>
-                </svg>
-                Directions
-              </h3>
-            </div>
-            <div className="p-6 pt-4 bg-stone-50 rounded-b-xl">
-              <p className="text-amber-900 text-stone-50">
-                {practice.customDirections}
-              </p>
-            </div>
-          </div>
-        )}
+        {directions && <DirectionsSection directions={directions} />}
 
-        {/* Practice Tips Section */}
-        {practice.practiceTips && practice.practiceTips.length > 0 && (
-          <div className="rounded-xl border bg-card text-card-foreground shadow border-stone-50 border-amber-800">
-            <div className="flex flex-col space-y-1.5 p-6 bg-amber-100 border-b border-stone-50 border-amber-800 pb-3 rounded-t-xl">
-              <h3 className="tracking-tight text-lg font-bold flex items-center text-amber-900 text-amber-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-lightbulb h-5 w-5 mr-2 text-amber-600 text-amber-400" aria-hidden="true">
-                  <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
-                  <path d="M9 18h6"></path>
-                  <path d="M10 22h4"></path>
-                </svg>
-                Practice Tips
-              </h3>
-            </div>
-            <div className="p-6 pt-4 bg-stone-50 rounded-b-xl">
-              <ul className="list-disc list-inside space-y-2">
-                {practice.practiceTips.map((tip, index) => (
-                  <li key={index} className="text-amber-900 text-stone-50">
-                    {tip}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+        {practiceTips && practiceTips.length > 0 && (
+          <PracticeTipsSection tips={practiceTips} />
         )}
 
         {/* Practice Content */}
