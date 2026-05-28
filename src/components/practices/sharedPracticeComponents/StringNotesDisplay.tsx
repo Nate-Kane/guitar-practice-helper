@@ -4,11 +4,17 @@ import PracticeToolCard from './PracticeToolCard';
 import { GUITAR_STRINGS, NEUTRAL_MARKER_COLOR } from './fretboardConstants';
 import { useMapFretboard } from './hooks/useMapFretboard';
 
+const DEFAULT_HEADING = 'Explore a single string';
+
 interface StringNotesDisplayProps {
   maxFret?: number;
+  heading?: string;
 }
 
-const StringNotesDisplay: FC<StringNotesDisplayProps> = ({ maxFret = 12 }) => {
+const StringNotesDisplay: FC<StringNotesDisplayProps> = ({
+  maxFret = 12,
+  heading = DEFAULT_HEADING,
+}) => {
   const { getNoteAt } = useMapFretboard(maxFret);
   const [selectedStringIndex, setSelectedStringIndex] = useState<number>(GUITAR_STRINGS[0].index);
 
@@ -30,7 +36,7 @@ const StringNotesDisplay: FC<StringNotesDisplayProps> = ({ maxFret = 12 }) => {
 
   return (
     <PracticeToolCard
-      heading="Explore a single string"
+      heading={heading}
       title={`Notes on the ${selectedString.displayName} string`}
       description="Learn the main notes such as E, F, and G before learning the in-between notes such as F# and G#"
       icon={

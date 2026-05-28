@@ -31,7 +31,7 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
                 openKeySelector={openKeySelector}
                 closeKeySelector={closeKeySelector}
                 onSelectKey={selectKey}
-                heading="Practice With a Key"
+                heading="Practice with a key"
             />
 
             {currentKey && (
@@ -44,17 +44,9 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
                         fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT} /* label text only */
                     />
                     <br/>
-                    <StringNotesDisplay />
-
-                    <TriadsDisplay currentKey={currentKey} />
+                    <StringNotesDisplay heading="Memorize the notes of a single String" />
                 </>
             )}
-            
-            {/* <Collapsible title={`(Click here for a list view of "${currentKey?.root}" on the fretboard)`}>
-                <div className="fretboard-positions">
-                    {renderPositionsByFret()}
-                </div>
-            </Collapsible> */}
         </div>
     )
 }
