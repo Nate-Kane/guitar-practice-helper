@@ -41,12 +41,6 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
                 onSelectKey={selectKey}
             />
 
-            <FretboardDisplay
-                highlightedNote={currentKey?.root}
-                keyQuality={currentKey?.quality}
-                showIntervalSelector={true} 
-            />
-            
             <ProgressionDisplay 
                 progression={currentProgression}
                 chords={currentChords}
@@ -63,6 +57,12 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
             <FretLimitDisplay
                 currentFretLimit={currentFretLimit}
                 onRegenerateFretLimit={generateNewFretLimit}
+            />
+
+            <FretboardDisplay
+                highlightedNote={currentKey?.root}
+                keyQuality={currentKey?.quality}
+                showIntervalSelector={true} 
             />
 
             {/* add tempo & time signature */}

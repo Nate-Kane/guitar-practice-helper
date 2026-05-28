@@ -25,16 +25,6 @@ const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
 
     return (
         <div className="space-y-6">
-            <FretLimitDisplay
-                currentFretLimit={currentFretLimit}
-                onRegenerateFretLimit={generateNewFretLimit}
-            />
-
-            <StringLimitDisplay
-                currentStringLimit={currentStringLimit}
-                onRegenerateStringLimit={generateNewStringLimit}
-            />
-
             <KeyDisplay 
                 currentKey={currentKey} 
                 onRegenerateKey={generateNewKey}
@@ -43,6 +33,16 @@ const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
                 openKeySelector={openKeySelector}
                 closeKeySelector={closeKeySelector}
                 onSelectKey={selectKey}
+            />
+            
+            <FretLimitDisplay
+                currentFretLimit={currentFretLimit}
+                onRegenerateFretLimit={generateNewFretLimit}
+            />
+
+            <StringLimitDisplay
+                currentStringLimit={currentStringLimit}
+                onRegenerateStringLimit={generateNewStringLimit}
             />
             
             <FretboardDisplay

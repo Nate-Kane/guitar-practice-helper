@@ -1,40 +1,47 @@
-import { FC } from "react";
+import { FC } from 'react';
+import PracticeLimitCard from './PracticeLimitCard';
 
-interface FretLimit {
-    currentFretLimit: string;
-    onRegenerateFretLimit: () => void;
+interface FretLimitDisplayProps {
+  currentFretLimit: string;
+  onRegenerateFretLimit: () => void;
 }
 
-const FretLimitDisplay: FC<FretLimit> = ({ currentFretLimit, onRegenerateFretLimit }) => {
+const FretLimitIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="h-6 w-6"
+    aria-hidden="true"
+  >
+    <path d="M8 5v14" />
+    <path d="M12 5v14" />
+    <path d="M16 5v14" />
+    <path d="M5 5h14" />
+    <path d="M5 19h14" />
+  </svg>
+);
 
-    return (
-        <div className="rounded-lg border bg-card text-card-foreground shadow border-stone-50 border-amber-800">
-            <div className="p-4 bg-stone-50 rounded-lg">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div>
-                        <h3 className="text-lg font-bold text-amber-900 flex items-center mb-1">
-                            Fret Limit
-                        </h3>
-                        <p className="text-amber-800">
-                            Only use frets <span className="font-bold text-amber-900">{currentFretLimit}</span>
-                        </p>
-                    </div>
-                    <button 
-                        onClick={onRegenerateFretLimit}
-                        className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border bg-white shadow-sm hover:text-accent-foreground h-8 rounded-lg px-3 text-xs border-amber-900 hover:bg-amber-100 self-end sm:self-auto cursor-pointer text-amber-900"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-refresh-cw h-4 w-4 mr-2" aria-hidden="true">
-                            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
-                            <path d="M21 3v5h-5"></path>
-                            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
-                            <path d="M8 16H3v5"></path>
-                        </svg>
-                        Regenerate
-                    </button>
-                </div>
-            </div>
-        </div>
-    )
-}
+const FretLimitDisplay: FC<FretLimitDisplayProps> = ({
+  currentFretLimit,
+  onRegenerateFretLimit,
+}) => (
+  <PracticeLimitCard
+    title="Fret Limit"
+    description={
+      <>
+        Only use frets <span className="font-bold text-stone-50">{currentFretLimit}</span>
+      </>
+    }
+    icon={<FretLimitIcon />}
+    onRegenerate={onRegenerateFretLimit}
+  />
+);
 
 export default FretLimitDisplay;
