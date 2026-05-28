@@ -2,6 +2,8 @@ import { FC } from 'react';
 import { Key } from '../../../assets/practiceAssets/keys';
 import KeySelector from './KeySelector';
 
+const DEFAULT_HEADING = 'Which key would you like to practice?';
+
 interface KeyDisplayProps {
   currentKey: Key | null;
   onRegenerateKey: () => void;
@@ -10,6 +12,7 @@ interface KeyDisplayProps {
   openKeySelector: () => void;
   closeKeySelector: () => void;
   onSelectKey: (key: Key) => void;
+  heading?: string;
 }
 
 const KeyDisplay: FC<KeyDisplayProps> = ({
@@ -20,14 +23,13 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
   openKeySelector,
   closeKeySelector,
   onSelectKey,
+  heading = DEFAULT_HEADING,
 }) => {
   if (!currentKey) return null;
 
   return (
     <div className="space-y-4 max-w-[900px]">
-      <h2 className="text-xl font-bold text-amber-900">
-        Which key would you like to practice?
-      </h2>
+      <h2 className="text-xl font-bold text-amber-900">{heading}</h2>
 
       <div className="rounded-lg shadow overflow-hidden bg-gradient-to-br from-zinc-900 to-zinc-800">
         <div className="p-6">
