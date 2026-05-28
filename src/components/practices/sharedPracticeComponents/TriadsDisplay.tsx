@@ -77,11 +77,26 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => 
     );
   }
 
+  const romanNumerals =
+    currentKey.quality === 'major' ? 'I, IV, and V' : 'i, iv, and v';
+  const triadNamesList = triads.map((t) => t.name).join(', ');
+
   return (
     <div className="space-y-4 w-full">
       <h2 className="text-xl font-bold text-amber-900">
         Choose a triad to visualize
       </h2>
+
+      <div className="space-y-3 text-amber-800 text-sm md:text-base max-w-3xl">
+        <p>
+          Let's focus on the{' '}
+          <span className="font-semibold">{romanNumerals}</span> chords — the classic{' '}
+          <span className="font-semibold">1-4-5</span>. These three triads are the staples for finding your way around the neck.
+        </p>
+        <p>
+        In the key of <span className="font-semibold">{currentKey.name}</span>, that means <span className="font-semibold">{triadNamesList}</span>.
+        </p>
+      </div>
 
       <div className="flex flex-wrap gap-2">
         {triads.map((triad) => {
@@ -103,14 +118,6 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => 
           );
         })}
       </div>
-
-      {selectedTriad && (
-        <p className="text-amber-800 text-sm md:text-base">
-          <span className="font-semibold">{selectedTriad.name}</span>
-          {' — '}
-          {selectedTriad.notes.join(', ')}
-        </p>
-      )}
 
       {selectedTriad && (
         <FretboardDisplay
