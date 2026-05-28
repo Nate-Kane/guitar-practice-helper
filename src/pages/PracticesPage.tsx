@@ -105,7 +105,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         }
 
         return (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
                 {filteredPractices.map((practice, index) => {
                     // Define different icons for each practice
                     const icons = [
@@ -120,11 +120,11 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                     
                     return (
                         <div 
-                            className="rounded-lg border shadow overflow-hidden transition-all duration-300 bg-gradient-to-br from-zinc-900 to-zinc-800 border-amber-800/30 hover:border-amber-600"
+                            className="flex h-full flex-col rounded-lg border shadow overflow-hidden bg-gradient-to-br from-zinc-900 to-zinc-800 border-amber-800/30"
                             key={practice.id}
                         >
-                            <div className="p-6">
-                                <div className="flex items-start">
+                            <div className="flex flex-1 flex-col p-6">
+                                <div className="flex items-start flex-1">
                                     <div className="bg-amber-900 p-3 rounded-lg mr-4 text-stone-50">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
                                             {iconPaths}
@@ -152,13 +152,13 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                             )}
                                         </svg>
                                     </div>
-                                    <div>
+                                    <div className="min-w-0 flex-1">
                                         <h3 className="text-xl md:text-2xl font-bold text-stone-50 mb-1">{practice.title}</h3>
                                         <p className="text-stone-50 line-clamp-3 mt-3">{practice.description}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div className="items-center px-4 pb-4 flex justify-end">
+                            <div className="mt-auto flex justify-end px-4 pb-4 pt-0">
                                 <button 
                                     onClick={(e) => {
                                         e.stopPropagation();
