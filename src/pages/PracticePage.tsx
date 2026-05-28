@@ -100,7 +100,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
               <a 
                 href="javascript:void(0)"
                 onClick={() => navigate('/practices')}
-                className="text-amber-900 text-stone-500 hover:text-amber-600 hover:text-amber-400 flex items-center"
+                className="text-amber-900 px-0 hover:bg-amber-900 hover:text-stone-50 hover:px-2 p-1 flex items-center rounded-lg transition-all duration-100 ease-in-out"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-left h-4 w-4 mr-1" aria-hidden="true">
                   <path d="m12 19-7-7 7-7"></path>
