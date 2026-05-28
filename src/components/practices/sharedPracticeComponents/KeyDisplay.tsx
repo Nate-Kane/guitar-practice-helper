@@ -28,7 +28,7 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
   if (!currentKey) return null;
 
   return (
-    <div className="space-y-4 max-w-[900px]">
+    <div className="space-y-4 w-full">
       <h2 className="text-xl font-bold text-amber-900">{heading}</h2>
 
       <div className="rounded-lg shadow overflow-hidden bg-gradient-to-br from-zinc-900 to-zinc-800">

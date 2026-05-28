@@ -20,7 +20,7 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
     } = useKeyGenerator(skillLevel);
 
     return (
-        <div className="max-w-[900px] space-y-8 -mt-2">
+        <div className="w-full space-y-8 -mt-2">
 
             <KeyDisplay
                 currentKey={currentKey}

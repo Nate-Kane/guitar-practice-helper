@@ -109,7 +109,13 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
 
   return (
     <main className="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-[1280px]">
-      <div className="space-y-8">
+      <div
+        className={
+          isFretboardMapper
+            ? 'mx-auto w-full max-w-[1000px] space-y-8'
+            : 'space-y-8'
+        }
+      >
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>

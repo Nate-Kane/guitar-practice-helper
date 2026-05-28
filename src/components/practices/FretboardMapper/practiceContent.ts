@@ -3,6 +3,6 @@ export const FRETBOARD_MAPPER_DIRECTIONS =
 
 export const FRETBOARD_MAPPER_PRACTICE_TIPS = [
   'Look for repeating patterns and shapes',
-  'After you change keys, start with only the root visible, then add intervals back one by one.',
-  'Focus on main keys and notes first such as E, A, or G, before jumping into the in-between keys and notes such as A# or Db.',
+  'Choose a major key and then select the Root, Major 3, and Perfect 5 intervals to see what familiar patterns emerge',
+  'Focus on main keys and notes first such as A and G before jumping into the in-between keys and notes such as A# and G#',
 ];
