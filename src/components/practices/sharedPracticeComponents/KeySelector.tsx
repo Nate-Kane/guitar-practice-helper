@@ -79,7 +79,7 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
           <div className="relative min-w-[150px]" ref={qualityDropdownRef}>
             <button
               onClick={() => setIsQualityDropdownOpen(!isQualityDropdownOpen)}
-              className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-700 text-amber-700 bg-amber-100 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-500 w-full"
+              className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-700 text-amber-700 bg-amber-100 cursor-pointer focus:outline-none focus:ring-2 focus:ring-stone-500 w-full"
             >
               Quality: {qualityFilter}
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ml-2 h-4 w-4 text-amber-700 transition-transform ${isQualityDropdownOpen ? 'rotate-180' : ''}`}>
@@ -94,7 +94,7 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
                     setQualityFilter("Major");
                     setIsQualityDropdownOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${qualityFilter === "Major" ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
+                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${qualityFilter === "Major" ? 'bg-stone-50 text-amber-800' : 'text-amber-700'}`}
                 >
                   Major
                 </button>
@@ -103,7 +103,7 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
                     setQualityFilter("Minor");
                     setIsQualityDropdownOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${qualityFilter === "Minor" ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
+                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${qualityFilter === "Minor" ? 'bg-stone-50 text-amber-800' : 'text-amber-700'}`}
                 >
                   Minor
                 </button>
@@ -115,7 +115,7 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
           <div className="relative min-w-[150px]" ref={sharpsDropdownRef}>
             <button
               onClick={() => setIsSharpsDropdownOpen(!isSharpsDropdownOpen)}
-              className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-700 text-amber-700 bg-amber-100 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-500 w-full"
+              className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-700 text-amber-700 bg-amber-100 cursor-pointer focus:outline-none focus:ring-2 focus:ring-stone-500 w-full"
             >
               Keys: {onlyShowSharps ? "Sharps" : "No sharps"}
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ml-2 h-4 w-4 text-amber-700 transition-transform ${isSharpsDropdownOpen ? 'rotate-180' : ''}`}>
@@ -130,7 +130,7 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
                     setOnlyShowSharps(false);
                     setIsSharpsDropdownOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${!onlyShowSharps ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
+                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${!onlyShowSharps ? 'bg-stone-50 text-amber-800' : 'text-amber-700'}`}
                 >
                   No sharps
                 </button>
@@ -139,7 +139,7 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
                     setOnlyShowSharps(true);
                     setIsSharpsDropdownOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${onlyShowSharps ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
+                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${onlyShowSharps ? 'bg-stone-50 text-amber-800' : 'text-amber-700'}`}
                 >
                   Sharps
                 </button>

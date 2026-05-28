@@ -19,7 +19,7 @@ const App: FC = () => {
 
   return (
     <Router>
-      <div className="min-h-screen bg-amber-50 flex flex-col">
+      <div className="min-h-screen bg-stone-50 flex flex-col">
         <Navbar />
         <div className="flex-grow">
           <Routes>

@@ -5,7 +5,7 @@ const Footer: FC = () => {
   const navigate = useNavigate();
 
   return (
-    <footer className="bg-amber-900 text-amber-50">
+    <footer className="bg-amber-900 text-stone-50">
       <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
         <div className="md:flex md:items-center md:justify-between">
           <div className="flex justify-center md:justify-start space-x-6">

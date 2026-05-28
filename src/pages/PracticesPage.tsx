@@ -209,7 +209,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                         <div className="relative inline-flex mx-auto sm:mx-0" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-700 text-amber-700 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                                className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-700 text-amber-700 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-stone-500"
                             >
                                 Difficulty:&nbsp; {capitalize(skillLevel)}
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ml-2 h-4 w-4 text-amber-700 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}>
@@ -224,7 +224,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                             onSkillSelect('basics');
                                             setIsDropdownOpen(false);
                                         }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${skillLevel === 'basics' ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${skillLevel === 'basics' ? 'bg-stone-50 text-amber-800' : 'text-amber-700'}`}
                                     >
                                         Basics
                                     </button>
@@ -233,7 +233,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                             onSkillSelect('intermediate');
                                             setIsDropdownOpen(false);
                                         }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors ${skillLevel === 'intermediate' ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors ${skillLevel === 'intermediate' ? 'bg-stone-50 text-amber-800' : 'text-amber-700'}`}
                                     >
                                         Intermediate
                                     </button>
@@ -242,7 +242,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                             onSkillSelect('advanced');
                                             setIsDropdownOpen(false);
                                         }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${skillLevel === 'advanced' ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${skillLevel === 'advanced' ? 'bg-stone-50 text-amber-800' : 'text-amber-700'}`}
                                     >
                                         Advanced
                                     </button>
@@ -257,7 +257,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                     <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                         <h2 className="text-2xl font-bold text-amber-900">Practice Methods</h2>
                         <div className="relative w-full md:w-64">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500 h-4 w-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-500 h-4 w-4">
                                 <path d="m21 21-4.34-4.34"></path>
                                 <circle cx="11" cy="11" r="8"></circle>
                             </svg>
@@ -265,7 +265,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                 type="text" 
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-sm transition-colors pl-10 border-amber-300 bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500" 
+                                className="flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-sm transition-colors pl-10 border-amber-300 bg-stone-50 focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-stone-500" 
                                 placeholder="Search practices..."
                             />
                         </div>
@@ -275,7 +275,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                 </section>
 
                 {/* Featured Fretboard Mapper Section */}
-                <section className="bg-gradient-to-r from-amber-800 to-amber-700 text-amber-50 rounded-lg p-8">
+                <section className="bg-gradient-to-r from-amber-800 to-amber-700 text-stone-50 rounded-lg p-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                         <div className="space-y-4">
                             <h2 className="text-2xl md:text-3xl font-bold">Fretboard Mapper</h2>

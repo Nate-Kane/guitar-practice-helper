@@ -6,7 +6,7 @@ const Navbar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-amber-900 text-amber-50 shadow-md">
+    <nav className="bg-amber-900 text-stone-50 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo/Brand */}
@@ -56,7 +56,7 @@ const Navbar: FC = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-amber-50 hover:bg-amber-700 transition-colors"
+              className="inline-flex items-center justify-center p-2 rounded-md text-stone-50 hover:bg-amber-700 transition-colors"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
                 <path d="M4 12h16"></path>
