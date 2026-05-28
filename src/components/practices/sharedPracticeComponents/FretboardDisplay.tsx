@@ -5,6 +5,7 @@ import {
   INTERVAL_MARKER_TEXT,
   NEUTRAL_MARKER_BORDER,
   NEUTRAL_MARKER_TEXT,
+  PERFECT_FIFTH_INTERVAL_COLOR,
 } from './fretboardConstants';
 export interface HighlightedNoteInfo {
   note: string;
@@ -45,7 +46,7 @@ const intervalOptions: IntervalInfo[] = [
   { name: 'Minor 3', semitones: 3, color: '#6B7FD7', selected: false },
   { name: 'Major 3', semitones: 4, color: '#FF9340', selected: false },
   { name: 'Perfect 4', semitones: 5, color: '#6BA89F', selected: false },
-  { name: 'Perfect 5', semitones: 7, color: '#A8B5C4', selected: false },
+  { name: 'Perfect 5', semitones: 7, color: PERFECT_FIFTH_INTERVAL_COLOR, selected: false },
   { name: 'Minor 6', semitones: 8, color: '#4DA3E8', selected: false },
   { name: 'Major 6', semitones: 9, color: '#E8A838', selected: false },
   { name: 'Minor 7', semitones: 10, color: '#9B7ED9', selected: false },

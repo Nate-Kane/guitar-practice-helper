@@ -1,7 +1,7 @@
 import { FC, useMemo, useState } from 'react';
 import FretboardDisplay, { HighlightedNoteInfo } from './FretboardDisplay';
 import PracticeToolCard from './PracticeToolCard';
-import { GUITAR_STRINGS, NEUTRAL_MARKER_COLOR } from './fretboardConstants';
+import { GUITAR_STRINGS, PERFECT_FIFTH_INTERVAL_COLOR } from './fretboardConstants';
 import { useMapFretboard } from './hooks/useMapFretboard';
 
 const DEFAULT_HEADING = 'Explore a single string';
@@ -27,8 +27,8 @@ const StringNotesDisplay: FC<StringNotesDisplayProps> = ({
         note,
         string: selectedStringIndex,
         fret,
-        color: NEUTRAL_MARKER_COLOR,
-        variant: 'neutral',
+        color: PERFECT_FIFTH_INTERVAL_COLOR,
+        variant: 'interval',
         label: note,
       };
     });
@@ -38,7 +38,7 @@ const StringNotesDisplay: FC<StringNotesDisplayProps> = ({
     <PracticeToolCard
       heading={heading}
       title={`Notes on the ${selectedString.displayName} string`}
-      description="Learn the main notes such as E, F, and G before learning the in-between notes such as F# and G#"
+      description="Start with the Low E string, then move to the A string. Learn the main notes such as E, F, and G before learning the in-between notes such as F# and G#"
       icon={
         <svg
           xmlns="http://www.w3.org/2000/svg"
