@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import './FretboardDisplay.css';
 import { useMapFretboard } from './hooks/useMapFretboard';
-import Collapsible from '../../Collapsible';
-
 interface HighlightedNoteInfo {
   note: string;
   color: string;
@@ -16,6 +14,8 @@ interface IntervalInfo {
   color: string;
   selected?: boolean;
 }
+
+const ROOT_COLOR = '#328647';
 
 const intervalOptions: IntervalInfo[] = [
   { name: 'Major 2nd', semitones: 2, color: '#3DA2C7', selected: false }, // Deeper amber/orange
@@ -43,6 +43,7 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
 }) => {
   const { getNoteAt } = useMapFretboard(maxFret);
   const [intervals, setIntervals] = useState<IntervalInfo[]>(intervalOptions);
+  const [rootSelected, setRootSelected] = useState(true);
   
   const stringNames = ['E', 'A', 'D', 'G', 'B', 'E']; // standard tuning!
   
@@ -82,8 +83,8 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
     const noteAtPosition = getNoteAtPosition(stringIndex, fret);
     
     // First, check if there's a direct match with the highlightedNote prop (for backward compatibility)
-    if (highlightedNote && noteAtPosition === highlightedNote) {
-      return { note: noteAtPosition, color: '#328647', label: 'Root' };
+    if (highlightedNote && rootSelected && noteAtPosition === highlightedNote) {
+      return { note: noteAtPosition, color: ROOT_COLOR, label: 'Root' };
     }
     
     // Check manually specified highlighted notes
@@ -122,38 +123,49 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
     if (index === 5) return 'e';
     return stringNames[index];
   };
+
+  const renderIntervalToggle = (
+    name: string,
+    color: string,
+    isSelected: boolean,
+    onToggle: () => void,
+    key: string
+  ) => (
+    <button
+      type="button"
+      key={key}
+      className="interval-item"
+      onClick={onToggle}
+      aria-pressed={isSelected}
+      aria-label={`${isSelected ? 'Hide' : 'Show'} ${name}`}
+    >
+      <span
+        className="interval-color"
+        style={{
+          backgroundColor: isSelected ? color : 'transparent',
+          border: `2px solid ${color}`,
+        }}
+      />
+      <span>{name}</span>
+    </button>
+  );
   
   return (
     <>
       <div className="fretboard-container">
         {showIntervalSelector && (
-          <Collapsible title={`See more intervals`}>
-            <div className="interval-selector">
-              {intervals.map((interval, index) => (
-                <label key={interval.name} className="interval-checkbox">
-                  <input
-                    type="checkbox"
-                    checked={interval.selected}
-                    onChange={() => toggleInterval(index)}
-                  />
-                  <span style={{ color: interval.color }}>{interval.name}</span>
-                </label>
-              ))}
-            </div>
-            
-              <div className="interval-legend">
-                <div className="interval-item">
-                  <span className="interval-color" style={{ backgroundColor: '#328647' }}></span>
-                  <span>Root</span>
-                </div>
-                {intervals.filter(i => i.selected).map(interval => (
-                  <div key={interval.name} className="interval-item">
-                    <span className="interval-color" style={{ backgroundColor: interval.color }}></span>
-                    <span>{interval.name}</span>
-                  </div>
-                ))}
-              </div>
-          </Collapsible>
+          <div className="interval-legend">
+            {renderIntervalToggle('Root', ROOT_COLOR, rootSelected, () => setRootSelected((v) => !v), 'root')}
+            {intervals.map((interval, index) =>
+              renderIntervalToggle(
+                interval.name,
+                interval.color,
+                !!interval.selected,
+                () => toggleInterval(index),
+                interval.name
+              )
+            )}
+          </div>
         )}
         
         <div className="fretboard-with-names">
