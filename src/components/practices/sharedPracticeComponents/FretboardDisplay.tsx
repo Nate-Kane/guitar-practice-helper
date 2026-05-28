@@ -90,6 +90,8 @@ interface FretboardDisplayProps {
   mutedFretLabels?: boolean;
   /** Fret number + open-string letter color only — does not change the nut */
   fretLabelTextColor?: string;
+  /** Amber h2 above the fretboard (KeyDisplay-style section label) */
+  sectionHeading?: string;
 }
 
 const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
@@ -102,6 +104,7 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
   showOpenStringLabels = true,
   mutedFretLabels = false,
   fretLabelTextColor,
+  sectionHeading,
 }) => {
   const { getNoteAt } = useMapFretboard(maxFret);
   const [intervals, setIntervals] = useState<IntervalInfo[]>(intervalOptions);
@@ -235,9 +238,8 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
     </button>
   );
   
-  return (
-    <>
-      <div
+  const fretboard = (
+    <div
         className={`fretboard-container${mutedFretLabels ? ' fretboard-container--muted-labels' : ''}`}
         style={
           fretLabelTextColor
@@ -378,7 +380,17 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
           ))}
         </div>
       </div>
-    </>
+  );
+
+  if (!sectionHeading) {
+    return fretboard;
+  }
+
+  return (
+    <div className="space-y-4 w-full">
+      <h2 className="text-xl font-bold text-amber-900">{sectionHeading}</h2>
+      {fretboard}
+    </div>
   );
 };
 

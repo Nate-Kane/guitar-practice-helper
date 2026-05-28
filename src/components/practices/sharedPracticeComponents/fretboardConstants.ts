@@ -40,3 +40,7 @@ export const INTERVAL_MARKER_TEXT = '#27272a';
 
 /** Perfect 5 — shared by interval legend and single-string mapper */
 export const PERFECT_FIFTH_INTERVAL_COLOR = '#A8B5C4';
+
+/** Section heading above fretboard on reference practices */
+export const FRETBOARD_REFERENCE_HEADING =
+  "Here's the interactive fretboard mapper to use as a reference";
