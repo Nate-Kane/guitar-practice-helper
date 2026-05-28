@@ -120,12 +120,12 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                     
                     return (
                         <div 
-                            className="rounded-xl border shadow overflow-hidden transition-all duration-300 bg-gradient-to-br from-zinc-900 to-zinc-800 border-amber-800/30 hover:border-amber-600"
+                            className="rounded-lg border shadow overflow-hidden transition-all duration-300 bg-gradient-to-br from-zinc-900 to-zinc-800 border-amber-800/30 hover:border-amber-600"
                             key={practice.id}
                         >
                             <div className="p-6">
                                 <div className="flex items-start">
-                                    <div className="bg-amber-800 p-3 rounded-md mr-4 text-amber-100">
+                                    <div className="bg-amber-900 p-3 rounded-md mr-4 text-stone-50">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
                                             {iconPaths}
                                             {/* Additional paths for specific icons */}
@@ -153,18 +153,18 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                         </svg>
                                     </div>
                                     <div>
-                                        <h3 className="text-xl md:text-2xl font-bold text-amber-100 mb-1">{practice.title}</h3>
-                                        <p className="text-stone-50/80 line-clamp-3 mt-3">{practice.description}</p>
+                                        <h3 className="text-xl md:text-2xl font-bold text-stone-50 mb-1">{practice.title}</h3>
+                                        <p className="text-stone-50 line-clamp-3 mt-3">{practice.description}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div className="items-center bg-black/20 p-4 flex justify-end">
+                            <div className="items-center px-4 pb-4 flex justify-end">
                                 <button 
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         handleSwitchClick(practice.id || '');
                                     }}
-                                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors shadow h-9 px-4 py-2 bg-amber-900 hover:bg-amber-600 text-white flex items-center cursor-pointer"
+                                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors shadow h-9 px-4 py-2 hover:bg-amber-900 text-stone-50 flex items-center cursor-pointer"
                                 >
                                     Practice 
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 h-4 w-4">
@@ -187,7 +187,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                 <section className="text-center space-y-6">
                     <div className="flex justify-center">
                         <div className="bg-amber-900 p-4 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-12 w-12 text-amber-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fafaf9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-12 w-12 text-amber-100">
                                 <path d="m11.9 12.1 4.514-4.514"></path>
                                 <path d="M20.1 2.3a1 1 0 0 0-1.4 0l-1.114 1.114A2 2 0 0 0 17 4.828v1.344a2 2 0 0 1-.586 1.414A2 2 0 0 1 17.828 7h1.344a2 2 0 0 0 1.414-.586L21.7 5.3a1 1 0 0 0 0-1.4z"></path>
                                 <path d="m6 16 2 2"></path>
