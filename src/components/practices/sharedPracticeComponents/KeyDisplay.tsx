@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Key } from '../../../assets/practiceAssets/keys';
 import KeySelector from './KeySelector';
 
-const DEFAULT_HEADING = 'Which key would you like to practice?';
+const DEFAULT_HEADING = 'Choose a key to practice';
 
 interface KeyDisplayProps {
   currentKey: Key | null;
