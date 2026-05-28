@@ -34,3 +34,6 @@ export const MUTED_FRET_LABEL_COLOR = '#a8a29e';
 
 /** Fret numbers + open-string letters on the main mapper (text only) */
 export const DARK_ROSEWOOD_LABEL_TEXT = '#3d2a22';
+
+/** Note letters on bright interval / root dots */
+export const INTERVAL_MARKER_TEXT = '#27272a';

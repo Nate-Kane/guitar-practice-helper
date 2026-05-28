@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './FretboardDisplay.css';
 import { useMapFretboard } from './hooks/useMapFretboard';
-import { NEUTRAL_MARKER_BORDER, NEUTRAL_MARKER_TEXT } from './fretboardConstants';
+import {
+  INTERVAL_MARKER_TEXT,
+  NEUTRAL_MARKER_BORDER,
+  NEUTRAL_MARKER_TEXT,
+} from './fretboardConstants';
 export interface HighlightedNoteInfo {
   note: string;
   color: string;
@@ -22,23 +26,30 @@ interface IntervalInfo {
   selected?: boolean;
 }
 
-const ROOT_COLOR = '#2D632D';
+/** Anchor — green reads clearly on rosewood */
+const ROOT_COLOR = '#2E9B4A';
 
 /** Default open-string marker when no interval/root highlight applies */
 const OPEN_STRING_COLOR = '#5a4238';
 const OPEN_STRING_BORDER = '#6b4a3a';
 const OPEN_STRING_TEXT = '#e8dcc8';
 
+/**
+ * Interval colors (rosewood fretboard):
+ * - Major: warm / bright (happy)
+ * - Minor: cool blues & violets (sad)
+ * - Perfect: muted teal & silver (neutral)
+ */
 const intervalOptions: IntervalInfo[] = [
-  { name: 'Major 2', semitones: 2, color: '#3DA2C7', selected: false }, // Deeper amber/orange
-  { name: 'Minor 3', semitones: 3, color: '#C13C28', selected: false }, // Brighter cherry red
-  { name: 'Major 3', semitones: 4, color: '#D68C00', selected: false }, // Vibrant gold
-  { name: 'Perfect 4', semitones: 5, color: '#A67C4E', selected: false }, // Lighter rosewood
-  { name: 'Perfect 5', semitones: 7, color: '#4668B0', selected: false }, // Blue (vintage amp blue)
-  { name: 'Minor 6', semitones: 8, color: '#C45A30', selected: false },
-  { name: 'Major 6', semitones: 9, color: '#D17832', selected: false }, // Bright maple 
-  { name: 'Minor 7', semitones: 10, color: '#B87346', selected: false }, // Brighter mahogany
-  { name: 'Major 7', semitones: 11, color: '#CA8C4D', selected: false }, // Brighter sunburst
+  { name: 'Major 2', semitones: 2, color: '#FFD24A', selected: false },
+  { name: 'Minor 3', semitones: 3, color: '#6B7FD7', selected: false },
+  { name: 'Major 3', semitones: 4, color: '#FF9340', selected: false },
+  { name: 'Perfect 4', semitones: 5, color: '#6BA89F', selected: false },
+  { name: 'Perfect 5', semitones: 7, color: '#A8B5C4', selected: false },
+  { name: 'Minor 6', semitones: 8, color: '#4DA3E8', selected: false },
+  { name: 'Major 6', semitones: 9, color: '#E8A838', selected: false },
+  { name: 'Minor 7', semitones: 10, color: '#9B7ED9', selected: false },
+  { name: 'Major 7', semitones: 11, color: '#E454A0', selected: false },
 ];
 
 type ScaleMode = 'major' | 'minor' | 'chromatic';
@@ -293,7 +304,7 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
                     const markerStyle = highlightInfo
                       ? {
                           backgroundColor: highlightInfo.color,
-                          color: isNeutral ? NEUTRAL_MARKER_TEXT : 'white',
+                          color: isNeutral ? NEUTRAL_MARKER_TEXT : INTERVAL_MARKER_TEXT,
                           border: isNeutral ? `2px solid ${NEUTRAL_MARKER_BORDER}` : 'none',
                           boxShadow: isNeutral ? 'none' : '0 0 4px rgba(0, 0, 0, 0.3)',
                         }
