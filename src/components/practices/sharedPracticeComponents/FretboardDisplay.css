@@ -1,6 +1,7 @@
 .fretboard-container {
   --open-fret-width: 40px;
   --nut-border-width: 4px;
+  --fret-label-text-color: #78350f;
   margin: 20px 0;
   width: 100%;
   overflow-x: auto;
@@ -67,10 +68,23 @@
 }
 
 .fret:first-child { /* Nut / open */
-  background-color: linear-gradient(180deg, #453026 0%, #402c23 55%, #30211b 100%);
+  background: linear-gradient(180deg, #453026 0%, #402c23 55%, #30211b 100%);
   flex: 0 0 var(--open-fret-width);
   min-width: var(--open-fret-width);
   max-width: var(--open-fret-width);
+}
+
+/* String explorer on zinc card — grey nut + grey text */
+.fretboard-container--muted-labels {
+  --fret-label-text-color: #a8a29e;
+}
+
+.fretboard-container--muted-labels .fret:first-child {
+  background: #52525b;
+}
+
+.fretboard-container--muted-labels .fretboard {
+  border-left-color: #71717a;
 }
 
 .note-marker--open-string {
@@ -228,7 +242,7 @@
   text-align: center;
   font-size: 0.7rem;
   font-weight:600;
-  color: #78350f; /* text-amber-900 */
+  color: var(--fret-label-text-color);
 }
 
 .fret-number:first-child {

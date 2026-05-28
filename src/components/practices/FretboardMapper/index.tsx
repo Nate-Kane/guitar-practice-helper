@@ -1,6 +1,9 @@
 import { useKeyGenerator } from '../sharedPracticeComponents/hooks/useKeyGenerator';
 import KeyDisplay from '../sharedPracticeComponents/KeyDisplay';
 import FretboardDisplay from '../sharedPracticeComponents/FretboardDisplay';
+import { DARK_ROSEWOOD_LABEL_TEXT } from '../sharedPracticeComponents/fretboardConstants';
+import StringNotesDisplay from '../sharedPracticeComponents/StringNotesDisplay';
+import TriadsDisplay from '../sharedPracticeComponents/TriadsDisplay';
 import { FC } from 'react';
 
 interface FretboardMapperyProps {
@@ -31,11 +34,18 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
             
             {currentKey && (
                 <>
+                    <StringNotesDisplay />
+
                     <FretboardDisplay 
                         highlightedNote={currentKey.root}
                         keyQuality={currentKey.quality}
-                        showIntervalSelector={true} 
+                        showIntervalSelector={true}
+                        mutedFretLabels /* grey nut */
+                        fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT} /* label text only */
                     />
+
+
+                    <TriadsDisplay currentKey={currentKey} />
                 </>
             )}
             

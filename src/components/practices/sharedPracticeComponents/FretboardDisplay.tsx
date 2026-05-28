@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import './FretboardDisplay.css';
 import { useMapFretboard } from './hooks/useMapFretboard';
-interface HighlightedNoteInfo {
+import { NEUTRAL_MARKER_BORDER, NEUTRAL_MARKER_TEXT } from './fretboardConstants';
+export interface HighlightedNoteInfo {
   note: string;
   color: string;
   label?: string;
+  /** When set, highlight only applies at this string (0 = low E, 5 = high e) */
+  string?: number;
+  /** When set, highlight only applies at this fret */
+  fret?: number;
+  /** Rosewood-style markers (string / triad tools) vs interval colors */
+  variant?: 'neutral' | 'interval';
 }
 
 // Define intervals and their colors
@@ -63,6 +70,14 @@ interface FretboardDisplayProps {
   keyQuality?: string; // "major" | "minor" — sets default scale filter
   maxFret?: number;
   showIntervalSelector?: boolean; // Control whether to show interval selector
+  /** Skip root / interval highlights (e.g. string notes or triad tools) */
+  disableKeyHighlights?: boolean;
+  /** Show open-string labels on every string (off when using custom highlights only) */
+  showOpenStringLabels?: boolean;
+  /** Grey nut + grey text (string explorer on zinc card only) */
+  mutedFretLabels?: boolean;
+  /** Fret number + open-string letter color only — does not change the nut */
+  fretLabelTextColor?: string;
 }
 
 const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
@@ -70,7 +85,11 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
   highlightedNotes = [],
   keyQuality,
   maxFret = 12,
-  showIntervalSelector = false
+  showIntervalSelector = false,
+  disableKeyHighlights = false,
+  showOpenStringLabels = true,
+  mutedFretLabels = false,
+  fretLabelTextColor,
 }) => {
   const { getNoteAt } = useMapFretboard(maxFret);
   const [intervals, setIntervals] = useState<IntervalInfo[]>(intervalOptions);
@@ -78,11 +97,12 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
   const [scaleMode, setScaleMode] = useState<ScaleMode>(() => getDefaultScaleMode(keyQuality));
 
   useEffect(() => {
+    if (disableKeyHighlights) return;
     const mode = getDefaultScaleMode(keyQuality);
     setScaleMode(mode);
     setIntervals(createResetIntervals());
     setRootSelected(true);
-  }, [highlightedNote, keyQuality]);
+  }, [highlightedNote, keyQuality, disableKeyHighlights]);
   
   const stringNames = ['E', 'A', 'D', 'G', 'B', 'E']; // standard tuning!
   
@@ -120,30 +140,41 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
     setIntervals(newIntervals);
   };
   
+  const matchesPositionHighlight = (
+    noteInfo: HighlightedNoteInfo,
+    stringIndex: number,
+    fret: number,
+    noteAtPosition: string
+  ) => {
+    if (noteAtPosition !== noteInfo.note) return false;
+    if (noteInfo.string !== undefined && noteInfo.string !== stringIndex) return false;
+    if (noteInfo.fret !== undefined && noteInfo.fret !== fret) return false;
+    return true;
+  };
+
   // Find if a position should be highlighted and with what info
   const getHighlightInfo = (stringIndex: number, fret: number): HighlightedNoteInfo | null => {
     const noteAtPosition = getNoteAtPosition(stringIndex, fret);
-    
-    // First, check if there's a direct match with the highlightedNote prop (for backward compatibility)
-    if (highlightedNote && rootSelected && noteAtPosition === highlightedNote) {
-      return { note: noteAtPosition, color: ROOT_COLOR, label: 'Root' };
-    }
-    
-    // Check manually specified highlighted notes
+
     for (const noteInfo of highlightedNotes) {
-      if (noteAtPosition === noteInfo.note) {
+      if (matchesPositionHighlight(noteInfo, stringIndex, fret, noteAtPosition)) {
         return noteInfo;
       }
     }
-    
-    // Check for interval-based highlights
+
+    if (disableKeyHighlights) return null;
+
+    if (highlightedNote && rootSelected && noteAtPosition === highlightedNote) {
+      return { note: noteAtPosition, color: ROOT_COLOR, label: 'Root' };
+    }
+
     const intervalBasedNotes = getIntervalNotes();
     for (const noteInfo of intervalBasedNotes) {
       if (noteAtPosition === noteInfo.note) {
         return noteInfo;
       }
     }
-    
+
     return null;
   };
   
@@ -194,7 +225,14 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
   
   return (
     <>
-      <div className="fretboard-container">
+      <div
+        className={`fretboard-container${mutedFretLabels ? ' fretboard-container--muted-labels' : ''}`}
+        style={
+          fretLabelTextColor
+            ? ({ '--fret-label-text-color': fretLabelTextColor } as React.CSSProperties)
+            : undefined
+        }
+      >
         {showIntervalSelector && (
           <>
             <div
@@ -248,19 +286,21 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
                   {Array.from({ length: maxFret + 1 }).map((_, fretIndex) => {
                     const highlightInfo = getHighlightInfo(stringIndex, fretIndex);
                     const isOpenString = fretIndex === 0;
-                    const showMarker = highlightInfo || isOpenString;
+                    const showMarker =
+                      highlightInfo || (showOpenStringLabels && isOpenString && !disableKeyHighlights);
 
+                    const isNeutral = highlightInfo?.variant === 'neutral';
                     const markerStyle = highlightInfo
                       ? {
                           backgroundColor: highlightInfo.color,
-                          color: 'white',
-                          border: 'none',
-                          boxShadow: '0 0 4px rgba(0, 0, 0, 0.3)',
+                          color: isNeutral ? NEUTRAL_MARKER_TEXT : 'white',
+                          border: isNeutral ? `2px solid ${NEUTRAL_MARKER_BORDER}` : 'none',
+                          boxShadow: isNeutral ? 'none' : '0 0 4px rgba(0, 0, 0, 0.3)',
                         }
                       : isOpenString
                         ? {
                             backgroundColor: OPEN_STRING_COLOR,
-                            color: OPEN_STRING_TEXT,
+                            color: fretLabelTextColor ?? OPEN_STRING_TEXT,
                             border: `2px solid ${OPEN_STRING_BORDER}`,
                             boxShadow: 'none',
                           }
