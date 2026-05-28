@@ -1,4 +1,6 @@
 .fretboard-container {
+  --open-fret-width: 40px;
+  --nut-border-width: 4px;
   margin: 20px 0;
   width: 100%;
   overflow-x: auto;
@@ -17,7 +19,7 @@
   flex: 1;
   width: 100%;
   max-width: 900px;
-  border-left: 4px solid #2a1d18;
+  border-left: var(--nut-border-width) solid #2a1d18;
   border-right: 1px solid #3d2a22;
   background: linear-gradient(180deg, #664636 0%, #4a3228 55%, #3d2a22 100%);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
@@ -66,7 +68,9 @@
 
 .fret:first-child { /* Nut / open */
   background-color: #5a4238;
-  flex-grow: 0;
+  flex: 0 0 var(--open-fret-width);
+  min-width: var(--open-fret-width);
+  max-width: var(--open-fret-width);
 }
 
 .note-marker--open-string {
@@ -169,11 +173,14 @@
   max-width: 900px;
   height: 20px;
   margin-top: 15px;
-  padding-left: 0;
+  /* Align with fret columns inside the fretboard's nut border */
+  padding-left: var(--nut-border-width);
+  box-sizing: border-box;
 }
 
 .fret-number {
   flex: 1;
+  min-width: 0;
   text-align: center;
   font-size: 0.7rem;
   font-weight:600;
@@ -181,8 +188,9 @@
 }
 
 .fret-number:first-child {
-  flex-basis: 40px;
-  flex-grow: 0;
+  flex: 0 0 var(--open-fret-width);
+  min-width: var(--open-fret-width);
+  max-width: var(--open-fret-width);
 }
 
 @media (max-width: 600px) {

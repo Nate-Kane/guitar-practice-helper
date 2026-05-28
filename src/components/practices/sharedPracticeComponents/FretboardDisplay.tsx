@@ -257,7 +257,7 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
         <div className="fret-numbers">
           {Array.from({ length: maxFret + 1 }).map((_, fretIndex) => (
             <div key={`fret-num-${fretIndex}`} className="fret-number">
-              {fretIndex === 0 ? 'Open' : fretIndex}
+              {fretIndex === 0 ? 'Nut' : fretIndex}
             </div>
           ))}
         </div>
