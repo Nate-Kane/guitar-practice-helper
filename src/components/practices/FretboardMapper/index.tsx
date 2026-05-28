@@ -21,7 +21,7 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
     } = useKeyGenerator(skillLevel);
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-8 max-w-[900px]">
             <KeyDisplay 
                 currentKey={currentKey} 
                 onRegenerateKey={generateNewKey}
@@ -34,7 +34,7 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
             
             {currentKey && (
                 <>
-                    <div className="space-y-4 max-w-[900px]">
+                    <section className="space-y-4">
                         <h2 className="text-xl font-bold text-amber-900">
                             Freely Explore the Fretboard
                         </h2>
@@ -45,10 +45,9 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
                             mutedFretLabels /* grey nut */
                             fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT} /* label text only */
                         />
-                    </div>
+                    </section>
 
                     <StringNotesDisplay />
-
 
                     <TriadsDisplay currentKey={currentKey} />
                 </>

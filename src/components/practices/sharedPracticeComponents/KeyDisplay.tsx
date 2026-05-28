@@ -26,7 +26,7 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
   return (
     <div className="space-y-4 max-w-[900px]">
       <h2 className="text-xl font-bold text-amber-900">
-        Which key do you want to practice with?
+        Which key would you like to practice?
       </h2>
 
       <div className="rounded-lg shadow overflow-hidden bg-gradient-to-br from-zinc-900 to-zinc-800">

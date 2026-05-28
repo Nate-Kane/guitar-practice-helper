@@ -366,7 +366,6 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
           ))}
         </div>
       </div>
-      <br/>
     </>
   );
 };
