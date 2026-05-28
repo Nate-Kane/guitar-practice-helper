@@ -42,8 +42,6 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
                         mutedFretLabels /* grey nut */
                         fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT} /* label text only */
                     />
-                    <br/>
-                    <StringNotesDisplay heading="Memorize the notes of a single string" />
                 </>
             )}
         </div>
