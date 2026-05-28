@@ -34,15 +34,20 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
             
             {currentKey && (
                 <>
-                    <StringNotesDisplay />
+                    <div className="space-y-4 max-w-[900px]">
+                        <h2 className="text-xl font-bold text-amber-900">
+                            Freely Explore the Fretboard
+                        </h2>
+                        <FretboardDisplay
+                            highlightedNote={currentKey.root}
+                            keyQuality={currentKey.quality}
+                            showIntervalSelector={true}
+                            mutedFretLabels /* grey nut */
+                            fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT} /* label text only */
+                        />
+                    </div>
 
-                    <FretboardDisplay 
-                        highlightedNote={currentKey.root}
-                        keyQuality={currentKey.quality}
-                        showIntervalSelector={true}
-                        mutedFretLabels /* grey nut */
-                        fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT} /* label text only */
-                    />
+                    <StringNotesDisplay />
 
 
                     <TriadsDisplay currentKey={currentKey} />
