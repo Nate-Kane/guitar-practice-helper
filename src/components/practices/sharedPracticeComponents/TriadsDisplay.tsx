@@ -12,6 +12,8 @@ import {
   TriadStringSetId,
 } from './fretboardConstants';
 import { useMapFretboard } from './hooks/useMapFretboard';
+import { findTriadVoicings } from './triadVoicings';
+import { TriadQuality } from './triadShapeTemplates';
 
 interface TriadsDisplayProps {
   currentKey: Key;
@@ -19,7 +21,7 @@ interface TriadsDisplayProps {
 }
 
 const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => {
-  const { findAllPositionsOfNote } = useMapFretboard(maxFret);
+  const { findAllPositionsOfNote, getNoteAt } = useMapFretboard(maxFret);
   const triads = useMemo(() => getDiatonicTriadsForKey(currentKey), [currentKey]);
   const [selectedTriadRoot, setSelectedTriadRoot] = useState<string | null>(null);
   const [selectedStringSet, setSelectedStringSet] = useState<TriadStringSetId>('gbe');
@@ -96,6 +98,24 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => 
     );
   }, [selectedTriad, currentKey.quality, selectedStringSet, findAllPositionsOfNote]);
 
+  const triadGroupings = useMemo(() => {
+    if (!selectedTriad || selectedStringSet === 'all') return [];
+
+    const stringSet =
+      TRIAD_STRING_SETS.find((set) => set.id === selectedStringSet) ?? null;
+
+    if (!stringSet) return [];
+
+    return findTriadVoicings(
+      selectedTriad.notes,
+      selectedStringSet,
+      currentKey.quality as TriadQuality,
+      stringSet.strings,
+      (string, fret) => getNoteAt(string, fret)?.note,
+      maxFret
+    );
+  }, [selectedTriad, selectedStringSet, currentKey.quality, getNoteAt, maxFret]);
+
   if (triads.length === 0) {
     return (
       <p className="text-amber-800">No diatonic triads found for this key.</p>
@@ -147,7 +167,7 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => 
       <div className="space-y-2">
         <h3 className="text-base font-bold text-amber-900">String set</h3>
         <p className="text-amber-800 text-sm md:text-base max-w-3xl">
-          Triads are easiest to learn in small string groups. Choose one set to focus on at a time.
+          Triads are easiest to learn in string sets - a group of three strings (one for each note in a triad). Choose one set to focus on at a time. Each highlight wraps one close-position triad shape on the neck.
         </p>
         <div className="flex flex-wrap gap-2">
           {TRIAD_STRING_SETS.map((stringSet) => {
@@ -175,6 +195,7 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => 
         <FretboardDisplay
           maxFret={maxFret}
           highlightedNotes={highlightedNotes}
+          triadGroupings={triadGroupings}
           disableKeyHighlights
           showOpenStringLabels={false}
           staticIntervalLegend={staticIntervalLegend}

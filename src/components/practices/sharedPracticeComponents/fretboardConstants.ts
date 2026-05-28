@@ -57,9 +57,11 @@ export const TRIAD_STRING_SETS: {
   id: TriadStringSetId;
   label: string;
   strings: number[];
+  /** Max fret distance between notes in one close-position voicing */
+  maxFretSpan: number;
 }[] = [
-  { id: 'all', label: 'All strings', strings: [0, 1, 2, 3, 4, 5] },
-  { id: 'low-ead', label: 'Low E, A, D', strings: [0, 1, 2] },
-  { id: 'dgb', label: 'D, G, B', strings: [2, 3, 4] },
-  { id: 'gbe', label: 'G, B, High E', strings: [3, 4, 5] },
+  { id: 'all', label: 'All strings', strings: [0, 1, 2, 3, 4, 5], maxFretSpan: 4 },
+  { id: 'low-ead', label: 'Low E, A, D', strings: [0, 1, 2], maxFretSpan: 5 },
+  { id: 'dgb', label: 'D, G, B', strings: [2, 3, 4], maxFretSpan: 4 },
+  { id: 'gbe', label: 'G, B, High E', strings: [3, 4, 5], maxFretSpan: 5 },
 ];

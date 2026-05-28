@@ -31,6 +31,20 @@
   margin-bottom: 5px;
   border-radius: var(--fretboard-radius);
   overflow: hidden;
+  position: relative;
+}
+
+.triad-grouping-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+}
+
+.triad-grouping-haze {
+  fill: rgba(250, 250, 249, 0.2);
+  stroke: none;
 }
 
 .string {

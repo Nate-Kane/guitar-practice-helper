@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import './FretboardDisplay.css';
 import { useMapFretboard } from './hooks/useMapFretboard';
 import {
@@ -7,6 +7,8 @@ import {
   NEUTRAL_MARKER_TEXT,
   PERFECT_FIFTH_INTERVAL_COLOR,
 } from './fretboardConstants';
+import { measureTriadGroupingShapes, TriadGroupingShape } from './triadGroupingShape';
+import { TriadGrouping } from './triadVoicings';
 export interface HighlightedNoteInfo {
   note: string;
   color: string;
@@ -94,6 +96,8 @@ interface FretboardDisplayProps {
   sectionHeading?: string;
   /** Filled, non-interactive legend only (no scale-mode radios or toggles) */
   staticIntervalLegend?: { name: string; color: string }[];
+  /** Oval outlines connecting root, 3rd, and 5th on a string set */
+  triadGroupings?: TriadGrouping[];
 }
 
 const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
@@ -108,8 +112,13 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
   fretLabelTextColor,
   sectionHeading,
   staticIntervalLegend,
+  triadGroupings,
 }) => {
   const { getNoteAt } = useMapFretboard(maxFret);
+  const fretboardRef = useRef<HTMLDivElement>(null);
+  const hazeFilterId = useId().replace(/:/g, '');
+  const [groupingShapes, setGroupingShapes] = useState<TriadGroupingShape[]>([]);
+  const [overlaySize, setOverlaySize] = useState({ width: 0, height: 0 });
   const [intervals, setIntervals] = useState<IntervalInfo[]>(intervalOptions);
   const [rootSelected, setRootSelected] = useState(true);
   const [scaleMode, setScaleMode] = useState<ScaleMode>(() => getDefaultScaleMode(keyQuality));
@@ -121,6 +130,36 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
     setIntervals(createResetIntervals());
     setRootSelected(true);
   }, [highlightedNote, keyQuality, disableKeyHighlights]);
+
+  useLayoutEffect(() => {
+    const board = fretboardRef.current;
+    if (!board || !triadGroupings?.length) {
+      setGroupingShapes([]);
+      setOverlaySize({ width: 0, height: 0 });
+      return;
+    }
+
+    const measureGroupings = () => {
+      const boardRect = board.getBoundingClientRect();
+      if (boardRect.width === 0 || boardRect.height === 0) return;
+
+      setOverlaySize({ width: boardRect.width, height: boardRect.height });
+      setGroupingShapes(measureTriadGroupingShapes(board, triadGroupings));
+    };
+
+    measureGroupings();
+    const rafId = requestAnimationFrame(measureGroupings);
+
+    const resizeObserver = new ResizeObserver(measureGroupings);
+    resizeObserver.observe(board);
+    window.addEventListener('resize', measureGroupings);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', measureGroupings);
+    };
+  }, [triadGroupings, maxFret, highlightedNotes]);
   
   const stringNames = ['E', 'A', 'D', 'G', 'B', 'E']; // standard tuning!
   
@@ -313,7 +352,43 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
         )}
         
         <div className="fretboard-with-names">
-          <div className="fretboard">
+          <div className="fretboard" ref={fretboardRef}>
+            {groupingShapes.length > 0 && overlaySize.width > 0 && (
+              <svg
+                className="triad-grouping-overlay"
+                width={overlaySize.width}
+                height={overlaySize.height}
+                viewBox={`0 0 ${overlaySize.width} ${overlaySize.height}`}
+                aria-hidden="true"
+              >
+                <defs>
+                  <filter
+                    id={hazeFilterId}
+                    x="-60%"
+                    y="-60%"
+                    width="220%"
+                    height="220%"
+                    colorInterpolationFilters="sRGB"
+                  >
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                {groupingShapes.map((shape) => (
+                  <circle
+                    key={shape.key}
+                    cx={shape.cx}
+                    cy={shape.cy}
+                    r={shape.r}
+                    className="triad-grouping-haze"
+                    filter={`url(#${hazeFilterId})`}
+                  />
+                ))}
+              </svg>
+            )}
             {/* Render strings from high to low (reverse the order) */}
             {[...Array(6)].map((_, i) => {
               // Map from high E (index 5) down to low E (index 0)
@@ -358,6 +433,8 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
                       <div 
                         key={`fret-${fretIndex}`} 
                         className={`fret ${showMarker ? 'highlighted' : ''}`}
+                        data-string={stringIndex}
+                        data-fret={fretIndex}
                       >
                         <div 
                           className={`note-marker ${isOpenString && !highlightInfo ? 'note-marker--open-string' : ''}`}
