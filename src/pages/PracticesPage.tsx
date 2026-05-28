@@ -64,8 +64,8 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         if (isLoading) {
             return (
                 <div className="min-h-[255px] flex items-center justify-center">
-                    <div className="text-center text-amber-700">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-700 mx-auto mb-4"></div>
+                    <div className="text-center text-amber-900">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-900 mx-auto mb-4"></div>
                         Loading practices...
                     </div>
                 </div>
@@ -83,7 +83,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         if (practices.length === 0) {
             return (
                 <div className="min-h-[255px] flex items-center justify-center">
-                    <div className="text-center text-amber-700">No practices available for this skill level.</div>
+                    <div className="text-center text-amber-900">No practices available for this skill level.</div>
                 </div>
             );
         }
@@ -91,7 +91,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         if (filteredPractices.length === 0 && searchQuery) {
             return (
                 <div className="min-h-[255px] flex items-center justify-center">
-                    <div className="text-center text-amber-700">
+                    <div className="text-center text-amber-900">
                         <div className="mb-2">No practices found matching "{searchQuery}"</div>
                         <button 
                             onClick={() => setSearchQuery('')}
@@ -164,7 +164,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                         e.stopPropagation();
                                         handleSwitchClick(practice.id || '');
                                     }}
-                                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors shadow h-9 px-4 py-2 bg-amber-700 hover:bg-amber-600 text-white flex items-center cursor-pointer"
+                                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors shadow h-9 px-4 py-2 bg-amber-900 hover:bg-amber-600 text-white flex items-center cursor-pointer"
                                 >
                                     Practice 
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 h-4 w-4">
@@ -186,7 +186,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                 {/* Hero Section */}
                 <section className="text-center space-y-6">
                     <div className="flex justify-center">
-                        <div className="bg-amber-700 p-4 rounded-full">
+                        <div className="bg-amber-900 p-4 rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-12 w-12 text-amber-100">
                                 <path d="m11.9 12.1 4.514-4.514"></path>
                                 <path d="M20.1 2.3a1 1 0 0 0-1.4 0l-1.114 1.114A2 2 0 0 0 17 4.828v1.344a2 2 0 0 1-.586 1.414A2 2 0 0 1 17.828 7h1.344a2 2 0 0 0 1.414-.586L21.7 5.3a1 1 0 0 0 0-1.4z"></path>
@@ -202,29 +202,29 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
                         <button 
                             onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
-                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors shadow h-10 rounded-md px-8 bg-amber-700 hover:bg-amber-600 text-white cursor-pointer max-w-[215px] w-full mx-auto sm:mx-0"
+                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors shadow h-10 rounded-md px-8 bg-amber-900 hover:bg-amber-600 text-white cursor-pointer max-w-[215px] w-full mx-auto sm:mx-0"
                         >
                             Fretboard Mapper
                         </button>
                         <div className="relative inline-flex mx-auto sm:mx-0" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-700 text-amber-700 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-stone-500"
+                                className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-900 text-amber-900 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-stone-500"
                             >
                                 Difficulty:&nbsp; {capitalize(skillLevel)}
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ml-2 h-4 w-4 text-amber-700 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ml-2 h-4 w-4 text-amber-900 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}>
                                     <path d="M6 9l6 6 6-6"></path>
                                 </svg>
                             </button>
                             
                             {isDropdownOpen && (
-                                <div className="absolute top-full left-0 mt-1 bg-white border border-amber-700 rounded-md shadow-lg z-10 w-full">
+                                <div className="absolute top-full left-0 mt-1 bg-white border border-amber-900 rounded-md shadow-lg z-10 w-full">
                                     <button
                                         onClick={() => {
                                             onSkillSelect('basics');
                                             setIsDropdownOpen(false);
                                         }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${skillLevel === 'basics' ? 'bg-stone-50 text-amber-800' : 'text-amber-700'}`}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${skillLevel === 'basics' ? 'bg-stone-50 text-amber-800' : 'text-amber-900'}`}
                                     >
                                         Basics
                                     </button>
@@ -233,7 +233,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                             onSkillSelect('intermediate');
                                             setIsDropdownOpen(false);
                                         }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors ${skillLevel === 'intermediate' ? 'bg-stone-50 text-amber-800' : 'text-amber-700'}`}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors ${skillLevel === 'intermediate' ? 'bg-stone-50 text-amber-800' : 'text-amber-900'}`}
                                     >
                                         Intermediate
                                     </button>
@@ -242,7 +242,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                             onSkillSelect('advanced');
                                             setIsDropdownOpen(false);
                                         }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${skillLevel === 'advanced' ? 'bg-stone-50 text-amber-800' : 'text-amber-700'}`}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${skillLevel === 'advanced' ? 'bg-stone-50 text-amber-800' : 'text-amber-900'}`}
                                     >
                                         Advanced
                                     </button>
@@ -275,7 +275,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                 </section>
 
                 {/* Featured Fretboard Mapper Section */}
-                <section className="bg-gradient-to-r from-amber-800 to-amber-700 text-stone-50 rounded-lg p-8">
+                <section className="bg-gradient-to-r from-amber-800 to-amber-900 text-stone-50 rounded-lg p-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                         <div className="space-y-4">
                             <h2 className="text-2xl md:text-3xl font-bold">Fretboard Mapper</h2>

@@ -63,8 +63,8 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
     return (
       <main className="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-[1280px]">
         <div className="min-h-[255px] flex items-center justify-center">
-          <div className="text-center text-amber-700">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-700 mx-auto mb-4"></div>
+          <div className="text-center text-amber-900">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-900 mx-auto mb-4"></div>
             <div>Loading practice...</div>
           </div>
         </div>
@@ -100,7 +100,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
               <a 
                 href="javascript:void(0)"
                 onClick={() => navigate('/practices')}
-                className="text-amber-700 text-stone-500 hover:text-amber-600 hover:text-amber-400 flex items-center"
+                className="text-amber-900 text-stone-500 hover:text-amber-600 hover:text-amber-400 flex items-center"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-left h-4 w-4 mr-1" aria-hidden="true">
                   <path d="m12 19-7-7 7-7"></path>
@@ -116,22 +116,22 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
           <div className="relative inline-flex" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-700 text-amber-700 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-stone-500"
+              className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-900 text-amber-900 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-stone-500"
             >
               Difficulty:&nbsp; {capitalize(skillLevel)}
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ml-2 h-4 w-4 text-amber-700 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ml-2 h-4 w-4 text-amber-900 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}>
                 <path d="M6 9l6 6 6-6"></path>
               </svg>
             </button>
             
             {isDropdownOpen && (
-              <div className="absolute top-full left-0 md:right-0 md:left-auto mt-1 bg-white border border-amber-700 rounded-md shadow-lg z-10 w-full">
+              <div className="absolute top-full left-0 md:right-0 md:left-auto mt-1 bg-white border border-amber-900 rounded-md shadow-lg z-10 w-full">
                 <button
                   onClick={() => {
                     onSkillSelect('basics');
                     setIsDropdownOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${skillLevel === 'basics' ? 'bg-stone-50 text-amber-800' : 'text-amber-700'}`}
+                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${skillLevel === 'basics' ? 'bg-stone-50 text-amber-800' : 'text-amber-900'}`}
                 >
                   Basics
                 </button>
@@ -140,7 +140,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
                     onSkillSelect('intermediate');
                     setIsDropdownOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors ${skillLevel === 'intermediate' ? 'bg-stone-50 text-amber-800' : 'text-amber-700'}`}
+                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors ${skillLevel === 'intermediate' ? 'bg-stone-50 text-amber-800' : 'text-amber-900'}`}
                 >
                   Intermediate
                 </button>
@@ -149,7 +149,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
                     onSkillSelect('advanced');
                     setIsDropdownOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${skillLevel === 'advanced' ? 'bg-stone-50 text-amber-800' : 'text-amber-700'}`}
+                  className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${skillLevel === 'advanced' ? 'bg-stone-50 text-amber-800' : 'text-amber-900'}`}
                 >
                   Advanced
                 </button>

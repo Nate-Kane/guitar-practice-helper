@@ -29,20 +29,20 @@ const ProgressionDisplay: FC<ProgressionDisplayProps> = ({
                 Chord Progression
               </h3>
               <h4 className="text-lg font-medium text-amber-900 mb-1">
-                {progression.name} <span className="font-bold text-amber-700">({progression.nashvilleRomanNums.join(' - ')})</span>
+                {progression.name} <span className="font-bold text-amber-900">({progression.nashvilleRomanNums.join(' - ')})</span>
               </h4>
               <p className="text-amber-800 font-medium">
                 {chords.join(' - ')}
               </p>
               {progression.description && (
-                <p className="text-amber-700 text-sm mt-1">
+                <p className="text-amber-900 text-sm mt-1">
                   {progression.description}
                 </p>
               )}
             </div>
             <button 
               onClick={onRegenerateProgression}
-              className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border bg-white shadow-sm hover:text-accent-foreground h-8 rounded-md px-3 text-xs border-amber-700 hover:bg-amber-100 self-end sm:self-auto cursor-pointer text-amber-700"
+              className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border bg-white shadow-sm hover:text-accent-foreground h-8 rounded-md px-3 text-xs border-amber-900 hover:bg-amber-100 self-end sm:self-auto cursor-pointer text-amber-900"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-refresh-cw h-4 w-4 mr-2" aria-hidden="true">
                 <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
