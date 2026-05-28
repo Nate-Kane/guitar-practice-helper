@@ -67,7 +67,7 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => 
           {triads.map((triad) => (
             <li
               key={triad.root}
-              className="text-sm text-stone-300 bg-stone-50/10 border border-stone-50/20 rounded-md px-3 py-1.5"
+              className="text-sm text-stone-300 bg-stone-50/10 border border-stone-50/20 rounded-lg px-3 py-1.5"
             >
               <span className="font-semibold text-stone-50">{triad.name}</span>
               <span className="text-stone-400"> — {triad.notes.join(', ')}</span>

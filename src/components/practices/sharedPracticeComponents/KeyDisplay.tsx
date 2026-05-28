@@ -35,7 +35,7 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
         <div className="p-6">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="bg-amber-900 p-3 rounded-md text-stone-50 shrink-0">
+              <div className="bg-amber-900 p-3 rounded-lg text-stone-50 shrink-0">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -68,7 +68,7 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
                 type="button"
                 aria-expanded={isKeySelectorOpen}
                 onClick={openKeySelector}
-                className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors shadow h-9 px-4 py-2 text-stone-50 bg-amber-900 hover:bg-amber-800 cursor-pointer"
+                className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 py-2 text-stone-50 bg-amber-900 hover:bg-amber-800 cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +88,7 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
               </button>
               <button
                 onClick={onRegenerateKey}
-                className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors shadow h-9 px-4 py-2 text-stone-50 bg-amber-900 hover:bg-amber-800 cursor-pointer"
+                className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 py-2 text-stone-50 bg-amber-900 hover:bg-amber-800 cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

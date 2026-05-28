@@ -66,7 +66,7 @@ const StringNotesDisplay: FC<StringNotesDisplayProps> = ({
               type="button"
               aria-pressed={selectedStringIndex === string.index}
               onClick={() => setSelectedStringIndex(string.index)}
-              className={`inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors shadow h-9 px-3 cursor-pointer ${
+              className={`inline-flex items-center justify-center rounded-lg text-sm font-medium transition-colors shadow h-9 px-3 cursor-pointer ${
                 selectedStringIndex === string.index
                   ? 'text-stone-50 bg-amber-900 hover:bg-amber-800'
                   : 'text-stone-50 bg-zinc-700 hover:bg-zinc-600 border border-stone-50/20'

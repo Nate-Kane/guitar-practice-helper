@@ -25,7 +25,7 @@ const PracticeToolCard: FC<PracticeToolCardProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div className="flex items-center gap-4">
             {icon && (
-              <div className="bg-amber-900 p-3 rounded-md text-stone-50 shrink-0">{icon}</div>
+              <div className="bg-amber-900 p-3 rounded-lg text-stone-50 shrink-0">{icon}</div>
             )}
             <div>
               <h3 className="text-lg md:text-xl font-bold text-stone-50 mb-1">{title}</h3>

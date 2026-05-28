@@ -62,10 +62,10 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
   });
   
   const filterTriggerClass =
-    'inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border-2 shadow-sm h-10 rounded-md px-4 w-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-stone-50/30 border-stone-50/25 bg-stone-50/5 text-stone-50 hover:bg-stone-50/10 hover:border-stone-50/40';
+    'inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border-2 shadow-sm h-10 rounded-lg px-4 w-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-stone-50/30 border-stone-50/25 bg-stone-50/5 text-stone-50 hover:bg-stone-50/10 hover:border-stone-50/40';
 
   const dropdownMenuClass =
-    'absolute top-full left-0 right-0 mt-1 rounded-md shadow-lg z-10 overflow-hidden bg-zinc-800/95 border border-stone-50/25 backdrop-blur-sm';
+    'absolute top-full left-0 right-0 mt-1 rounded-lg shadow-lg z-10 overflow-hidden bg-zinc-800/95 border border-stone-50/25 backdrop-blur-sm';
 
   const dropdownOptionClass = (isSelected: boolean, rounded: 't' | 'b' | 'none') =>
     [
@@ -206,7 +206,7 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
             <button
               key={key.name}
               type="button"
-              className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-all duration-200 h-9 rounded-md px-3 text-sm border-2 border-amber-900 text-stone-50 bg-zinc-800/50 hover:bg-amber-900 cursor-pointer shadow-sm"
+              className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-all duration-200 h-9 rounded-lg px-3 text-sm border-2 border-amber-900 text-stone-50 bg-zinc-800/50 hover:bg-amber-900 cursor-pointer shadow-sm"
               onClick={() => {
                 onSelectKey(key);
                 onClose();

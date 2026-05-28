@@ -31,13 +31,13 @@ const Navbar: FC = () => {
             <div className="ml-10 flex items-center space-x-4">
               <button
                 onClick={() => navigate('/')}
-                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-amber-900 transition-colors cursor-pointer"
+                className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-amber-900 transition-colors cursor-pointer"
               >
                 Home
               </button>
               <button
                 onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
-                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-amber-900 transition-colors cursor-pointer"
+                className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-amber-900 transition-colors cursor-pointer"
               >
                 Fretboard Mapper
               </button>
@@ -45,7 +45,7 @@ const Navbar: FC = () => {
                 href="https://www.natekaneofficial.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-amber-900 transition-colors cursor-pointer"
+                className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-amber-900 transition-colors cursor-pointer"
               >
                 Meet The Creator
               </a>
@@ -56,7 +56,7 @@ const Navbar: FC = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-stone-50 hover:bg-amber-900 transition-colors"
+              className="inline-flex items-center justify-center p-2 rounded-lg text-stone-50 hover:bg-amber-900 transition-colors"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
                 <path d="M4 12h16"></path>
@@ -76,7 +76,7 @@ const Navbar: FC = () => {
                   navigate('/');
                   setIsMenuOpen(false);
                 }}
-                className="block px-3 py-2 rounded-md text-base font-medium hover:bg-amber-900 transition-colors w-full text-left cursor-pointer"
+                className="block px-3 py-2 rounded-lg text-base font-medium hover:bg-amber-900 transition-colors w-full text-left cursor-pointer"
               >
                 Home
               </button>
@@ -85,7 +85,7 @@ const Navbar: FC = () => {
                   navigate('/practice/xsFrdqxeyLbFM2puHGMs');
                   setIsMenuOpen(false);
                 }}
-                className="block px-3 py-2 rounded-md text-base font-medium hover:bg-amber-900 transition-colors w-full text-left cursor-pointer"
+                className="block px-3 py-2 rounded-lg text-base font-medium hover:bg-amber-900 transition-colors w-full text-left cursor-pointer"
               >
                 Fretboard Mapper
               </button>
@@ -93,7 +93,7 @@ const Navbar: FC = () => {
                 href="https://www.natekaneofficial.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block px-3 py-2 rounded-md text-base font-medium hover:bg-amber-900 transition-colors w-full text-left cursor-pointer"
+                className="block px-3 py-2 rounded-lg text-base font-medium hover:bg-amber-900 transition-colors w-full text-left cursor-pointer"
               >
                 Meet The Creator
               </a>

@@ -125,7 +125,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                         >
                             <div className="p-6">
                                 <div className="flex items-start">
-                                    <div className="bg-amber-900 p-3 rounded-md mr-4 text-stone-50">
+                                    <div className="bg-amber-900 p-3 rounded-lg mr-4 text-stone-50">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
                                             {iconPaths}
                                             {/* Additional paths for specific icons */}
@@ -164,7 +164,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                         e.stopPropagation();
                                         handleSwitchClick(practice.id || '');
                                     }}
-                                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors shadow h-9 px-4 py-2 hover:bg-amber-900 text-stone-50 flex items-center cursor-pointer"
+                                    className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 py-2 hover:bg-amber-900 text-stone-50 flex items-center cursor-pointer"
                                 >
                                     Practice 
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 h-4 w-4">
@@ -202,14 +202,14 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                     {/* <div className="flex flex-col sm:flex-row justify-center gap-4">
                         <button 
                             onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
-                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors shadow h-10 rounded-md px-8 bg-amber-900 hover:bg-amber-600 text-white cursor-pointer max-w-[215px] w-full mx-auto sm:mx-0"
+                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors shadow h-10 rounded-lg px-8 bg-amber-900 hover:bg-amber-600 text-white cursor-pointer max-w-[215px] w-full mx-auto sm:mx-0"
                         >
                             Fretboard Mapper
                         </button>
                         <div className="relative inline-flex mx-auto sm:mx-0" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-900 text-amber-900 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-stone-500"
+                                className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-lg px-4 border-amber-900 text-amber-900 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-stone-500"
                             >
                                 Difficulty:&nbsp; {capitalize(skillLevel)}
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ml-2 h-4 w-4 text-amber-900 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}>
@@ -218,7 +218,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                             </button>
                             
                             {isDropdownOpen && (
-                                <div className="absolute top-full left-0 mt-1 bg-white border border-amber-900 rounded-md shadow-lg z-10 w-full">
+                                <div className="absolute top-full left-0 mt-1 bg-white border border-amber-900 rounded-lg shadow-lg z-10 w-full">
                                     <button
                                         onClick={() => {
                                             onSkillSelect('basics');
@@ -265,7 +265,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                 type="text" 
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-sm transition-colors pl-10 border-amber-300 bg-stone-50 focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-stone-500" 
+                                className="flex h-9 w-full rounded-lg border px-3 py-1 text-sm shadow-sm transition-colors pl-10 border-amber-300 bg-stone-50 focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-stone-500" 
                                 placeholder="Search practices..."
                             />
                         </div>
@@ -284,7 +284,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                             </p>
                             <button 
                                 onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
-                                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors shadow h-9 px-4 py-2 bg-stone-50 hover:bg-amber-100 text-amber-900 cursor-pointer"
+                                className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 py-2 bg-stone-50 hover:bg-amber-100 text-amber-900 cursor-pointer"
                             >
                                 Check it out
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 h-4 w-4">
