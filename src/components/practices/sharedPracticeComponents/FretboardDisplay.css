@@ -21,7 +21,7 @@
   max-width: 900px;
   border-left: var(--nut-border-width) solid #2a1d18;
   border-right: 1px solid #3d2a22;
-  background: linear-gradient(180deg, #664636 0%, #4a3228 55%, #3d2a22 100%);
+  background: linear-gradient(180deg, #453026 0%, #402c23 55%, #30211b 100%);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
   margin-bottom: 5px;
 }
@@ -67,7 +67,7 @@
 }
 
 .fret:first-child { /* Nut / open */
-  background-color: #5a4238;
+  background-color: linear-gradient(180deg, #453026 0%, #402c23 55%, #30211b 100%);
   flex: 0 0 var(--open-fret-width);
   min-width: var(--open-fret-width);
   max-width: var(--open-fret-width);
