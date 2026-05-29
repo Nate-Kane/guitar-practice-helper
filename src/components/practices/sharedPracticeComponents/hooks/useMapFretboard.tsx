@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 type FretboardNote = {
   string: number;
@@ -47,17 +47,16 @@ export const useMapFretboard = (maxFret: number = 12) => {
     return map;
   }, [maxFret]);
 
-  // Helper to get a specific note
-  const getNoteAt = (string: number, fret: number) => {
-    return fretboardMap.find(
-      note => note.string === string && note.fret === fret
-    );
-  };
+  const getNoteAt = useCallback(
+    (string: number, fret: number) =>
+      fretboardMap.find((note) => note.string === string && note.fret === fret),
+    [fretboardMap]
+  );
 
-  // Helper to find all instances of a particular note
-  const findAllPositionsOfNote = (noteName: string) => {
-    return fretboardMap.filter(note => note.note === noteName);
-  };
+  const findAllPositionsOfNote = useCallback(
+    (noteName: string) => fretboardMap.filter((note) => note.note === noteName),
+    [fretboardMap]
+  );
 
   return {
     fretboardMap,

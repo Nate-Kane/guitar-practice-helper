@@ -78,6 +78,15 @@ const createResetIntervals = (): IntervalInfo[] =>
     selected: false,
   }));
 
+const shapeSignature = (shape: TriadGroupingShape) =>
+  shape.kind === 'circle'
+    ? `c:${shape.key}:${shape.cx}:${shape.cy}:${shape.r}`
+    : `e:${shape.key}:${shape.cx}:${shape.cy}:${shape.rx}:${shape.ry}:${shape.rotation}`;
+
+const shapesEqual = (a: TriadGroupingShape[], b: TriadGroupingShape[]) =>
+  a.length === b.length &&
+  a.every((shape, index) => shapeSignature(shape) === shapeSignature(b[index]));
+
 interface FretboardDisplayProps {
   highlightedNote?: string; // Kept for backward compatibility
   highlightedNotes?: HighlightedNoteInfo[]; // For manually specifying highlighted notes
@@ -134,8 +143,10 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
   useLayoutEffect(() => {
     const board = fretboardRef.current;
     if (!board || !triadGroupings?.length) {
-      setGroupingShapes([]);
-      setOverlaySize({ width: 0, height: 0 });
+      setGroupingShapes((prev) => (prev.length === 0 ? prev : []));
+      setOverlaySize((prev) =>
+        prev.width === 0 && prev.height === 0 ? prev : { width: 0, height: 0 }
+      );
       return;
     }
 
@@ -143,8 +154,15 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
       const boardRect = board.getBoundingClientRect();
       if (boardRect.width === 0 || boardRect.height === 0) return;
 
-      setOverlaySize({ width: boardRect.width, height: boardRect.height });
-      setGroupingShapes(measureTriadGroupingShapes(board, triadGroupings));
+      const nextSize = { width: boardRect.width, height: boardRect.height };
+      setOverlaySize((prev) =>
+        prev.width === nextSize.width && prev.height === nextSize.height ? prev : nextSize
+      );
+
+      const nextShapes = measureTriadGroupingShapes(board, triadGroupings);
+      setGroupingShapes((prev) =>
+        shapesEqual(prev, nextShapes) ? prev : nextShapes
+      );
     };
 
     measureGroupings();
@@ -159,7 +177,7 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
       resizeObserver.disconnect();
       window.removeEventListener('resize', measureGroupings);
     };
-  }, [triadGroupings, maxFret, highlightedNotes]);
+  }, [triadGroupings, maxFret]);
   
   const stringNames = ['E', 'A', 'D', 'G', 'B', 'E']; // standard tuning!
   
