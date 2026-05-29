@@ -1,7 +1,7 @@
 import { FC, useMemo, useState } from 'react';
 import FretboardDisplay, { HighlightedNoteInfo } from './FretboardDisplay';
 import PracticeToolCard from './PracticeToolCard';
-import { GUITAR_STRINGS, PERFECT_FIFTH_INTERVAL_COLOR } from './fretboardConstants';
+import { GUITAR_STRINGS, PERFECT_FIFTH_INTERVAL_COLOR, ROOT_INTERVAL_COLOR } from './fretboardConstants';
 import { useMapFretboard } from './hooks/useMapFretboard';
 
 const DEFAULT_HEADING = 'Explore a single string';
@@ -23,12 +23,13 @@ const StringNotesDisplay: FC<StringNotesDisplayProps> = ({
   const highlightedNotes = useMemo((): HighlightedNoteInfo[] => {
     return Array.from({ length: maxFret + 1 }, (_, fret) => {
       const note = getNoteAt(selectedStringIndex, fret)?.note ?? '';
+      const isNaturalNote = !note.includes('#');
       return {
         note,
         string: selectedStringIndex,
         fret,
-        color: PERFECT_FIFTH_INTERVAL_COLOR,
-        variant: 'interval',
+        color: isNaturalNote ? ROOT_INTERVAL_COLOR : PERFECT_FIFTH_INTERVAL_COLOR,
+        variant: 'interval' as const,
         label: note,
       };
     });

@@ -1,7 +1,7 @@
 import { FC, useMemo, useState } from 'react';
 import FretboardDisplay, { HighlightedNoteInfo } from './FretboardDisplay';
 import PracticeToolCard from './PracticeToolCard';
-import { PERFECT_FIFTH_INTERVAL_COLOR } from './fretboardConstants';
+import { ROOT_INTERVAL_COLOR } from './fretboardConstants';
 import { useMapFretboard } from './hooks/useMapFretboard';
 
 /** A through G with sharps (no enharmonic flats — matches string-note tool) */
@@ -41,7 +41,7 @@ const NoteAcrossFretboardDisplay: FC<NoteAcrossFretboardDisplayProps> = ({
       note: selectedNote,
       string,
       fret,
-      color: PERFECT_FIFTH_INTERVAL_COLOR,
+      color: ROOT_INTERVAL_COLOR,
       variant: 'interval' as const,
       label: selectedNote,
     }));
