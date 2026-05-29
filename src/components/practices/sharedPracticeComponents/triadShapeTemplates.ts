@@ -30,6 +30,11 @@ export const TRIAD_SHAPE_TEMPLATES: Record<
       { inversion: 3, degrees: [3, 5, 1], fretOffsets: [0, -2, -2] },
       { inversion: 5, degrees: [5, 1, 3], fretOffsets: [0, 0, -1] },
     ],
+    agd: [
+      { inversion: 1, degrees: [1, 3, 5], fretOffsets: [0, -1, -3] },
+      { inversion: 3, degrees: [3, 5, 1], fretOffsets: [0, -2, -2] },
+      { inversion: 5, degrees: [5, 1, 3], fretOffsets: [0, 0, -1] },
+    ],
     dgb: [
       { inversion: 1, degrees: [1, 3, 5], fretOffsets: [0, -1, -2] },
       { inversion: 3, degrees: [3, 5, 1], fretOffsets: [0, -2, -1] },
@@ -43,6 +48,11 @@ export const TRIAD_SHAPE_TEMPLATES: Record<
   },
   minor: {
     'low-ead': [
+      { inversion: 1, degrees: [1, 3, 5], fretOffsets: [0, -2, -3] },
+      { inversion: 3, degrees: [3, 5, 1], fretOffsets: [0, -1, -1] },
+      { inversion: 5, degrees: [5, 1, 3], fretOffsets: [0, 0, -2] },
+    ],
+    agd: [
       { inversion: 1, degrees: [1, 3, 5], fretOffsets: [0, -2, -3] },
       { inversion: 3, degrees: [3, 5, 1], fretOffsets: [0, -1, -1] },
       { inversion: 5, degrees: [5, 1, 3], fretOffsets: [0, 0, -2] },
