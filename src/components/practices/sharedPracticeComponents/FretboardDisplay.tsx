@@ -377,16 +377,29 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
                     </feMerge>
                   </filter>
                 </defs>
-                {groupingShapes.map((shape) => (
-                  <circle
-                    key={shape.key}
-                    cx={shape.cx}
-                    cy={shape.cy}
-                    r={shape.r}
-                    className="triad-grouping-haze"
-                    filter={`url(#${hazeFilterId})`}
-                  />
-                ))}
+                {groupingShapes.map((shape) =>
+                  shape.kind === 'ellipse' ? (
+                    <ellipse
+                      key={shape.key}
+                      cx={shape.cx}
+                      cy={shape.cy}
+                      rx={shape.rx}
+                      ry={shape.ry}
+                      transform={`rotate(${shape.rotation} ${shape.cx} ${shape.cy})`}
+                      className="triad-grouping-haze"
+                      filter={`url(#${hazeFilterId})`}
+                    />
+                  ) : (
+                    <circle
+                      key={shape.key}
+                      cx={shape.cx}
+                      cy={shape.cy}
+                      r={shape.r}
+                      className="triad-grouping-haze"
+                      filter={`url(#${hazeFilterId})`}
+                    />
+                  )
+                )}
               </svg>
             )}
             {/* Render strings from high to low (reverse the order) */}
