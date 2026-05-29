@@ -24,11 +24,7 @@ const INPUT_LIGHT =
 const INPUT_DARK =
   'w-full rounded-lg border border-stone-50/25 bg-stone-50/5 px-3 py-2 text-sm text-stone-50 placeholder:text-stone-50/40 focus:outline-none focus:ring-2 focus:ring-stone-50/30';
 
-const TEXTAREA_LIGHT = `${INPUT_LIGHT} min-h-[100px] resize-y`;
-
 const TEXTAREA_DARK = `${INPUT_DARK} min-h-[100px] resize-y`;
-
-const LABEL_LIGHT = 'block text-sm font-semibold text-amber-900 mb-1.5';
 
 const LABEL_DARK = 'block text-sm font-semibold text-stone-50 mb-1.5';
 

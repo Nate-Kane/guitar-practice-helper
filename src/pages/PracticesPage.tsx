@@ -9,15 +9,12 @@ interface PracticesPageProps {
     onSkillSelect: (level: string) => void;
 }
 
-const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) => {
+const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
     const navigate = useNavigate();
-    const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
     const [practices, setPractices] = useState<Practice[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const dropdownRef = useRef<HTMLDivElement>(null);
     const practiceGridRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -37,18 +34,6 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
 
         fetchPractices();
     }, [skillLevel]);
-
-    // Close dropdown when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsDropdownOpen(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
 
     const handleSwitchClick = (practiceId: string) => {
         setTimeout(() => {

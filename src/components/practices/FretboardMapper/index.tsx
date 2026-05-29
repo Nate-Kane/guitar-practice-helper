@@ -2,7 +2,6 @@ import { useKeyGenerator } from '../sharedPracticeComponents/hooks/useKeyGenerat
 import KeyDisplay from '../sharedPracticeComponents/KeyDisplay';
 import FretboardDisplay from '../sharedPracticeComponents/FretboardDisplay';
 import { DARK_ROSEWOOD_LABEL_TEXT } from '../sharedPracticeComponents/fretboardConstants';
-import StringNotesDisplay from '../sharedPracticeComponents/StringNotesDisplay';
 import { FC } from 'react';
 
 interface FretboardMapperyProps {
