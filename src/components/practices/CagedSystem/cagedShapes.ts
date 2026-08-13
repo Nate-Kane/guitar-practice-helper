@@ -194,5 +194,34 @@ export const getCagedShapePositions = (
   }
 };
 
+/** Union of all five CAGED shape fingerings for a chord root. */
+export const getAllCagedShapePositions = (
+  rootNote: string,
+  findAllPositionsOfNote: FindPositions,
+  maxFret: number
+): FretPosition[] => {
+  const seen = new Set<string>();
+  const positions: FretPosition[] = [];
+
+  for (let shape = 1; shape <= 5; shape++) {
+    const shapePositions = getCagedShapePositions(
+      shape,
+      rootNote,
+      findAllPositionsOfNote,
+      maxFret
+    );
+    if (!shapePositions) continue;
+
+    for (const position of shapePositions) {
+      const key = positionKey(position);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      positions.push(position);
+    }
+  }
+
+  return positions;
+};
+
 export const positionKey = (position: FretPosition): string =>
   `${position.string}:${position.fret}`;

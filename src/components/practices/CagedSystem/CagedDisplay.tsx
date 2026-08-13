@@ -10,15 +10,29 @@ import {
   ROOT_INTERVAL_COLOR,
 } from '../sharedPracticeComponents/fretboardConstants';
 import { useMapFretboard } from '../sharedPracticeComponents/hooks/useMapFretboard';
-import { getCagedShapePositions, positionKey } from './cagedShapes';
+import {
+  getAllCagedShapePositions,
+  getCagedShapePositions,
+  positionKey,
+} from './cagedShapes';
 
 /** The five CAGED open-chord shapes — always treated as major triads */
 const CAGED_CHORDS = ['C', 'A', 'G', 'E', 'D'] as const;
 type CagedChord = (typeof CAGED_CHORDS)[number];
 
-/** Shape 1 = C shape, 2 = A, 3 = G, 4 = E, 5 = D */
-const CAGED_SHAPES = [1, 2, 3, 4, 5] as const;
-type CagedShape = (typeof CAGED_SHAPES)[number];
+/** 'all' first; shape 1 = C shape … 5 = D shape */
+const CAGED_SHAPE_OPTIONS = ['all', 1, 2, 3, 4, 5] as const;
+type CagedShapeSelection = (typeof CAGED_SHAPE_OPTIONS)[number];
+type CagedShapeNumber = 1 | 2 | 3 | 4 | 5;
+
+/** Which open major chord each numbered shape looks like */
+const SHAPE_LOOKS_LIKE: Record<CagedShapeNumber, CagedChord> = {
+  1: 'C',
+  2: 'A',
+  3: 'G',
+  4: 'E',
+  5: 'D',
+};
 
 const MAJOR_TRIAD_SEMITONES = [0, 4, 7] as const;
 
@@ -42,13 +56,36 @@ const STATIC_INTERVAL_LEGEND = [
   { name: 'Perfect 5', color: PERFECT_FIFTH_INTERVAL_COLOR },
 ];
 
+const getHighlightSummary = (
+  chord: CagedChord,
+  triadNotes: [string, string, string],
+  shape: CagedShapeSelection
+): { title: string; detail: string } => {
+  const notes = triadNotes.join(', ');
+
+  if (shape === 'all') {
+    return {
+      title: `Highlighting ${chord} major (${notes}) — all five shapes.`,
+      detail:
+        'Bright notes belong to the CAGED shapes. Dimmer notes are still in the chord, just outside those forms.',
+    };
+  }
+
+  const openLookalike = SHAPE_LOOKS_LIKE[shape];
+  return {
+    title: `Highlighting ${chord} major (${notes}) — shape ${shape}.`,
+    detail: `This form looks like an open ${openLookalike} major chord. Same shape, different root: ${chord} major in shape ${shape} and open ${openLookalike} major both use shape ${shape}.`,
+  };
+};
+
 interface CagedDisplayProps {
   maxFret?: number;
 }
 
 const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
   const [selectedChord, setSelectedChord] = useState<CagedChord>('C');
-  const [selectedShape, setSelectedShape] = useState<CagedShape>(1);
+  const [selectedShape, setSelectedShape] =
+    useState<CagedShapeSelection>('all');
   const { findAllPositionsOfNote } = useMapFretboard(maxFret);
 
   const triadNotes = useMemo(
@@ -65,13 +102,16 @@ const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
       { note: perfectFifth, color: PERFECT_FIFTH_INTERVAL_COLOR, label: 'P5' },
     ] as const;
 
-    // Shapes with templates emphasize in-shape notes; others keep full triad map
-    const shapePositions = getCagedShapePositions(
-      selectedShape,
-      root,
-      findAllPositionsOfNote,
-      maxFret
-    );
+    const shapePositions =
+      selectedShape === 'all'
+        ? getAllCagedShapePositions(root, findAllPositionsOfNote, maxFret)
+        : getCagedShapePositions(
+            selectedShape,
+            root,
+            findAllPositionsOfNote,
+            maxFret
+          );
+
     const shapePositionKeys = shapePositions
       ? new Set(shapePositions.map(positionKey))
       : null;
@@ -98,43 +138,74 @@ const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
     );
   }, [triadNotes, selectedShape, findAllPositionsOfNote, maxFret]);
 
-  return (
-    <div className="space-y-4 w-full">
-      <h2 className="text-xl font-bold text-amber-900">Choose a CAGED chord</h2>
+  const highlightSummary = getHighlightSummary(
+    selectedChord,
+    triadNotes,
+    selectedShape
+  );
 
-      <div className="flex flex-wrap gap-2">
-        {CAGED_CHORDS.map((chord) => {
-          const isSelected = selectedChord === chord;
-          return (
-            <button
-              key={chord}
-              type="button"
-              aria-pressed={isSelected}
-              onClick={() => setSelectedChord(chord)}
-              className={`inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors h-9 px-4 cursor-pointer ${
-                isSelected
-                  ? 'bg-amber-900 text-stone-50 shadow'
-                  : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
-              }`}
-            >
-              {chord}
-            </button>
-          );
-        })}
+  return (
+    <div className="w-full space-y-8">
+      <div className="space-y-3">
+        <div className="space-y-1">
+          <h2 className="text-xl font-bold text-amber-900">
+            Choose a CAGED chord
+          </h2>
+          <p className="text-amber-800 text-sm md:text-base max-w-3xl">
+            This will show you a{' '}
+            <span className="font-semibold">{selectedChord} major</span> all
+            over the fretboard.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {CAGED_CHORDS.map((chord) => {
+            const isSelected = selectedChord === chord;
+            return (
+              <button
+                key={chord}
+                type="button"
+                aria-pressed={isSelected}
+                onClick={() => setSelectedChord(chord)}
+                className={`inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors h-9 px-4 cursor-pointer ${
+                  isSelected
+                    ? 'bg-amber-900 text-stone-50 shadow'
+                    : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
+                }`}
+              >
+                {chord}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      <div className="space-y-2">
-        <h3 className="text-base font-bold text-amber-900">Highlight shape</h3>
+      <div className="space-y-3">
+        <div className="space-y-2">
+          <h2 className="text-xl font-bold text-amber-900">Highlight shape</h2>
+          <ul className="list-disc pl-5 space-y-1.5 text-amber-800 text-sm md:text-base max-w-3xl">
+            <li>
+              Shape 1 looks like an open C major. Shape 2 like an open A, and so
+              on (3 → G, 4 → E, 5 → D).
+            </li>
+            <li>
+              Reverse that thinking: An open C major <span className="font-semibold">uses</span>{' '}
+              shape 1. An open A major <span className="font-semibold">uses</span> shape 2, and so on.
+            </li>
+          </ul>
+        </div>
+
         <div
           className="flex flex-wrap gap-2"
           role="radiogroup"
           aria-label="CAGED shape"
         >
-          {CAGED_SHAPES.map((shape) => {
+          {CAGED_SHAPE_OPTIONS.map((shape) => {
             const isSelected = selectedShape === shape;
+            const label = shape === 'all' ? 'All' : shape;
             return (
               <button
-                key={shape}
+                key={String(shape)}
                 type="button"
                 role="radio"
                 aria-checked={isSelected}
@@ -145,31 +216,33 @@ const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
                     : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
                 }`}
               >
-                {shape}
+                {label}
               </button>
             );
           })}
         </div>
       </div>
 
-      <div className="space-y-3 text-amber-800 text-base font-bold md:text-base max-w-3xl">
-        <p>
-          Highlighting{' '}
-          <span className="font-semibold">{selectedChord} major</span> (
-          {triadNotes.join(', ')}), shape{' '}
-          <span className="font-semibold">{selectedShape}</span>.
-        </p>
-      </div>
+      <div className="space-y-6">
+        <div className="text-center max-w-3xl mx-auto space-y-2">
+          <p className="text-amber-900 text-lg md:text-xl font-bold leading-snug">
+            {highlightSummary.title}
+          </p>
+          <p className="text-amber-800 text-sm md:text-base leading-relaxed">
+            {highlightSummary.detail}
+          </p>
+        </div>
 
-      <FretboardDisplay
-        maxFret={maxFret}
-        highlightedNotes={highlightedNotes}
-        disableKeyHighlights
-        showOpenStringLabels={false}
-        staticIntervalLegend={STATIC_INTERVAL_LEGEND}
-        mutedFretLabels
-        fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT}
-      />
+        <FretboardDisplay
+          maxFret={maxFret}
+          highlightedNotes={highlightedNotes}
+          disableKeyHighlights
+          showOpenStringLabels={false}
+          staticIntervalLegend={STATIC_INTERVAL_LEGEND}
+          mutedFretLabels
+          fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT}
+        />
+      </div>
     </div>
   );
 };
