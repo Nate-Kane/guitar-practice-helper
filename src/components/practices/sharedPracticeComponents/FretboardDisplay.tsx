@@ -19,6 +19,13 @@ export interface HighlightedNoteInfo {
   fret?: number;
   /** Rosewood-style markers (string / triad tools) vs interval colors */
   variant?: 'neutral' | 'interval';
+  /**
+   * Optional CAGED (and similar) emphasis:
+   * - shape: full opacity + glow (notes in the active form)
+   * - context: dimmed (related chord tones outside the form)
+   * Omit for default full-opacity markers.
+   */
+  emphasis?: 'shape' | 'context';
 }
 
 // Define intervals and their colors
@@ -433,12 +440,19 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
                       highlightInfo || (showOpenStringLabels && isOpenString && !disableKeyHighlights);
 
                     const isNeutral = highlightInfo?.variant === 'neutral';
+                    const emphasis = highlightInfo?.emphasis;
                     const markerStyle = highlightInfo
                       ? {
                           backgroundColor: highlightInfo.color,
                           color: isNeutral ? NEUTRAL_MARKER_TEXT : INTERVAL_MARKER_TEXT,
                           border: isNeutral ? `2px solid ${NEUTRAL_MARKER_BORDER}` : 'none',
-                          boxShadow: isNeutral ? 'none' : '0 0 4px rgba(0, 0, 0, 0.3)',
+                          boxShadow:
+                            emphasis === 'shape'
+                              ? '0 0 0 2px rgba(255, 248, 230, 0.95), 0 0 12px rgba(255, 210, 120, 0.85)'
+                              : isNeutral
+                                ? 'none'
+                                : '0 0 4px rgba(0, 0, 0, 0.3)',
+                          opacity: emphasis === 'context' ? 0.32 : 1,
                         }
                       : isOpenString
                         ? {
@@ -460,6 +474,15 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
                         : getStringNameDisplay(stringIndex)
                       : null;
 
+                    const markerClassName = [
+                      'note-marker',
+                      isOpenString && !highlightInfo ? 'note-marker--open-string' : '',
+                      emphasis === 'shape' ? 'note-marker--shape' : '',
+                      emphasis === 'context' ? 'note-marker--context' : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ');
+
                     return (
                       <div 
                         key={`fret-${fretIndex}`} 
@@ -468,7 +491,7 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
                         data-fret={fretIndex}
                       >
                         <div 
-                          className={`note-marker ${isOpenString && !highlightInfo ? 'note-marker--open-string' : ''}`}
+                          className={markerClassName}
                           style={{
                             ...markerStyle,
                             display: 'flex',

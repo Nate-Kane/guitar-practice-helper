@@ -9,6 +9,8 @@ import {
   PERFECT_FIFTH_INTERVAL_COLOR,
   ROOT_INTERVAL_COLOR,
 } from '../sharedPracticeComponents/fretboardConstants';
+import { useMapFretboard } from '../sharedPracticeComponents/hooks/useMapFretboard';
+import { getCagedShapePositions, positionKey } from './cagedShapes';
 
 /** The five CAGED open-chord shapes — always treated as major triads */
 const CAGED_CHORDS = ['C', 'A', 'G', 'E', 'D'] as const;
@@ -47,6 +49,7 @@ interface CagedDisplayProps {
 const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
   const [selectedChord, setSelectedChord] = useState<CagedChord>('C');
   const [selectedShape, setSelectedShape] = useState<CagedShape>(1);
+  const { findAllPositionsOfNote } = useMapFretboard(maxFret);
 
   const triadNotes = useMemo(
     () => getMajorTriadNotes(selectedChord),
@@ -56,27 +59,44 @@ const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
   const highlightedNotes = useMemo((): HighlightedNoteInfo[] => {
     const [root, majorThird, perfectFifth] = triadNotes;
 
-    return [
-      {
-        note: root,
-        color: ROOT_INTERVAL_COLOR,
-        label: 'Root',
-        variant: 'interval',
-      },
-      {
-        note: majorThird,
-        color: MAJOR_THIRD_INTERVAL_COLOR,
-        label: 'M3',
-        variant: 'interval',
-      },
-      {
-        note: perfectFifth,
-        color: PERFECT_FIFTH_INTERVAL_COLOR,
-        label: 'P5',
-        variant: 'interval',
-      },
-    ];
-  }, [triadNotes]);
+    const intervalSpecs = [
+      { note: root, color: ROOT_INTERVAL_COLOR, label: 'Root' },
+      { note: majorThird, color: MAJOR_THIRD_INTERVAL_COLOR, label: 'M3' },
+      { note: perfectFifth, color: PERFECT_FIFTH_INTERVAL_COLOR, label: 'P5' },
+    ] as const;
+
+    // Shapes with templates emphasize in-shape notes; others keep full triad map
+    const shapePositions = getCagedShapePositions(
+      selectedShape,
+      root,
+      findAllPositionsOfNote,
+      maxFret
+    );
+    const shapePositionKeys = shapePositions
+      ? new Set(shapePositions.map(positionKey))
+      : null;
+
+    return intervalSpecs.flatMap((spec) =>
+      findAllPositionsOfNote(spec.note).map((position) => {
+        const key = positionKey(position);
+        const emphasis = shapePositionKeys
+          ? shapePositionKeys.has(key)
+            ? ('shape' as const)
+            : ('context' as const)
+          : undefined;
+
+        return {
+          note: spec.note,
+          color: spec.color,
+          label: spec.label,
+          variant: 'interval' as const,
+          string: position.string,
+          fret: position.fret,
+          emphasis,
+        };
+      })
+    );
+  }, [triadNotes, selectedShape, findAllPositionsOfNote, maxFret]);
 
   return (
     <div className="space-y-4 w-full">
