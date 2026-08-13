@@ -44,7 +44,7 @@ interface CagedDisplayProps {
   maxFret?: number;
 }
 
-const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 12 }) => {
+const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
   const [selectedChord, setSelectedChord] = useState<CagedChord>('C');
   const [selectedShape, setSelectedShape] = useState<CagedShape>(1);
 
@@ -104,7 +104,7 @@ const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 12 }) => {
       </div>
 
       <div className="space-y-2">
-        <h3 className="text-base font-bold text-amber-900">Show shape</h3>
+        <h3 className="text-base font-bold text-amber-900">Highlight shape</h3>
         <div
           className="flex flex-wrap gap-2"
           role="radiogroup"
