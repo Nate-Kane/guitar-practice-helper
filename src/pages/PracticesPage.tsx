@@ -9,15 +9,13 @@ interface PracticesPageProps {
     onSkillSelect: (level: string) => void;
 }
 
-const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) => {
+const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
     const navigate = useNavigate();
-    const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
     const [practices, setPractices] = useState<Practice[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const practiceGridRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const fetchPractices = async () => {
@@ -37,18 +35,6 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         fetchPractices();
     }, [skillLevel]);
 
-    // Close dropdown when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsDropdownOpen(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
     const handleSwitchClick = (practiceId: string) => {
         setTimeout(() => {
             navigate(`/practice/${practiceId}`);
@@ -60,12 +46,58 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         practice.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    const showPracticeGrid =
+        !isLoading &&
+        !error &&
+        practices.length > 0 &&
+        !(filteredPractices.length === 0 && searchQuery);
+
+    const practiceCardKey = filteredPractices.map((p) => p.id).join(',');
+
+    useEffect(() => {
+        const grid = practiceGridRef.current;
+        if (!grid || !showPracticeGrid) return;
+
+        const equalizeCardHeights = () => {
+            const cards = grid.querySelectorAll<HTMLElement>('[data-practice-card]');
+            if (cards.length === 0) return;
+
+            cards.forEach((card) => {
+                card.style.minHeight = '';
+            });
+
+            let maxHeight = 0;
+            cards.forEach((card) => {
+                maxHeight = Math.max(maxHeight, card.getBoundingClientRect().height);
+            });
+
+            const heightPx = `${maxHeight}px`;
+            cards.forEach((card) => {
+                card.style.minHeight = heightPx;
+            });
+        };
+
+        equalizeCardHeights();
+
+        const resizeObserver = new ResizeObserver(equalizeCardHeights);
+        resizeObserver.observe(grid);
+        grid.querySelectorAll('[data-practice-card]').forEach((card) => {
+            resizeObserver.observe(card);
+        });
+
+        window.addEventListener('resize', equalizeCardHeights);
+        return () => {
+            resizeObserver.disconnect();
+            window.removeEventListener('resize', equalizeCardHeights);
+        };
+    }, [showPracticeGrid, practiceCardKey, skillLevel]);
+
     const renderPractices = () => {
         if (isLoading) {
             return (
                 <div className="min-h-[255px] flex items-center justify-center">
-                    <div className="text-center text-amber-700">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-700 mx-auto mb-4"></div>
+                    <div className="text-center text-amber-900">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-900 mx-auto mb-4"></div>
                         Loading practices...
                     </div>
                 </div>
@@ -83,7 +115,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         if (practices.length === 0) {
             return (
                 <div className="min-h-[255px] flex items-center justify-center">
-                    <div className="text-center text-amber-700">No practices available for this skill level.</div>
+                    <div className="text-center text-amber-900">No practices available for this skill level.</div>
                 </div>
             );
         }
@@ -91,7 +123,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         if (filteredPractices.length === 0 && searchQuery) {
             return (
                 <div className="min-h-[255px] flex items-center justify-center">
-                    <div className="text-center text-amber-700">
+                    <div className="text-center text-amber-900">
                         <div className="mb-2">No practices found matching "{searchQuery}"</div>
                         <button 
                             onClick={() => setSearchQuery('')}
@@ -105,30 +137,32 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
         }
 
         return (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredPractices.map((practice, index) => {
-                    // Define different icons for each practice
-                    const icons = [
-                        <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/>,
-                        <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>,
-                        <path d="M9 18V5l12-2v13"/>,
-                        <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>,
-                        <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>
-                    ];
-                    
-                    const iconPaths = icons[index % icons.length];
-                    
+            <div
+                ref={practiceGridRef}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
+            >
+                {filteredPractices.map((practice) => {
+                    // Practice card icons (index-based) — disabled until per-practice mapping exists
+                    // const icons = [
+                    //     <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/>,
+                    //     <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>,
+                    //     <path d="M9 18V5l12-2v13"/>,
+                    //     <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>,
+                    //     <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>
+                    // ];
+                    // const iconPaths = icons[index % icons.length];
+
                     return (
                         <div 
-                            className="rounded-xl border shadow overflow-hidden transition-all duration-300 bg-gradient-to-br from-zinc-900 to-zinc-800 border-amber-800/30 hover:border-amber-600"
+                            data-practice-card
+                            className="flex h-full flex-col rounded-lg border shadow overflow-hidden bg-gradient-to-br from-zinc-900 to-zinc-800 border-amber-800/30"
                             key={practice.id}
                         >
-                            <div className="p-6">
-                                <div className="flex items-start">
-                                    <div className="bg-amber-800 p-3 rounded-md mr-4 text-amber-100">
+                            <div className="flex flex-1 flex-col p-6">
+                                <div className="flex items-start flex-1">
+                                    {/* <div className="bg-amber-900 p-3 rounded-lg mr-4 text-stone-50 shrink-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
                                             {iconPaths}
-                                            {/* Additional paths for specific icons */}
                                             {index === 0 && (
                                                 <>
                                                     <path d="M15 5.764v15"></path>
@@ -151,20 +185,20 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                                 <circle cx="12" cy="12" r="10"></circle>
                                             )}
                                         </svg>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl md:text-2xl font-bold text-amber-100 mb-1">{practice.title}</h3>
-                                        <p className="text-amber-200/80 line-clamp-3 mt-3">{practice.description}</p>
+                                    </div> */}
+                                    <div className="min-w-0 flex-1">
+                                        <h3 className="text-xl md:text-2xl font-bold text-stone-50 border-b border-stone-50 pb-2 mb-1">{practice.title}</h3>
+                                        <p className="text-stone-50 line-clamp-3 mt-3">{practice.description}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div className="items-center bg-black/20 p-4 flex justify-end">
+                            <div className="mt-auto flex justify-end px-4 pb-4 pt-0">
                                 <button 
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         handleSwitchClick(practice.id || '');
                                     }}
-                                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors shadow h-9 px-4 py-2 bg-amber-700 hover:bg-amber-600 text-white flex items-center cursor-pointer"
+                                    className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 py-2 hover:bg-amber-900 text-stone-50 flex items-center cursor-pointer"
                                 >
                                     Practice 
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 h-4 w-4">
@@ -186,8 +220,8 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                 {/* Hero Section */}
                 <section className="text-center space-y-6">
                     <div className="flex justify-center">
-                        <div className="bg-amber-700 p-4 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-12 w-12 text-amber-100">
+                        <div className="bg-amber-900 p-4 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fafaf9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-12 w-12 text-amber-100">
                                 <path d="m11.9 12.1 4.514-4.514"></path>
                                 <path d="M20.1 2.3a1 1 0 0 0-1.4 0l-1.114 1.114A2 2 0 0 0 17 4.828v1.344a2 2 0 0 1-.586 1.414A2 2 0 0 1 17.828 7h1.344a2 2 0 0 0 1.414-.586L21.7 5.3a1 1 0 0 0 0-1.4z"></path>
                                 <path d="m6 16 2 2"></path>
@@ -197,34 +231,34 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                     </div>
                     <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-amber-900">Build a Mental Guitar Map</h1>
                     <p className="text-base md:text-xl text-amber-800 max-w-2xl mx-auto text-left">
-                        Our practice tools will help you build a mental map of your guitar so you can effortlessly play up and down the neck. Choose your desired difficulty level and get practicing!
+                        These practice tools will help you build a mental map of your guitar so you can effortlessly play up and down the neck. Choose a practice method, choose your difficulty level, then get practicing!
                     </p>
-                    <div className="flex flex-col sm:flex-row justify-center gap-4">
+                    {/* <div className="flex flex-col sm:flex-row justify-center gap-4">
                         <button 
                             onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
-                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors shadow h-10 rounded-md px-8 bg-amber-700 hover:bg-amber-600 text-white cursor-pointer max-w-[215px] w-full mx-auto sm:mx-0"
+                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors shadow h-10 rounded-lg px-8 bg-amber-900 hover:bg-amber-600 text-white cursor-pointer max-w-[215px] w-full mx-auto sm:mx-0"
                         >
                             Fretboard Mapper
                         </button>
                         <div className="relative inline-flex mx-auto sm:mx-0" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-md px-4 border-amber-700 text-amber-700 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                                className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-lg px-4 border-amber-900 text-amber-900 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-stone-500"
                             >
                                 Difficulty:&nbsp; {capitalize(skillLevel)}
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ml-2 h-4 w-4 text-amber-700 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ml-2 h-4 w-4 text-amber-900 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}>
                                     <path d="M6 9l6 6 6-6"></path>
                                 </svg>
                             </button>
                             
                             {isDropdownOpen && (
-                                <div className="absolute top-full left-0 mt-1 bg-white border border-amber-700 rounded-md shadow-lg z-10 w-full">
+                                <div className="absolute top-full left-0 mt-1 bg-white border border-amber-900 rounded-lg shadow-lg z-10 w-full">
                                     <button
                                         onClick={() => {
                                             onSkillSelect('basics');
                                             setIsDropdownOpen(false);
                                         }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${skillLevel === 'basics' ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${skillLevel === 'basics' ? 'bg-stone-50 text-amber-800' : 'text-amber-900'}`}
                                     >
                                         Basics
                                     </button>
@@ -233,7 +267,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                             onSkillSelect('intermediate');
                                             setIsDropdownOpen(false);
                                         }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors ${skillLevel === 'intermediate' ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors ${skillLevel === 'intermediate' ? 'bg-stone-50 text-amber-800' : 'text-amber-900'}`}
                                     >
                                         Intermediate
                                     </button>
@@ -242,22 +276,22 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                             onSkillSelect('advanced');
                                             setIsDropdownOpen(false);
                                         }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${skillLevel === 'advanced' ? 'bg-amber-50 text-amber-800' : 'text-amber-700'}`}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${skillLevel === 'advanced' ? 'bg-stone-50 text-amber-800' : 'text-amber-900'}`}
                                     >
                                         Advanced
                                     </button>
                                 </div>
                             )}
                         </div>
-                    </div>
+                    </div> */}
                 </section>
 
                 {/* Practice Methods Section */}
                 <section>
-                    <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                    {/* <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                         <h2 className="text-2xl font-bold text-amber-900">Practice Methods</h2>
                         <div className="relative w-full md:w-64">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500 h-4 w-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-500 h-4 w-4">
                                 <path d="m21 21-4.34-4.34"></path>
                                 <circle cx="11" cy="11" r="8"></circle>
                             </svg>
@@ -265,31 +299,35 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                 type="text" 
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-sm transition-colors pl-10 border-amber-300 bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500" 
+                                className="flex h-9 w-full rounded-lg border px-3 py-1 text-sm shadow-sm transition-colors pl-10 border-amber-300 bg-stone-50 focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-stone-500" 
                                 placeholder="Search practices..."
                             />
                         </div>
-                    </div>
+                    </div> */}
                     
                     {renderPractices()}
                 </section>
 
                 {/* Featured Fretboard Mapper Section */}
-                <section className="bg-gradient-to-r from-amber-800 to-amber-700 text-amber-50 rounded-lg p-8">
+                <section className="bg-amber-900 text-stone-50 rounded-lg p-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                         <div className="space-y-4">
                             <h2 className="text-2xl md:text-3xl font-bold">Fretboard Mapper</h2>
-                            <p className="text-amber-100">
+                            <p className="text-stone-50">
                                 Our interactive fretboard tool helps you visualize notes, scales, and patterns across the guitar neck. Perfect for beginners learning the fretboard or advanced players exploring new musical concepts.
                             </p>
                             <button 
                                 onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
-                                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors shadow h-9 px-4 py-2 bg-amber-100 hover:bg-white text-amber-900 cursor-pointer"
+                                className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 py-2 bg-stone-50 hover:bg-amber-100 text-amber-900 cursor-pointer"
                             >
                                 Check it out
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 h-4 w-4">
+                                    <path d="M5 12h14"></path>
+                                    <path d="m12 5 7 7-7 7"></path>
+                                </svg>
                             </button>
                         </div>
-                        <div className="bg-black/10 rounded-lg p-2">
+                        <div className="bg-black/8 rounded-lg p-2">
                             <div 
                                 className="cursor-pointer hover:scale-101 transition-transform"
                                 onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
@@ -297,7 +335,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel, onSkillSelect }) =>
                                 <img 
                                     src={fretboardImg} 
                                     alt="Interactive Fretboard Visualization" 
-                                    className="w-full rounded border-2 border-amber-600 shadow-lg"
+                                    className="w-full rounded shadow-xl"
                                 />
                             </div>
                         </div>

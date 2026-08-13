@@ -1,19 +1,12 @@
-.fretboard-container .collapsible {
-  margin-bottom: 10px;
-}
-.fretboard-container .collapsible h4 {
-  margin-bottom: 2px;
-  color: #78350f; /* text-amber-900 */
-  font-size: var(--font-size-sm);
-}
-
-.fretboard-container .collapsible svg {
-  color: #78350f; /* text-amber-900 */
-  width: 12px;
-}
-
 .fretboard-container {
-  margin: 20px 0;
+  --open-fret-width: 40px;
+  --nut-border-width: 4px;
+  --fret-label-text-color: #78350f;
+  --fretboard-radius: 0.5rem; /* Tailwind rounded-lg */
+  --string-height: clamp(30px, 3.2vw, 38px);
+  --note-marker-size: clamp(22px, 2.4vw, 28px);
+  --note-marker-font: clamp(0.65rem, 1.1vw, 0.8rem);
+  margin: 0;
   width: 100%;
   overflow-x: auto;
 }
@@ -22,23 +15,7 @@
   display: flex;
   min-width: 600px;
   width: 100%;
-  max-width: 900px;
-}
-
-.string-names {
-  display: flex;
-  flex-direction: column;
-  width: 25px;
-  margin-right: 10px;
-}
-
-.string-name {
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #78350f; /* text-amber-900 */
-  font-weight: 500;
+  max-width: 100%;
 }
 
 .fretboard {
@@ -46,16 +23,32 @@
   flex-direction: column;
   flex: 1;
   width: 100%;
-  max-width: 900px;
-  border-left: 4px solid #888;
-  border-right: 1px solid #aaa;
-  background: #ffeea3;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  border-left: var(--nut-border-width) solid #2a1d18;
+  border-right: 1px solid #3d2a22;
+  background: linear-gradient(180deg, #453026 0%, #402c23 55%, #30211b 100%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
   margin-bottom: 5px;
+  border-radius: var(--fretboard-radius);
+  overflow: hidden;
+  position: relative;
+}
+
+.triad-grouping-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+}
+
+.triad-grouping-haze {
+  fill: rgba(250, 250, 249, 0.2);
+  stroke: none;
 }
 
 .string {
-  height: 30px;
+  height: var(--string-height);
   display: flex;
   align-items: center;
   position: relative;
@@ -67,7 +60,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background-color: #9c6e3a;
+  background-color: #a69d93;
   opacity: 0.6;
   z-index: 2;
 }
@@ -94,24 +87,44 @@
   position: relative;
 }
 
-.fret:first-child { /* Nut */
-  background-color: #e6e3d6;
-  flex-grow: 0;
+.fret:first-child { /* Nut / open */
+  background: linear-gradient(180deg, #453026 0%, #402c23 55%, #30211b 100%);
+  flex: 0 0 var(--open-fret-width);
+  min-width: var(--open-fret-width);
+  max-width: var(--open-fret-width);
+}
+
+/* String explorer on zinc card — grey nut + grey text */
+.fretboard-container--muted-labels {
+  --fret-label-text-color: #a8a29e;
+}
+
+.fretboard-container--muted-labels .fret:first-child {
+  background: #52525b;
+}
+
+.fretboard-container--muted-labels .fretboard {
+  border-left-color: #71717a;
+}
+
+.note-marker--open-string {
+  box-sizing: border-box;
 }
 
 .note-marker {
-  width: 24px;
-  height: 24px;
+  width: var(--note-marker-size);
+  height: var(--note-marker-size);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 3;
   position: relative;
+  box-sizing: border-box;
 }
 
 .note-name {
-  font-size: 0.75rem;
+  font-size: var(--note-marker-font);
   font-weight: 600;
   display: flex;
   flex-direction: column;
@@ -127,26 +140,97 @@
   opacity: 0.9;
 }
 
-/* Interval legend */
+/* Scale mode radio group — sized like KeyDisplay action buttons */
+.scale-mode-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.scale-mode-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 16px;
+  border: 1px solid rgba(120, 53, 15, 0.35);
+  border-radius: 8px;
+  background: #fafaf9;
+  color: #78350f;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.scale-mode-option:hover:not(.scale-mode-option--active) {
+  background: #f5f0e8;
+}
+
+.scale-mode-option--active {
+  background: #78350f;
+  color: #fafaf9;
+  border-color: #78350f;
+}
+
+.scale-mode-option:focus-visible {
+  outline: 2px solid #78350f;
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+/* Interval legend / toggle */
 .interval-legend {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 8px;
-  margin: 10px 0;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0 14px;
 }
 
 .interval-item {
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-size: 0.8rem;
+  gap: 8px;
+  font-size: 0.875rem;
+  border: none;
+  background: transparent;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #78350f;
+  font-family: inherit;
+}
+
+.interval-item:hover {
+  background-color: rgba(120, 53, 15, 0.08);
+}
+
+.interval-item:focus-visible {
+  outline: 2px solid #78350f;
+  outline-offset: 2px;
+}
+
+.interval-item--static {
+  cursor: default;
+  pointer-events: none;
+}
+
+.interval-item--static:hover {
+  background-color: transparent;
 }
 
 .interval-color {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   display: inline-block;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .inlay-marker {
@@ -163,76 +247,53 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background-color: #c9c9c9;
-  border: 1px solid #aaa;
-  box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.8);
+  background-color: #e5ddd0;
+  border: 1px solid #c4b8a8;
+  box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.6);
 }
 
 .fret-numbers {
   display: flex;
   min-width: 600px;
   width: 100%;
-  max-width: 900px;
+  max-width: 100%;
   height: 20px;
   margin-top: 15px;
-  padding-left: 30px;
+  /* Align with fret columns inside the fretboard's nut border */
+  padding-left: var(--nut-border-width);
+  box-sizing: border-box;
 }
 
 .fret-number {
   flex: 1;
+  min-width: 0;
   text-align: center;
   font-size: 0.7rem;
-  color: #78350f; /* text-amber-900 */
+  font-weight:600;
+  color: var(--fret-label-text-color);
 }
 
 .fret-number:first-child {
-  flex-basis: 40px;
-  flex-grow: 0;
-}
-
-/* Interval selector checkboxes */
-.interval-selector {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.interval-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 14px;
-  margin-right: 5px;
-  font-weight: 500;
-  min-width: fit-content;
-}
-
-.interval-checkbox input {
-  margin: 0;
+  flex: 0 0 var(--open-fret-width);
+  min-width: var(--open-fret-width);
+  max-width: var(--open-fret-width);
 }
 
 @media (max-width: 600px) {
-  .fretboard-container .collapsible h4 {
-    margin-bottom: 2px;
-    font-size: var(--font-size-xs);
-  }
-  
-  .fretboard-container .collapsible svg {
-    width: 9px;
-  }
-
-  .interval-checkbox {
-    font-size: 14px;
+  .scale-mode-option {
+    font-size: 0.8125rem;
+    min-height: 34px;
+    padding: 0 12px;
   }
 
   .interval-item {
-    gap: 3px;
-    font-size: 0.7rem;
+    gap: 6px;
+    font-size: 0.8125rem;
+    padding: 6px 10px;
   }
-  
+
   .interval-color {
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
   }
 } 

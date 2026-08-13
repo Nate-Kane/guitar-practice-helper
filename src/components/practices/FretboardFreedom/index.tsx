@@ -6,6 +6,7 @@ import FretLimitDisplay from '../sharedPracticeComponents/FretLimitDisplay';
 import { useStringLimitGenerator } from '../sharedPracticeComponents/hooks/useStringLimitGenerator';
 import { StringLimitDisplay } from '../sharedPracticeComponents/StringLimitDisplay';
 import FretboardDisplay from '../sharedPracticeComponents/FretboardDisplay';
+import { FRETBOARD_REFERENCE_HEADING } from '../sharedPracticeComponents/fretboardConstants';
 
 interface FretboardFreedomProps {
     skillLevel: string;
@@ -25,16 +26,6 @@ const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
 
     return (
         <div className="space-y-6">
-            <FretLimitDisplay
-                currentFretLimit={currentFretLimit}
-                onRegenerateFretLimit={generateNewFretLimit}
-            />
-
-            <StringLimitDisplay
-                currentStringLimit={currentStringLimit}
-                onRegenerateStringLimit={generateNewStringLimit}
-            />
-
             <KeyDisplay 
                 currentKey={currentKey} 
                 onRegenerateKey={generateNewKey}
@@ -44,10 +35,22 @@ const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
                 closeKeySelector={closeKeySelector}
                 onSelectKey={selectKey}
             />
+
+            <FretLimitDisplay
+                currentFretLimit={currentFretLimit}
+                onRegenerateFretLimit={generateNewFretLimit}
+            />
+
+            <StringLimitDisplay
+                currentStringLimit={currentStringLimit}
+                onRegenerateStringLimit={generateNewStringLimit}
+            />
             
             <FretboardDisplay
                 highlightedNote={currentKey?.root}
-                showIntervalSelector={true} 
+                keyQuality={currentKey?.quality}
+                showIntervalSelector={true}
+                sectionHeading={FRETBOARD_REFERENCE_HEADING}
             />
 
             {/* add tempo & time signature */}

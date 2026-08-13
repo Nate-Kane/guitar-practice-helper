@@ -2,6 +2,8 @@ import { FC } from 'react';
 import { Key } from '../../../assets/practiceAssets/keys';
 import KeySelector from './KeySelector';
 
+const DEFAULT_HEADING = 'Choose or randomize a key';
+
 interface KeyDisplayProps {
   currentKey: Key | null;
   onRegenerateKey: () => void;
@@ -10,74 +12,109 @@ interface KeyDisplayProps {
   openKeySelector: () => void;
   closeKeySelector: () => void;
   onSelectKey: (key: Key) => void;
+  heading?: string;
 }
 
-const KeyDisplay: FC<KeyDisplayProps> = ({ 
-  currentKey, 
-  onRegenerateKey, 
+const KeyDisplay: FC<KeyDisplayProps> = ({
+  currentKey,
+  onRegenerateKey,
   skillLevel,
   isKeySelectorOpen,
   openKeySelector,
   closeKeySelector,
-  onSelectKey
+  onSelectKey,
+  heading = DEFAULT_HEADING,
 }) => {
   if (!currentKey) return null;
-  
+
   return (
-    <div className="space-y-4">
-      {/* Select a Key Section */}
-      <h2 className="text-xl font-bold text-amber-900 text-amber-100">
-        Select a Key
-      </h2>
-      
-      {/* Key Selector Controls */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="flex-grow">
-          <button 
-            type="button" 
-            role="combobox" 
-            aria-expanded={isKeySelectorOpen}
-            onClick={openKeySelector}
-            className="flex h-9 items-center justify-between whitespace-nowrap rounded-md border px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 w-full bg-amber-100 border-amber-200 border-amber-800 cursor-pointer"
-          >
-            <span style={{ pointerEvents: 'none' }}>
-              {currentKey.name} ({currentKey.relativeKey})
-            </span>
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 opacity-50" aria-hidden="true">
-              <path d="M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-      
-      {/* Key Information Card */}
-      <div className="rounded-xl border bg-card text-card-foreground shadow border-amber-200 border-amber-800">
-        <div className="p-4 bg-amber-50 rounded-xl">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <h3 className="text-lg font-bold text-amber-900 text-amber-100">
-                Key of {currentKey.name} ({currentKey.relativeKey})
-              </h3>
-              <p className="text-amber-800 text-amber-200">
-                The notes of {currentKey.name} are {currentKey.notes.join(', ')}
-              </p>
+    <div className="space-y-4 w-full">
+      <h2 className="text-xl font-bold text-amber-900">{heading}</h2>
+
+      <div className="rounded-lg shadow overflow-hidden bg-gradient-to-br from-zinc-900 to-zinc-800">
+        <div className="p-6">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="bg-amber-900 p-3 rounded-lg text-stone-50 shrink-0">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-6 w-6"
+                  aria-hidden="true"
+                >
+                  <path d="M9 18V5l12-2v13" />
+                  <circle cx="6" cy="18" r="3" />
+                  <circle cx="18" cy="16" r="3" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-lg md:text-xl font-bold text-stone-50 mb-1">
+                  Key of {currentKey.name} ({currentKey.relativeKey})
+                </h3>
+                <p className="text-stone-300 text-sm md:text-base">
+                  The notes of {currentKey.name} are {currentKey.notes.join(', ')}
+                </p>
+              </div>
             </div>
-            <button 
-              onClick={onRegenerateKey}
-              className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border bg-white shadow-sm hover:text-accent-foreground h-8 rounded-md px-3 text-xs border-amber-700 hover:bg-amber-100 self-end sm:self-auto cursor-pointer text-amber-700"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-refresh-cw h-4 w-4 mr-2" aria-hidden="true">
-                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
-                <path d="M21 3v5h-5"></path>
-                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
-                <path d="M8 16H3v5"></path>
-              </svg>
-              Random Key
-            </button>
+            <div className="flex flex-col gap-2 w-full sm:w-auto sm:min-w-[11.5rem] shrink-0">
+              <button
+                type="button"
+                aria-expanded={isKeySelectorOpen}
+                onClick={openKeySelector}
+                className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 py-2 text-stone-50 bg-amber-900 hover:bg-amber-800 cursor-pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="h-5 w-5 ml-[-1px] mr-[5px] mr-2 shrink-0"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M12.7071 4.29289C12.3166 3.90237 11.6834 3.90237 11.2929 4.29289L7.29289 8.29289C6.90237 8.68342 6.90237 9.31658 7.29289 9.70711C7.68342 10.0976 8.31658 10.0976 8.70711 9.70711L12 6.41421L15.2929 9.70711C15.6834 10.0976 16.3166 10.0976 16.7071 9.70711C17.0976 9.31658 17.0976 8.68342 16.7071 8.29289L12.7071 4.29289ZM7.29289 15.7071L11.2929 19.7071C11.6834 20.0976 12.3166 20.0976 12.7071 19.7071L16.7071 15.7071C17.0976 15.3166 17.0976 14.6834 16.7071 14.2929C16.3166 13.9024 15.6834 13.9024 15.2929 14.2929L12 17.5858L8.70711 14.2929C8.31658 13.9024 7.68342 13.9024 7.29289 14.2929C6.90237 14.6834 6.90237 15.3166 7.29289 15.7071Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Choose a Key
+              </button>
+              <button
+                onClick={onRegenerateKey}
+                className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 py-2 text-stone-50 bg-amber-900 hover:bg-amber-800 cursor-pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-4 w-4 mr-2 shrink-0"
+                  aria-hidden="true"
+                >
+                  <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                  <path d="M21 3v5h-5" />
+                  <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+                  <path d="M8 16H3v5" />
+                </svg>
+                Randomize Key
+              </button>
+            </div>
           </div>
         </div>
       </div>
-      
+
       <KeySelector
         isOpen={isKeySelectorOpen}
         onClose={closeKeySelector}

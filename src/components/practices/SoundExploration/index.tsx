@@ -9,6 +9,7 @@ import ExtensionDisplay from '../sharedPracticeComponents/ExtensionDisplay';
 import { useFretLimitGenerator } from '../sharedPracticeComponents/hooks/useFretLimitGenerator';
 import FretLimitDisplay from '../sharedPracticeComponents/FretLimitDisplay';
 import FretboardDisplay from '../sharedPracticeComponents/FretboardDisplay';
+import { FRETBOARD_REFERENCE_HEADING } from '../sharedPracticeComponents/fretboardConstants';
 
 interface SoloImprovisationProps {
     practice: Practice;
@@ -41,11 +42,6 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
                 onSelectKey={selectKey}
             />
 
-            <FretboardDisplay
-                highlightedNote={currentKey?.root}
-                showIntervalSelector={true} 
-            />
-            
             <ProgressionDisplay 
                 progression={currentProgression}
                 chords={currentChords}
@@ -62,6 +58,13 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
             <FretLimitDisplay
                 currentFretLimit={currentFretLimit}
                 onRegenerateFretLimit={generateNewFretLimit}
+            />
+
+            <FretboardDisplay
+                highlightedNote={currentKey?.root}
+                keyQuality={currentKey?.quality}
+                showIntervalSelector={true}
+                sectionHeading={FRETBOARD_REFERENCE_HEADING}
             />
 
             {/* add tempo & time signature */}
