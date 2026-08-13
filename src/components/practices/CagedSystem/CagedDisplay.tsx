@@ -14,6 +14,10 @@ import {
 const CAGED_CHORDS = ['C', 'A', 'G', 'E', 'D'] as const;
 type CagedChord = (typeof CAGED_CHORDS)[number];
 
+/** Shape 1 = C shape, 2 = A, 3 = G, 4 = E, 5 = D */
+const CAGED_SHAPES = [1, 2, 3, 4, 5] as const;
+type CagedShape = (typeof CAGED_SHAPES)[number];
+
 const MAJOR_TRIAD_SEMITONES = [0, 4, 7] as const;
 
 const noteAtInterval = (root: string, semitones: number): string => {
@@ -42,6 +46,7 @@ interface CagedDisplayProps {
 
 const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 12 }) => {
   const [selectedChord, setSelectedChord] = useState<CagedChord>('C');
+  const [selectedShape, setSelectedShape] = useState<CagedShape>(1);
 
   const triadNotes = useMemo(
     () => getMajorTriadNotes(selectedChord),
@@ -97,12 +102,42 @@ const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 12 }) => {
           );
         })}
       </div>
-      
-      <div className="space-y-3 text-amber-800 text-sm md:text-base max-w-3xl">
+
+      <div className="space-y-2">
+        <h3 className="text-base font-bold text-amber-900">Show shape</h3>
+        <div
+          className="flex flex-wrap gap-2"
+          role="radiogroup"
+          aria-label="CAGED shape"
+        >
+          {CAGED_SHAPES.map((shape) => {
+            const isSelected = selectedShape === shape;
+            return (
+              <button
+                key={shape}
+                type="button"
+                role="radio"
+                aria-checked={isSelected}
+                onClick={() => setSelectedShape(shape)}
+                className={`inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors h-9 min-w-9 px-4 cursor-pointer ${
+                  isSelected
+                    ? 'bg-amber-900 text-stone-50 shadow'
+                    : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
+                }`}
+              >
+                {shape}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="space-y-3 text-amber-800 text-base font-bold md:text-base max-w-3xl">
         <p>
-          Showing{' '}
+          Highlighting{' '}
           <span className="font-semibold">{selectedChord} major</span> (
-          {triadNotes.join(', ')}).
+          {triadNotes.join(', ')}), shape{' '}
+          <span className="font-semibold">{selectedShape}</span>.
         </p>
       </div>
 
