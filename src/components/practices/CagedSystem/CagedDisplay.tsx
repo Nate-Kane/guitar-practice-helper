@@ -67,11 +67,8 @@ const STATIC_INTERVAL_LEGEND = [
 
 const getHighlightSummary = (
   chord: CagedChord,
-  triadNotes: [string, string, string],
   shape: CagedShapeSelection
 ): { title: ReactNode; detail?: ReactNode } => {
-  const notes = triadNotes.join(', ');
-
   if (shape === 'all') {
     return {
       title: (
@@ -179,11 +176,7 @@ const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
     );
   }, [triadNotes, selectedShape, findAllPositionsOfNote, maxFret]);
 
-  const highlightSummary = getHighlightSummary(
-    selectedChord,
-    triadNotes,
-    selectedShape
-  );
+  const highlightSummary = getHighlightSummary(selectedChord, selectedShape);
 
   return (
     <div className="w-full space-y-8">
