@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, ReactNode, useMemo, useState } from 'react';
 import FretboardDisplay, {
   HighlightedNoteInfo,
 } from '../sharedPracticeComponents/FretboardDisplay';
@@ -34,6 +34,15 @@ const SHAPE_LOOKS_LIKE: Record<CagedShapeNumber, CagedChord> = {
   5: 'D',
 };
 
+/** Native open-chord shape for each CAGED chord (C→1, A→2, …) */
+const CHORD_NATIVE_SHAPE: Record<CagedChord, CagedShapeNumber> = {
+  C: 1,
+  A: 2,
+  G: 3,
+  E: 4,
+  D: 5,
+};
+
 const MAJOR_TRIAD_SEMITONES = [0, 4, 7] as const;
 
 const noteAtInterval = (root: string, semitones: number): string => {
@@ -60,21 +69,47 @@ const getHighlightSummary = (
   chord: CagedChord,
   triadNotes: [string, string, string],
   shape: CagedShapeSelection
-): { title: string; detail: string } => {
+): { title: ReactNode; detail?: ReactNode } => {
   const notes = triadNotes.join(', ');
 
   if (shape === 'all') {
     return {
-      title: `Highlighting ${chord} major (${notes}) — all five shapes.`,
-      detail:
-        'Bright notes belong to the CAGED shapes. Dimmer notes are still in the chord, just outside those forms.',
+      title: (
+        <span className="font-bold">
+          Highlighting all five shapes of {chord} major.
+        </span>
+      ),
+    };
+  }
+
+  // Open C→shape 1, open A→shape 2, etc.
+  if (CHORD_NATIVE_SHAPE[chord] === shape) {
+    return {
+      title: (
+        <span className="font-bold">
+          The open {chord} major chord uses{' '}shape {shape}.
+        </span>
+      ),
+      detail: `Notice how this shape is also repeated at the 12th fret.`,
     };
   }
 
   const openLookalike = SHAPE_LOOKS_LIKE[shape];
   return {
-    title: `Highlighting ${chord} major (${notes}) — shape ${shape}.`,
-    detail: `This form looks like an open ${openLookalike} major chord. Same shape, different root: ${chord} major in shape ${shape} and open ${openLookalike} major both use shape ${shape}.`,
+    title: (
+      <span className="font-bold">
+        Highlighting {chord} major — shape {shape}.
+      </span>
+    ),
+    detail: (
+      <>
+        Notice how this resembles the{' '}
+        <span className="font-bold">open {openLookalike} major chord</span> (which also uses shape {shape}). 
+        <br/>
+        <span className="font-bold">{chord} major in position {shape}</span> (i.e., shape {shape}) and <span className="font-bold">open{' '}
+        {openLookalike}</span> major <span className="font-bold">both use shape {shape}</span>.
+      </>
+    ),
   };
 };
 
@@ -152,9 +187,9 @@ const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
             Choose a CAGED chord
           </h2>
           <p className="text-amber-800 text-sm md:text-base max-w-3xl">
-            This will show you a{' '}
-            <span className="font-semibold">{selectedChord} major</span> all
-            over the fretboard.
+            Choose which chord to see mapped{' '}
+            across the fretboard (currently viewing{' '}
+            <span className="font-semibold">{selectedChord} major</span>)
           </p>
         </div>
 
@@ -182,8 +217,8 @@ const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
 
       <div className="space-y-3">
         <div className="space-y-2">
-          <h2 className="text-xl font-bold text-amber-900">Highlight shape</h2>
-          <ul className="list-disc pl-5 space-y-1.5 text-amber-800 text-sm md:text-base max-w-3xl">
+          <h2 className="text-xl font-bold text-amber-900">Choose a shape to highlight</h2>
+          {/*<ul className="list-disc pl-5 space-y-1.5 text-amber-800 text-sm md:text-base max-w-3xl">
             <li>
               Shape 1 looks like an open C major. Shape 2 like an open A, and so
               on (3 → G, 4 → E, 5 → D).
@@ -192,7 +227,7 @@ const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
               Reverse that thinking: An open C major <span className="font-semibold">uses</span>{' '}
               shape 1. An open A major <span className="font-semibold">uses</span> shape 2, and so on.
             </li>
-          </ul>
+          </ul>*/}
         </div>
 
         <div
@@ -224,13 +259,15 @@ const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
       </div>
 
       <div className="space-y-6">
-        <div className="text-center max-w-3xl mx-auto space-y-2">
-          <p className="text-amber-900 text-lg md:text-xl font-bold leading-snug">
+        <div className="max-w-3xl space-y-2 text-left">
+          <p className="text-amber-900 text-lg md:text-xl leading-snug">
             {highlightSummary.title}
           </p>
-          <p className="text-amber-800 text-sm md:text-base leading-relaxed">
-            {highlightSummary.detail}
-          </p>
+          {highlightSummary.detail && (
+            <p className="text-amber-800 text-sm md:text-base leading-relaxed font-normal">
+              {highlightSummary.detail}
+            </p>
+          )}
         </div>
 
         <FretboardDisplay
