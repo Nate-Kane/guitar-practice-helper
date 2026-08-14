@@ -20,8 +20,8 @@ import {
 const CAGED_CHORDS = ['C', 'A', 'G', 'E', 'D'] as const;
 type CagedChord = (typeof CAGED_CHORDS)[number];
 
-/** 'all' first; shape 1 = C shape … 5 = D shape */
-const CAGED_SHAPE_OPTIONS = ['all', 1, 2, 3, 4, 5] as const;
+/** Shape 1 = C shape … 5 = D shape; 'all' last */
+const CAGED_SHAPE_OPTIONS = [1, 2, 3, 4, 5, 'all'] as const;
 type CagedShapeSelection = (typeof CAGED_SHAPE_OPTIONS)[number];
 type CagedShapeNumber = 1 | 2 | 3 | 4 | 5;
 
@@ -126,7 +126,7 @@ interface CagedDisplayProps {
 const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
   const [selectedChord, setSelectedChord] = useState<CagedChord>('C');
   const [selectedShape, setSelectedShape] =
-    useState<CagedShapeSelection>('all');
+    useState<CagedShapeSelection>(1);
   const { findAllPositionsOfNote } = useMapFretboard(maxFret);
 
   const triadNotes = useMemo(
@@ -207,7 +207,10 @@ const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
                 key={chord}
                 type="button"
                 aria-pressed={isSelected}
-                onClick={() => setSelectedChord(chord)}
+                onClick={() => {
+                  setSelectedChord(chord);
+                  setSelectedShape(CHORD_NATIVE_SHAPE[chord]);
+                }}
                 className={`inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors h-9 px-4 cursor-pointer ${
                   isSelected
                     ? 'bg-amber-900 text-stone-50 shadow'

@@ -448,7 +448,7 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
                           border: isNeutral ? `2px solid ${NEUTRAL_MARKER_BORDER}` : 'none',
                           boxShadow:
                             emphasis === 'shape'
-                              ? '0 0 0 2px rgba(255, 248, 230, 0.95), 0 0 12px rgba(255, 210, 120, 0.85)'
+                              ? '0 0 10px 4px rgba(255, 245, 220, 0.8), 0 0 22px 8px rgba(255, 235, 200, 0.55), 0 0 36px 12px rgba(255, 250, 235, 0.4)'
                               : isNeutral
                                 ? 'none'
                                 : '0 0 4px rgba(0, 0, 0, 0.3)',
