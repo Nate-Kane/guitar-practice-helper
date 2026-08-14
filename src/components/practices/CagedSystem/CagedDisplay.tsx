@@ -87,10 +87,16 @@ const getHighlightSummary = (
     return {
       title: (
         <span className="font-bold">
-          The open {chord} major chord uses{' '}shape {shape}.
+          The open {chord} major chord uses shape {shape}.
         </span>
       ),
-      detail: `Notice how this shape is also repeated at the 12th fret.`,
+      detail: (
+        <>
+          <span className="block mb-4">
+            Notice how this shape is also repeated at the 12th fret.
+          </span>
+        </>
+      ),
     };
   }
 
