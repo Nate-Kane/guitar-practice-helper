@@ -150,30 +150,30 @@ const Strumming: FC<StrummingProps> = () => {
       </PracticeToolCard>
 
       <div className="rounded-lg border border-amber-900/20 bg-stone-50 shadow-sm overflow-hidden">
-        <div className="px-6 pt-5 pb-2">
+        <div className="px-4 sm:px-6 pt-4 sm:pt-5 pb-2">
           <p className="text-sm font-medium text-amber-900/70">
             Strum on the circled counts
           </p>
         </div>
 
         <div
-          className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4 sm:gap-x-10 px-6 py-8"
+          className="flex flex-nowrap items-center justify-center gap-x-2.5 sm:gap-x-6 md:gap-x-10 px-3 sm:px-6 py-6 sm:py-8"
           aria-label={`Strum on: ${activeBeatLabels || 'none'}`}
         >
           {beatGroups.map((group, groupIndex) => (
             <div
               key={`${timeSignature}-group-${groupIndex}`}
-              className="flex items-center gap-2 sm:gap-3"
+              className="flex shrink-0 items-center gap-1 sm:gap-2 md:gap-3"
             >
               {group.map(({ label, index }) => {
                 const isActive = Boolean(activeBeats[index]);
                 return (
                   <div
                     key={`${timeSignature}-${index}`}
-                    className={`flex h-14 w-14 sm:h-[4.25rem] sm:w-[4.25rem] items-center justify-center rounded-full text-2xl sm:text-3xl font-bold tabular-nums text-amber-950 ${
+                    className={`flex h-9 w-9 sm:h-14 sm:w-14 md:h-[4.25rem] md:w-[4.25rem] shrink-0 items-center justify-center rounded-full text-base sm:text-2xl md:text-3xl font-bold tabular-nums text-amber-950 ${
                       isActive
-                        ? 'border-[3px] border-amber-900 bg-amber-100'
-                        : 'border-[3px] border-transparent'
+                        ? 'border-2 sm:border-[3px] border-amber-900 bg-amber-100'
+                        : 'border-2 sm:border-[3px] border-transparent'
                     }`}
                   >
                     {label}
@@ -182,14 +182,6 @@ const Strumming: FC<StrummingProps> = () => {
               })}
             </div>
           ))}
-        </div>
-
-        <div className="border-t border-amber-900/10 px-6 py-4">
-          <p className="text-center text-amber-950/80 text-sm sm:text-base">
-            {activeBeatLabels
-              ? `Strum on: ${activeBeatLabels}`
-              : 'Hit Randomize to get a pattern'}
-          </p>
         </div>
       </div>
     </div>
