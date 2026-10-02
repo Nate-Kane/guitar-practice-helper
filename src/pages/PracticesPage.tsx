@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getPracticesBySkillLevel } from '../services/practiceService';
 import { Practice } from '../types/practice';
 import fretboardImg from '../assets/fretboard_img.png';
+import LinkifiedText from '../components/practices/sharedPracticeComponents/LinkifiedText';
 
 interface PracticesPageProps {
     skillLevel: string;
@@ -188,7 +189,9 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
                                     </div> */}
                                     <div className="min-w-0 flex-1">
                                         <h3 className="text-xl md:text-2xl font-bold text-stone-50 border-b border-stone-50 pb-2 mb-1">{practice.title}</h3>
-                                        <p className="text-stone-50 line-clamp-3 mt-3">{practice.description}</p>
+                                        <p className="text-stone-50 line-clamp-3 mt-3">
+                                            <LinkifiedText text={practice.description} />
+                                        </p>
                                     </div>
                                 </div>
                             </div>

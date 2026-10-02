@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import LinkifiedText from './LinkifiedText';
 
 interface PracticeTipsSectionProps {
   tips: string[];
@@ -28,7 +29,9 @@ const PracticeTipsSection: FC<PracticeTipsSectionProps> = ({ tips }) => (
     </h3>
     <ul className="list-disc list-inside space-y-2 text-stone-50 leading-relaxed marker:text-stone-50">
       {tips.map((tip, index) => (
-        <li key={index}>{tip}</li>
+        <li key={index}>
+          <LinkifiedText text={tip} />
+        </li>
       ))}
     </ul>
   </div>

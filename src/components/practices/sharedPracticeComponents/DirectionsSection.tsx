@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import LinkifiedText from './LinkifiedText';
 
 interface DirectionsSectionProps {
   directions: string;
@@ -25,7 +26,9 @@ const DirectionsSection: FC<DirectionsSectionProps> = ({ directions }) => (
       </svg>
       Directions
     </h3>
-    <p className="text-stone-50 leading-relaxed">{directions}</p>
+    <p className="text-stone-50 leading-relaxed">
+      <LinkifiedText text={directions} />
+    </p>
   </div>
 );
 
