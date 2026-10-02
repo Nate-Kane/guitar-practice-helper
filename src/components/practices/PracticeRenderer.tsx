@@ -9,6 +9,7 @@ const PRACTICE_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'Memorize Notes': lazy(() => import('./MemorizeNotes')),
   'Visualizing Triads': lazy(() => import('./VisualizingTriads')),
   'CAGED System': lazy(() => import('./CagedSystem')),
+  'Strumming': lazy(() => import('./Strumming')),
   // Add a lead guitar practice; limit frets; generate style and key;
   /** add a timing practice (metronome!); play w/ metronome, start slow 
    * and move towards faster. This practice tells you choose one thing 
