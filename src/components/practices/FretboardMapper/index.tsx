@@ -35,6 +35,7 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
             {currentKey && (
                 <>
                     <FretboardDisplay
+                        maxFret={14}
                         highlightedNote={currentKey.root}
                         keyQuality={currentKey.quality}
                         showIntervalSelector={true}
