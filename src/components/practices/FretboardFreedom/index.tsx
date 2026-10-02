@@ -47,6 +47,7 @@ const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
             />
             
             <FretboardDisplay
+                maxFret={14}
                 highlightedNote={currentKey?.root}
                 keyQuality={currentKey?.quality}
                 showIntervalSelector={true}
