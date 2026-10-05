@@ -289,6 +289,46 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
                     </div> */}
                 </section>
 
+                {/* Soft upsell → Guided Lessons */}
+                <section className="rounded-lg border border-amber-900/25 bg-gradient-to-br from-zinc-900 to-zinc-800 p-5 sm:p-6 shadow">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+                        <div className="flex-1 min-w-0 space-y-1.5">
+                            <p className="text-xs font-semibold uppercase tracking-wider text-amber-200/80">
+                                Go further
+                            </p>
+                            <h2 className="text-lg md:text-xl font-bold text-stone-50">
+                                Ready to take your playing to the next level?
+                            </h2>
+                            <p className="text-stone-300 text-sm md:text-base leading-relaxed">
+                                Learn more about a guided lesson path that'll help you improve more quickly.
+                            </p>
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => navigate('/guided-lessons')}
+                            className="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-10 px-5 bg-amber-900 hover:bg-amber-800 text-stone-50 cursor-pointer w-full sm:w-auto"
+                        >
+                            View Guided Lessons
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="ml-2 h-4 w-4"
+                                aria-hidden="true"
+                            >
+                                <path d="M5 12h14" />
+                                <path d="m12 5 7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </section>
+
                 {/* Practice Methods Section */}
                 <section>
                     {/* <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
