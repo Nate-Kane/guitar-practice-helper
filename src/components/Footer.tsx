@@ -21,6 +21,12 @@ const Footer: FC = () => {
             >
               Fretboard Mapper
             </button>
+            <button
+              onClick={() => navigate('/guided-lessons')}
+              className="text-stone-50 hover:text-white transition-colors cursor-pointer"
+            >
+              Guided Lessons
+            </button>
             <a
               href="https://www.natekaneofficial.com"
               target="_blank"
