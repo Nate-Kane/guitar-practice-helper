@@ -41,6 +41,12 @@ const Navbar: FC = () => {
               >
                 Fretboard Mapper
               </button>
+              <button
+                onClick={() => navigate('/guided-lessons')}
+                className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-amber-900 transition-colors cursor-pointer"
+              >
+                Guided Lessons
+              </button>
               <a
                 href="https://www.natekaneofficial.com"
                 target="_blank"
@@ -88,6 +94,15 @@ const Navbar: FC = () => {
                 className="block px-3 py-2 rounded-lg text-base font-medium hover:bg-amber-900 transition-colors w-full text-left cursor-pointer"
               >
                 Fretboard Mapper
+              </button>
+              <button
+                onClick={() => {
+                  navigate('/guided-lessons');
+                  setIsMenuOpen(false);
+                }}
+                className="block px-3 py-2 rounded-lg text-base font-medium hover:bg-amber-900 transition-colors w-full text-left cursor-pointer"
+              >
+                Guided Lessons
               </button>
               <a
                 href="https://www.natekaneofficial.com"

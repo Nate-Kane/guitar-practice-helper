@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PracticesPage from './pages/PracticesPage';
 import AdminPage from './pages/AdminPage';
 import PracticePage from './pages/PracticePage';
+import GuidedLessonsPage from './pages/GuidedLessonsPage';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import './tailwind.css';
@@ -26,6 +27,7 @@ const App: FC = () => {
             <Route path="/" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
             <Route path="/practices" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
             <Route path="/practice/:id" element={<PracticePage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
+            <Route path="/guided-lessons" element={<GuidedLessonsPage />} />
             <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </div>
