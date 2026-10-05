@@ -5,7 +5,8 @@ import { Practice } from '../../types/practice';
 const PRACTICE_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'Sound Exploration': lazy(() => import('./SoundExploration')),
   'Fretboard Freedom': lazy(() => import('./FretboardFreedom')),
-  'Fretboard Mapper': lazy(() => import('./FretboardMapper')),
+  'Fretboard Map': lazy(() => import('./FretboardMapper')),
+  'Fretboard Mapper': lazy(() => import('./FretboardMapper')), // legacy title
   'Memorize Notes': lazy(() => import('./MemorizeNotes')),
   'Visualizing Triads': lazy(() => import('./VisualizingTriads')),
   'CAGED System': lazy(() => import('./CagedSystem')),

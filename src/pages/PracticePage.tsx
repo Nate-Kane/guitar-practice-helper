@@ -1,10 +1,11 @@
 import { FC, useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getPracticeById } from '../services/practiceService';
+import { getPracticeBySlugOrId } from '../services/practiceService';
 import { Practice } from '../types/practice';
 import PracticeRenderer from '../components/practices/PracticeRenderer';
 import DirectionsSection from '../components/practices/sharedPracticeComponents/DirectionsSection';
 import PracticeTipsSection from '../components/practices/sharedPracticeComponents/PracticeTipsSection';
+import { getPracticePath } from '../utils/slug';
 
 interface PracticePageProps {
   skillLevel: string;
@@ -12,7 +13,7 @@ interface PracticePageProps {
 }
 
 const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
-  const { id } = useParams<{ id: string }>();
+  const { slugOrId: id } = useParams<{ slugOrId: string }>();
   const navigate = useNavigate();
   const [practice, setPractice] = useState<Practice | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -30,11 +31,16 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
       }
 
       try {
-        const practiceData = await getPracticeById(id);
+        const practiceData = await getPracticeBySlugOrId(id);
         if (!practiceData) {
           setError('Practice not found');
         } else {
           setPractice(practiceData);
+          // Prefer pretty slug URLs when available
+          const prettyPath = getPracticePath(practiceData);
+          if (prettyPath !== `/practice/${id}`) {
+            navigate(prettyPath, { replace: true });
+          }
         }
       } catch (error) {
         console.error('Error fetching practice:', error);
@@ -45,7 +51,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
     };
 
     fetchPractice();
-  }, [id]);
+  }, [id, navigate]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -92,7 +98,8 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
     );
   }
 
-  const isFretboardMapper = practice.title === 'Fretboard Mapper';
+  const isFretboardMap =
+    practice.title === 'Fretboard Map' || practice.title === 'Fretboard Mapper';
   const directions = practice.customDirections;
   const practiceTips =
     practice.practiceTips && practice.practiceTips.length > 0
@@ -103,7 +110,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
     <main className="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-[1280px]">
       <div
         className={
-          isFretboardMapper
+          isFretboardMap
             ? 'mx-auto w-full max-w-[1000px] space-y-8'
             : 'space-y-8'
         }

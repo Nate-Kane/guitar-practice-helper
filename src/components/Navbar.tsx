@@ -36,10 +36,10 @@ const Navbar: FC = () => {
                 Practices
               </button>
               <button
-                onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
+                onClick={() => navigate('/practice/fretboard-map')}
                 className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-amber-900 transition-colors cursor-pointer"
               >
-                Fretboard Mapper
+                Fretboard Map
               </button>
               <button
                 onClick={() => navigate('/guided-lessons')}
@@ -88,12 +88,12 @@ const Navbar: FC = () => {
               </button>
               <button
                 onClick={() => {
-                  navigate('/practice/xsFrdqxeyLbFM2puHGMs');
+                  navigate('/practice/fretboard-map');
                   setIsMenuOpen(false);
                 }}
                 className="block px-3 py-2 rounded-lg text-base font-medium hover:bg-amber-900 transition-colors w-full text-left cursor-pointer"
               >
-                Fretboard Mapper
+                Fretboard Map
               </button>
               <button
                 onClick={() => {

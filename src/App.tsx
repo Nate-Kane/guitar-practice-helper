@@ -26,7 +26,7 @@ const App: FC = () => {
           <Routes>
             <Route path="/" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
             <Route path="/practices" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
-            <Route path="/practice/:id" element={<PracticePage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
+            <Route path="/practice/:slugOrId" element={<PracticePage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
             <Route path="/guided-lessons" element={<GuidedLessonsPage />} />
             <Route path="/admin" element={<AdminPage />} />
           </Routes>

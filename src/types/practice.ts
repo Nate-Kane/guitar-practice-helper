@@ -1,5 +1,7 @@
 export interface Practice {
   id?: string;
+  /** URL path segment, e.g. "strumming" → /practice/strumming */
+  slug?: string;
   title: string;
   description: string;
   customDirections?: string;

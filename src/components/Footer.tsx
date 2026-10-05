@@ -16,10 +16,10 @@ const Footer: FC = () => {
               Practices
             </button>
             <button
-              onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
+              onClick={() => navigate('/practice/fretboard-map')}
               className="text-stone-50 hover:text-white transition-colors cursor-pointer"
             >
-              Fretboard Mapper
+              Fretboard Map
             </button>
             <button
               onClick={() => navigate('/guided-lessons')}

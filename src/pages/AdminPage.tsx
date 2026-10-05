@@ -5,6 +5,7 @@ import { app } from '../firebase';
 import styles from './AdminPage.module.css';
 import { getPractices, addPractice, deletePractice, updatePractice } from '../services/practiceService';
 import { Practice } from '../types/practice';
+import { slugify, normalizeSlugInput } from '../utils/slug';
 
 const BTN_PRIMARY =
   'inline-flex items-center justify-center rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 text-stone-50 bg-amber-900 hover:bg-amber-800 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed';
@@ -30,6 +31,7 @@ const LABEL_DARK = 'block text-sm font-semibold text-stone-50 mb-1.5';
 
 const emptyPractice = (): Omit<Practice, 'id'> => ({
   title: '',
+  slug: '',
   description: '',
   skillLevels: ['basics'],
   customDirections: '',
@@ -116,15 +118,22 @@ const AdminPage: FC = () => {
   const handleAddPractice = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
 
     try {
-      await addPractice(newPractice);
+      const slug = slugify(newPractice.slug || newPractice.title);
+      if (!slug) {
+        setError('Please add a URL slug (or a title we can turn into one)');
+        setIsLoading(false);
+        return;
+      }
+      await addPractice({ ...newPractice, slug });
       setNewPractice(emptyPractice());
       setIsAddingPractice(false);
       await fetchPractices();
     } catch (err) {
       console.error('Error adding practice:', err);
-      setError('Failed to add practice');
+      setError(err instanceof Error ? err.message : 'Failed to add practice');
     } finally {
       setIsLoading(false);
     }
@@ -139,6 +148,7 @@ const AdminPage: FC = () => {
     setEditingPracticeId(practice.id);
     setEditedPractice({
       title: practice.title,
+      slug: practice.slug || '',
       description: practice.description,
       skillLevels: practice.skillLevels,
       customDirections: practice.customDirections || '',
@@ -158,14 +168,21 @@ const AdminPage: FC = () => {
   const handleUpdatePractice = async (e: React.FormEvent, practiceId: string) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
 
     try {
-      await updatePractice(practiceId, editedPractice);
+      const slug = slugify(editedPractice.slug || editedPractice.title);
+      if (!slug) {
+        setError('Please add a URL slug (or a title we can turn into one)');
+        setIsLoading(false);
+        return;
+      }
+      await updatePractice(practiceId, { ...editedPractice, slug });
       setEditingPracticeId(null);
       await fetchPractices();
     } catch (err) {
       console.error('Error updating practice:', err);
-      setError('Failed to update practice');
+      setError(err instanceof Error ? err.message : 'Failed to update practice');
     } finally {
       setIsLoading(false);
     }
@@ -365,7 +382,7 @@ const AdminPage: FC = () => {
         <div className="rounded-lg bg-amber-900 text-stone-50 p-6 text-sm leading-relaxed">
           <p className="font-semibold mb-2">Title must match a practice component in code:</p>
           <p className="text-stone-50/90">
-            Sound Exploration, Fretboard Freedom, Fretboard Mapper, Memorize Notes
+            Sound Exploration, Fretboard Freedom, Fretboard Map, Memorize Notes
           </p>
         </div>
 
@@ -387,10 +404,39 @@ const AdminPage: FC = () => {
                   type="text"
                   id="title"
                   value={newPractice.title}
-                  onChange={(e) => setNewPractice({ ...newPractice, title: e.target.value })}
+                  onChange={(e) => {
+                    const title = e.target.value;
+                    const prevAuto = slugify(newPractice.title);
+                    const shouldSyncSlug =
+                      !newPractice.slug || newPractice.slug === prevAuto;
+                    setNewPractice({
+                      ...newPractice,
+                      title,
+                      ...(shouldSyncSlug ? { slug: slugify(title) } : {}),
+                    });
+                  }}
                   className={INPUT_DARK}
                   required
                 />
+              </div>
+              <div>
+                <label htmlFor="slug" className={LABEL_DARK}>
+                  URL slug
+                </label>
+                <input
+                  type="text"
+                  id="slug"
+                  value={newPractice.slug || ''}
+                  onChange={(e) =>
+                    setNewPractice({ ...newPractice, slug: normalizeSlugInput(e.target.value) })
+                  }
+                  className={INPUT_DARK}
+                  placeholder="e.g. strumming"
+                  required
+                />
+                <p className="text-stone-400 text-xs mt-1.5">
+                  Page URL: /practice/{newPractice.slug || 'your-slug'}
+                </p>
               </div>
               <div>
                 <label htmlFor="description" className={LABEL_DARK}>
@@ -463,8 +509,15 @@ const AdminPage: FC = () => {
                       <p className="text-stone-400 text-sm mt-1 capitalize">
                         {practice.skillLevels.join(', ')}
                       </p>
+                      {practice.slug ? (
+                        <p className="text-amber-200/80 text-xs mt-2 font-mono">
+                          /practice/{practice.slug}
+                        </p>
+                      ) : (
+                        <p className="text-stone-500 text-xs mt-2">No URL slug set yet</p>
+                      )}
                       {practice.id && (
-                        <p className="text-stone-500 text-xs mt-2 font-mono">ID: {practice.id}</p>
+                        <p className="text-stone-500 text-xs mt-1 font-mono">ID: {practice.id}</p>
                       )}
                     </div>
                     <div className="flex flex-wrap gap-2 shrink-0">
@@ -503,6 +556,28 @@ const AdminPage: FC = () => {
                           className={INPUT_DARK}
                           required
                         />
+                      </div>
+                      <div>
+                        <label htmlFor={`slug-${practice.id}`} className={LABEL_DARK}>
+                          URL slug
+                        </label>
+                        <input
+                          type="text"
+                          id={`slug-${practice.id}`}
+                          value={editedPractice.slug || ''}
+                          onChange={(e) =>
+                            setEditedPractice({
+                              ...editedPractice,
+                              slug: normalizeSlugInput(e.target.value),
+                            })
+                          }
+                          className={INPUT_DARK}
+                          placeholder="e.g. strumming"
+                          required
+                        />
+                        <p className="text-stone-400 text-xs mt-1.5">
+                          Page URL: /practice/{editedPractice.slug || 'your-slug'}
+                        </p>
                       </div>
                       <div>
                         <label htmlFor={`description-${practice.id}`} className={LABEL_DARK}>

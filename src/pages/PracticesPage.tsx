@@ -4,6 +4,7 @@ import { getPracticesBySkillLevel } from '../services/practiceService';
 import { Practice } from '../types/practice';
 import fretboardImg from '../assets/fretboard_img.png';
 import LinkifiedText from '../components/practices/sharedPracticeComponents/LinkifiedText';
+import { getPracticePath } from '../utils/slug';
 
 interface PracticesPageProps {
     skillLevel: string;
@@ -24,7 +25,13 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
             setError(null);
             try {
                 const practices = await getPracticesBySkillLevel(skillLevel);
-                setPractices(practices.filter(p => p.title !== 'Fretboard Mapper' && p.id !== 'fretboard-mapper'));
+                setPractices(practices.filter(p =>
+                  p.title !== 'Fretboard Map' &&
+                  p.title !== 'Fretboard Map' &&
+                  p.id !== 'fretboard-mapper' &&
+                  p.slug !== 'fretboard-map' &&
+                  p.slug !== 'fretboard-mapper'
+                ));
             } catch (error) {
                 console.error('Error fetching practices:', error);
                 setError('Failed to load practices. Please try again later.');
@@ -36,9 +43,9 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
         fetchPractices();
     }, [skillLevel]);
 
-    const handleSwitchClick = (practiceId: string) => {
+    const handleSwitchClick = (practice: Practice) => {
         setTimeout(() => {
-            navigate(`/practice/${practiceId}`);
+            navigate(getPracticePath(practice));
         }, 650);
     };
 
@@ -199,7 +206,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
                                 <button 
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        handleSwitchClick(practice.id || '');
+                                        handleSwitchClick(practice);
                                     }}
                                     className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 py-2 hover:bg-amber-900 text-stone-50 flex items-center cursor-pointer"
                                 >
@@ -238,10 +245,10 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
                     </p>
                     {/* <div className="flex flex-col sm:flex-row justify-center gap-4">
                         <button 
-                            onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
+                            onClick={() => navigate('/practice/fretboard-map')}
                             className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors shadow h-10 rounded-lg px-8 bg-amber-900 hover:bg-amber-600 text-white cursor-pointer max-w-[215px] w-full mx-auto sm:mx-0"
                         >
-                            Fretboard Mapper
+                            Fretboard Map
                         </button>
                         <div className="relative inline-flex mx-auto sm:mx-0" ref={dropdownRef}>
                             <button
@@ -364,16 +371,16 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
                     {renderPractices()}
                 </section>
 
-                {/* Featured Fretboard Mapper Section */}
+                {/* Featured Fretboard Map Section */}
                 <section className="bg-amber-900 text-stone-50 rounded-lg p-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                         <div className="space-y-4">
-                            <h2 className="text-2xl md:text-3xl font-bold">Fretboard Mapper</h2>
+                            <h2 className="text-2xl md:text-3xl font-bold">Fretboard Map</h2>
                             <p className="text-stone-50">
                                 Our interactive fretboard tool helps you visualize notes, scales, and patterns across the guitar neck. Perfect for beginners learning the fretboard or advanced players exploring new musical concepts.
                             </p>
                             <button 
-                                onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
+                                onClick={() => navigate('/practice/fretboard-map')}
                                 className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 py-2 bg-stone-50 hover:bg-amber-100 text-amber-900 cursor-pointer"
                             >
                                 Check it out
@@ -386,7 +393,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
                         <div className="bg-black/8 rounded-lg p-2">
                             <div 
                                 className="cursor-pointer hover:scale-101 transition-transform"
-                                onClick={() => navigate('/practice/xsFrdqxeyLbFM2puHGMs')}
+                                onClick={() => navigate('/practice/fretboard-map')}
                             >
                                 <img 
                                     src={fretboardImg} 
