@@ -27,12 +27,12 @@ const GuidedLessonsPage: FC = () => {
   return (
     <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
       <div className="max-w-4xl mx-auto space-y-10">
-        <section className="space-y-3">
+        <section className="space-y-3 text-center">
           <h1 className="text-2xl md:text-4xl font-bold text-amber-900 leading-tight">
             Ready to take your playing to the next level?
           </h1>
           <p className="text-lg md:text-xl text-amber-800 font-medium">
-            Learn directly from Nate Kane; the creator of Map My Guitar.
+            Learn directly from Nate Kane - the creator of Map My Guitar.
           </p>
         </section>
 

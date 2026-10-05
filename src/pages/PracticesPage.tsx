@@ -188,7 +188,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
                                         </svg>
                                     </div> */}
                                     <div className="min-w-0 flex-1">
-                                        <h3 className="text-xl md:text-2xl font-bold text-stone-50 border-b border-stone-50 pb-2 mb-1">{practice.title}</h3>
+                                        <h3 className="text-xl md:text-2xl font-bold text-stone-50 border-b border-amber-200/80 pb-2 mb-1">{practice.title}</h3>
                                         <p className="text-stone-50 line-clamp-3 mt-3">
                                             <LinkifiedText text={practice.description} />
                                         </p>
@@ -290,7 +290,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
                 </section>
 
                 {/* Soft upsell → Guided Lessons */}
-                <section className="rounded-lg border border-amber-900/25 bg-gradient-to-br from-zinc-900 to-zinc-800 p-5 sm:p-6 shadow">
+                <section className="rounded-lg border border-amber-800/40 bg-gradient-to-br from-zinc-900 to-zinc-800 p-5 sm:p-6 shadow">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                         <div className="flex-1 min-w-0 space-y-1.5">
                             <p className="text-xs font-semibold uppercase tracking-wider text-amber-200/80">
@@ -331,23 +331,36 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
 
                 {/* Practice Methods Section */}
                 <section>
-                    {/* <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                    <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                         <h2 className="text-2xl font-bold text-amber-900">Practice Methods</h2>
                         <div className="relative w-full md:w-64">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-500 h-4 w-4">
-                                <path d="m21 21-4.34-4.34"></path>
-                                <circle cx="11" cy="11" r="8"></circle>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-500 h-4 w-4"
+                                aria-hidden="true"
+                            >
+                                <path d="m21 21-4.34-4.34" />
+                                <circle cx="11" cy="11" r="8" />
                             </svg>
-                            <input 
-                                type="text" 
+                            <input
+                                type="search"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="flex h-9 w-full rounded-lg border px-3 py-1 text-sm shadow-sm transition-colors pl-10 border-amber-300 bg-stone-50 focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-stone-500" 
+                                className="flex h-9 w-full rounded-lg border px-3 py-1 text-sm shadow-sm transition-colors pl-10 border-amber-800/50 bg-stone-50 focus:outline-none focus:ring-2 focus:ring-amber-800/40 focus:border-amber-800 placeholder:text-stone-500"
                                 placeholder="Search practices..."
+                                aria-label="Search practices"
                             />
                         </div>
-                    </div> */}
-                    
+                    </div>
+
                     {renderPractices()}
                 </section>
 
