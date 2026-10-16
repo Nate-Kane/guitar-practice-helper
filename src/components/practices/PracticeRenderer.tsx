@@ -10,6 +10,7 @@ const PRACTICE_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'Memorize Notes': lazy(() => import('./MemorizeNotes')),
   'Visualizing Triads': lazy(() => import('./VisualizingTriads')),
   'CAGED System': lazy(() => import('./CagedSystem')),
+  'Drop Chords': lazy(() => import('./DropChords')),
   'Strumming': lazy(() => import('./Strumming')),
   'Basic Chords': lazy(() => import('./BasicChords')),
   // Add a lead guitar practice; limit frets; generate style and key;

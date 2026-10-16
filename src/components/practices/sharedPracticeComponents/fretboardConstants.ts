@@ -91,6 +91,10 @@ export const MINOR_THIRD_INTERVAL_COLOR = '#6B7FD7';
 /** Perfect 5 — shared by interval legend and single-string mapper */
 export const PERFECT_FIFTH_INTERVAL_COLOR = '#A8B5C4';
 
+/** Sevenths — same colors as the fretboard mapper interval selector */
+export const MINOR_SEVENTH_INTERVAL_COLOR = '#9B7ED9';
+export const MAJOR_SEVENTH_INTERVAL_COLOR = '#E454A0';
+
 /** Section heading above fretboard on reference practices */
 export const FRETBOARD_REFERENCE_HEADING =
   "Here's the interactive fretboard mapper to use as a reference";

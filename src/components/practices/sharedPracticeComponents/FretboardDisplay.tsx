@@ -5,6 +5,8 @@ import {
   FretboardInstrument,
   GUITAR_INSTRUMENT,
   INTERVAL_MARKER_TEXT,
+  MAJOR_SEVENTH_INTERVAL_COLOR,
+  MINOR_SEVENTH_INTERVAL_COLOR,
   NEUTRAL_MARKER_BORDER,
   NEUTRAL_MARKER_TEXT,
   PERFECT_FIFTH_INTERVAL_COLOR,
@@ -60,8 +62,8 @@ const intervalOptions: IntervalInfo[] = [
   { name: 'Perfect 5', semitones: 7, color: PERFECT_FIFTH_INTERVAL_COLOR, selected: false },
   { name: 'Minor 6', semitones: 8, color: '#4DA3E8', selected: false },
   { name: 'Major 6', semitones: 9, color: '#E8A838', selected: false },
-  { name: 'Minor 7', semitones: 10, color: '#9B7ED9', selected: false },
-  { name: 'Major 7', semitones: 11, color: '#E454A0', selected: false },
+  { name: 'Minor 7', semitones: 10, color: MINOR_SEVENTH_INTERVAL_COLOR, selected: false },
+  { name: 'Major 7', semitones: 11, color: MAJOR_SEVENTH_INTERVAL_COLOR, selected: false },
 ];
 
 type ScaleMode = 'major' | 'minor' | 'chromatic';
