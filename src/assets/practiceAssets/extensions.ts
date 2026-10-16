@@ -112,30 +112,9 @@ export const basics_EXTENSIONS = CHORD_EXTENSIONS.filter(ext => ext.difficulty =
 export const INTERMEDIATE_EXTENSIONS = CHORD_EXTENSIONS.filter(ext => ext.difficulty === "intermediate");
 export const ADVANCED_EXTENSIONS = CHORD_EXTENSIONS.filter(ext => ext.difficulty === "advanced");
 
-/**
- * Get a random chord extension based on difficulty level
- */
-export function getRandomExtension(difficulty: string): ChordExtension {
-  let availableExtensions: ChordExtension[];
-  
-  switch(difficulty) {
-    case "basics":
-      availableExtensions = basics_EXTENSIONS;
-      break;
-    case "intermediate":
-      // Intermediate players can play basics and intermediate extensions
-      availableExtensions = [...basics_EXTENSIONS, ...INTERMEDIATE_EXTENSIONS];
-      break;
-    case "advanced":
-      // Advanced players can play all extensions
-      availableExtensions = CHORD_EXTENSIONS;
-      break;
-    default:
-      availableExtensions = basics_EXTENSIONS;
-  }
-  
-  const randomIndex = Math.floor(Math.random() * availableExtensions.length);
-  return availableExtensions[randomIndex];
+export function getRandomExtension(): ChordExtension {
+  const randomIndex = Math.floor(Math.random() * CHORD_EXTENSIONS.length);
+  return CHORD_EXTENSIONS[randomIndex];
 }
 
 /**

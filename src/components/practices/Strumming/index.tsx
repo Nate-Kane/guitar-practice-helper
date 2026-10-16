@@ -6,7 +6,6 @@ type TimeSignature = '4/4' | '3/4';
 
 interface StrummingProps {
   practice: Practice;
-  skillLevel: string;
 }
 
 const BEATS_BY_TIME_SIGNATURE: Record<TimeSignature, string[]> = {

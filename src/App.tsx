@@ -1,6 +1,5 @@
-import { FC, useState, useEffect } from 'react';
+import { FC } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import LandingPage from './pages/LandingPage';
 import PracticesPage from './pages/PracticesPage';
 import AdminPage from './pages/AdminPage';
 import PracticePage from './pages/PracticePage';
@@ -11,25 +10,17 @@ import Footer from './components/Footer';
 import './tailwind.css';
 
 const App: FC = () => {
-  const [skillLevel, setSkillLevel] = useState<string>(() => {
-    return localStorage.getItem('skillLevel') || "intermediate";
-  });
-
-  useEffect(() => {
-    localStorage.setItem('skillLevel', skillLevel);
-  }, [skillLevel]);
-
   return (
     <Router>
       <div className="min-h-screen bg-stone-50 flex flex-col">
         <Navbar />
         <div className="flex-grow">
           <Routes>
-            <Route path="/" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
-            <Route path="/practices" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
-            <Route path="/practice/:slugOrId" element={<PracticePage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
+            <Route path="/" element={<PracticesPage />} />
+            <Route path="/practices" element={<PracticesPage />} />
+            <Route path="/practice/:slugOrId" element={<PracticePage />} />
             <Route path="/guided-lessons" element={<GuidedLessonsPage />} />
-            <Route path="/mandolin" element={<MandolinPage skillLevel={skillLevel} />} />
+            <Route path="/mandolin" element={<MandolinPage />} />
             <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </div>

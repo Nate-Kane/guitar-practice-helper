@@ -181,42 +181,21 @@ const MINOR_PROGRESSIONS_ADVANCED = [
   }
 ];
 
-function getRandomProgression(key: Key | null, skillLevel: string = 'basics'): ChordProgression | null {
+function getRandomProgression(key: Key | null): ChordProgression | null {
   if (!key) return null;
-  
-  let availableProgressions: ChordProgression[] = [];
-  
-  if (key.quality === 'major') {
-    // For major keys
-    switch(skillLevel) {
-      case 'basics':
-        availableProgressions = [...MAJOR_PROGRESSIONS_basics];
-        break;
-      case 'intermediate':
-        availableProgressions = [...MAJOR_PROGRESSIONS_basics, ...MAJOR_PROGRESSIONS_INTERMEDIATE];
-        break;
-      case 'advanced':
-        availableProgressions = [...MAJOR_PROGRESSIONS_basics, ...MAJOR_PROGRESSIONS_INTERMEDIATE, ...MAJOR_PROGRESSIONS_ADVANCED];
-        break;
-      default:
-        availableProgressions = [...MAJOR_PROGRESSIONS_basics];
-    }
-  } else {
-    // For minor keys
-    switch(skillLevel) {
-      case 'basics':
-        availableProgressions = [...MINOR_PROGRESSIONS_basics];
-        break;
-      case 'intermediate':
-        availableProgressions = [...MINOR_PROGRESSIONS_basics, ...MINOR_PROGRESSIONS_INTERMEDIATE];
-        break;
-      case 'advanced':
-        availableProgressions = [...MINOR_PROGRESSIONS_basics, ...MINOR_PROGRESSIONS_INTERMEDIATE, ...MINOR_PROGRESSIONS_ADVANCED];
-        break;
-      default:
-        availableProgressions = [...MINOR_PROGRESSIONS_basics];
-    }
-  }
+
+  const availableProgressions =
+    key.quality === 'major'
+      ? [
+          ...MAJOR_PROGRESSIONS_basics,
+          ...MAJOR_PROGRESSIONS_INTERMEDIATE,
+          ...MAJOR_PROGRESSIONS_ADVANCED,
+        ]
+      : [
+          ...MINOR_PROGRESSIONS_basics,
+          ...MINOR_PROGRESSIONS_INTERMEDIATE,
+          ...MINOR_PROGRESSIONS_ADVANCED,
+        ];
   
   if (availableProgressions.length === 0) return null;
   const randomIndex = Math.floor(Math.random() * availableProgressions.length);

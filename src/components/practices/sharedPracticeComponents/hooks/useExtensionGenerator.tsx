@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { getRandomExtension, ChordExtension } from '../../../../assets/practiceAssets/extensions';
 
-export const useExtensionGenerator = (skillLevel: string) => {
+export const useExtensionGenerator = () => {
   const [currentExtension, setCurrentExtension] = useState<ChordExtension | null>(null);
 
   const generateNewExtension = () => {
-    let newExtension = getRandomExtension(skillLevel);
+    let newExtension = getRandomExtension();
     let regenAttempts = 0;
     while((currentExtension && newExtension && currentExtension.name === newExtension.name) && regenAttempts < 5) {
-      newExtension = getRandomExtension(skillLevel);
+      newExtension = getRandomExtension();
       regenAttempts++;
     }
 
@@ -16,18 +16,13 @@ export const useExtensionGenerator = (skillLevel: string) => {
     return newExtension;
   };
 
-  // Initialize extension when key changes or skill level changes
   useEffect(() => {
-    if (skillLevel !== 'basics') {
-      generateNewExtension();
-    } else {
-      setCurrentExtension(null);
-    }
-  }, [skillLevel]);
+    generateNewExtension();
+  }, []);
 
   return {
     currentExtension,
     generateNewExtension,
-    shouldShowExtension: skillLevel !== 'basics'
+    shouldShowExtension: true
   };
 };

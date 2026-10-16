@@ -100,30 +100,9 @@ export const basics_FRET_RANGES = FRET_RANGES.filter(fr => fr.difficulty === "ba
 export const INTERMEDIATE_FRET_RANGES = FRET_RANGES.filter(fr => fr.difficulty === "intermediate");
 export const ADVANCED_FRET_RANGES = FRET_RANGES.filter(fr => fr.difficulty === "advanced");
 
-/**
- * Get a random fret range based on difficulty level
- */
-export function getRandomFretRange(difficulty: string): FretRange {
-  let availableFretRanges: FretRange[];
-  
-  switch(difficulty) {
-    case "basics":
-      availableFretRanges = basics_FRET_RANGES;
-      break;
-    case "intermediate":
-      // Intermediate players can play basics and intermediate fret ranges
-      availableFretRanges = [...basics_FRET_RANGES, ...INTERMEDIATE_FRET_RANGES];
-      break;
-    case "advanced":
-      // Advanced players can play all fret ranges
-      availableFretRanges = FRET_RANGES;
-      break;
-    default:
-      availableFretRanges = basics_FRET_RANGES;
-  }
-  
-  const randomIndex = Math.floor(Math.random() * availableFretRanges.length);
-  return availableFretRanges[randomIndex];
+export function getRandomFretRange(): FretRange {
+  const randomIndex = Math.floor(Math.random() * FRET_RANGES.length);
+  return FRET_RANGES[randomIndex];
 }
 
 /**

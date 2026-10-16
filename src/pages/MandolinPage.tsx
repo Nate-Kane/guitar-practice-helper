@@ -6,11 +6,7 @@ import NoteAcrossFretboardDisplay from '../components/practices/sharedPracticeCo
 import StringNotesDisplay from '../components/practices/sharedPracticeComponents/StringNotesDisplay';
 import { MANDOLIN_INSTRUMENT } from '../components/practices/sharedPracticeComponents/fretboardConstants';
 
-interface MandolinPageProps {
-  skillLevel: string;
-}
-
-const MandolinPage: FC<MandolinPageProps> = ({ skillLevel }) => {
+const MandolinPage: FC = () => {
   return (
     <main className="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-[1280px]">
       <div className="mx-auto w-full max-w-[1000px] space-y-12">
@@ -35,7 +31,6 @@ const MandolinPage: FC<MandolinPageProps> = ({ skillLevel }) => {
         />
 
         <FretboardMapper
-          skillLevel={skillLevel}
           instrument={MANDOLIN_INSTRUMENT}
           maxFret={12}
           heading="Choose a key, then explore the mandolin fretboard"

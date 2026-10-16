@@ -23,10 +23,9 @@ const PRACTICE_COMPONENTS: Record<string, React.ComponentType<any>> = {
 
 interface PracticeRendererProps {
   practice: Practice;
-  skillLevel: string;
 }
 
-const PracticeRenderer: FC<PracticeRendererProps> = ({ practice, skillLevel }) => {
+const PracticeRenderer: FC<PracticeRendererProps> = ({ practice }) => {
   // Find the appropriate component
   const PracticeComponent = PRACTICE_COMPONENTS[practice.title];
   
@@ -36,7 +35,7 @@ const PracticeRenderer: FC<PracticeRendererProps> = ({ practice, skillLevel }) =
   
   return (
     <Suspense fallback={<div className="loading-message">Loading practice...</div>}>
-      <PracticeComponent practice={practice} skillLevel={skillLevel} />
+      <PracticeComponent practice={practice} />
     </Suspense>
   );
 };

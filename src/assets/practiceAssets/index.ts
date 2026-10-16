@@ -11,7 +11,7 @@ export * from './fretRanges';
 /**
  * Generate a complete improvisation practice based on the user's skill level
  */
-export function generateImprovisationPractice(skillLevel: string) {
+export function generateImprovisationPractice() {
   // Import individually to avoid circular references
   const { getRandomKey } = require('./keys');
   const { getRandomProgression, progressionToChords } = require('./progressions');
@@ -19,30 +19,15 @@ export function generateImprovisationPractice(skillLevel: string) {
   const { getRandomBPMForDifficulty } = require('./tempos');
   const { getRandomExtension, applyExtension } = require('./extensions');
   const { getRandomFretRange } = require('./fretRanges');
-  
-  // Get a random key appropriate for the skill level
-  const key = getRandomKey(skillLevel);
-  
-  // Get a random chord progression
-  const progression = getRandomProgression(skillLevel);
-  
-  // Convert Nashville numbers to actual chords in the selected key
+
+  const key = getRandomKey();
+  const progression = getRandomProgression(key);
   const basicsChords = progressionToChords(progression.nashville, key.root, key.quality);
-  
-  // Select a random extension and apply to chords if above basics level
-  const extension = getRandomExtension(skillLevel);
-  const chords = basicsChords.map((chord: string) => 
-    skillLevel === 'basics' ? chord : applyExtension(chord, extension)
-  );
-  
-  // Get a random time signature
-  const timeSignature = getRandomTimeSignature(skillLevel);
-  
-  // Get a random tempo
-  const tempo = getRandomBPMForDifficulty(skillLevel);
-  
-  // Get a random fret range
-  const fretRange = getRandomFretRange(skillLevel);
+  const extension = getRandomExtension();
+  const chords = basicsChords.map((chord: string) => applyExtension(chord, extension));
+  const timeSignature = getRandomTimeSignature();
+  const tempo = getRandomBPMForDifficulty();
+  const fretRange = getRandomFretRange();
   
   // Return the complete practice details
   return {
@@ -52,7 +37,7 @@ export function generateImprovisationPractice(skillLevel: string) {
       chords: chords,
       basicsChords
     },
-    extension: skillLevel === 'basics' ? null : extension,
+    extension,
     timeSignature,
     tempo,
     fretRange

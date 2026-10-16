@@ -1,14 +1,13 @@
 import { FC, useState, useRef, useEffect } from 'react';
-import { ALL_KEYS, basics_KEYS, INTERMEDIATE_KEYS, Key } from '../../../assets/practiceAssets/keys';
+import { ALL_KEYS, Key } from '../../../assets/practiceAssets/keys';
 
 interface KeySelectorProps {
   isOpen: boolean;
   onClose: () => void;
-  skillLevel: string;
   onSelectKey: (key: Key) => void;
 }
 
-const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSelectKey }) => {
+const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, onSelectKey }) => {
   if (!isOpen) return null;
   
   const [qualityFilter, setQualityFilter] = useState<string>("Major");
@@ -34,22 +33,7 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
   
-  let availableKeys: Key[] = [];
-  switch(skillLevel) {
-    case "basics":
-      availableKeys = basics_KEYS;
-      break;
-    case "intermediate":
-      availableKeys = [...basics_KEYS, ...INTERMEDIATE_KEYS];
-      break;
-    case "advanced":
-      availableKeys = ALL_KEYS;
-      break;
-    default:
-      availableKeys = basics_KEYS;
-  }
-  
-  const filteredKeys = availableKeys.filter(key => {
+  const filteredKeys = ALL_KEYS.filter(key => {
     if (key.quality !== qualityFilter.toLowerCase()) {
       return false;
     }
@@ -223,18 +207,6 @@ const KeySelector: FC<KeySelectorProps> = ({ isOpen, onClose, skillLevel, onSele
           </p>
         )}
 
-        <div className="mt-7">
-          <p className="text-sm text-stone-300">
-            * The keys you can choose from are limited by your selected practice level. 
-            <br/>
-            * To see more or less keys, change your practice level
-            <br/>
-            * Your currently selected practice level is {' '}
-            <span className="text-amber-400 font-medium">
-              {skillLevel.charAt(0).toUpperCase() + skillLevel.slice(1)}
-            </span>
-          </p>
-        </div>
       </div>
     </div>
   );

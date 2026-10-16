@@ -33,7 +33,6 @@ const emptyPractice = (): Omit<Practice, 'id'> => ({
   title: '',
   slug: '',
   description: '',
-  skillLevels: ['basics'],
   customDirections: '',
   practiceTips: [],
   hidden: false,
@@ -151,20 +150,10 @@ const AdminPage: FC = () => {
       title: practice.title,
       slug: practice.slug || '',
       description: practice.description,
-      skillLevels: practice.skillLevels,
       customDirections: practice.customDirections || '',
       practiceTips: Array.isArray(practice.practiceTips) ? practice.practiceTips : [],
       hidden: !!practice.hidden,
     });
-  };
-
-  const handleEditSkillLevelToggle = (level: string) => {
-    setEditedPractice((prev) => ({
-      ...prev,
-      skillLevels: prev.skillLevels.includes(level)
-        ? prev.skillLevels.filter((l) => l !== level)
-        : [...prev.skillLevels, level],
-    }));
   };
 
   const handleUpdatePractice = async (e: React.FormEvent, practiceId: string) => {
@@ -204,15 +193,6 @@ const AdminPage: FC = () => {
     }
   };
 
-  const handleSkillLevelToggle = (level: string) => {
-    setNewPractice((prev) => ({
-      ...prev,
-      skillLevels: prev.skillLevels.includes(level)
-        ? prev.skillLevels.filter((l) => l !== level)
-        : [...prev.skillLevels, level],
-    }));
-  };
-
   const handleAddTip = () => {
     if (!newTip.trim()) return;
     setNewPractice((prev) => ({
@@ -244,31 +224,6 @@ const AdminPage: FC = () => {
     }));
     setEditingTip('');
   };
-
-  const renderSkillLevels = (
-    levels: string[],
-    onToggle: (level: string) => void,
-    variant: 'light' | 'dark'
-  ) => (
-    <div className="flex flex-wrap gap-4">
-      {(['basics', 'intermediate', 'advanced'] as const).map((level) => (
-        <label
-          key={level}
-          className={`flex items-center gap-2 cursor-pointer text-sm capitalize ${
-            variant === 'dark' ? 'text-stone-50' : 'text-amber-900'
-          }`}
-        >
-          <input
-            type="checkbox"
-            checked={levels.includes(level)}
-            onChange={() => onToggle(level)}
-            className="rounded border-amber-900/40 text-amber-900 focus:ring-amber-900/30"
-          />
-          {level}
-        </label>
-      ))}
-    </div>
-  );
 
   const renderTipsEditor = (
     tips: string[] | undefined,
@@ -453,10 +408,6 @@ const AdminPage: FC = () => {
                 />
               </div>
               <div>
-                <span className={LABEL_DARK}>Skill Levels</span>
-                {renderSkillLevels(newPractice.skillLevels, handleSkillLevelToggle, 'dark')}
-              </div>
-              <div>
                 <label htmlFor="customDirections" className={LABEL_DARK}>
                   Custom Directions
                 </label>
@@ -508,10 +459,9 @@ const AdminPage: FC = () => {
                   <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <h3 className="text-xl font-bold text-stone-50">{practice.title}</h3>
-                      <p className="text-stone-400 text-sm mt-1 capitalize">
-                        {practice.skillLevels.join(', ')}
-                        {practice.hidden ? ' · Hidden' : ''}
-                      </p>
+                      {practice.hidden && (
+                        <p className="text-stone-400 text-sm mt-1">Hidden</p>
+                      )}
                       {practice.slug ? (
                         <p className="text-amber-200/80 text-xs mt-2 font-mono">
                           /practice/{practice.slug}
@@ -595,14 +545,6 @@ const AdminPage: FC = () => {
                           className={TEXTAREA_DARK}
                           required
                         />
-                      </div>
-                      <div>
-                        <span className={LABEL_DARK}>Skill Levels</span>
-                        {renderSkillLevels(
-                          editedPractice.skillLevels,
-                          handleEditSkillLevelToggle,
-                          'dark'
-                        )}
                       </div>
                       <label className="flex items-center gap-2 text-sm text-stone-50 cursor-pointer">
                         <input

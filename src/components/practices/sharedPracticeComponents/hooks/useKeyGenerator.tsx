@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { getRandomKey, Key } from '../../../../assets/practiceAssets/keys.ts';
 
-export const useKeyGenerator = (skillLevel: string) => {
+export const useKeyGenerator = () => {
   const [currentKey, setCurrentKey] = useState<Key | null>(null);
   const [isKeySelectorOpen, setIsKeySelectorOpen] = useState<boolean>(false);
 
   const generateNewKey = () => {
-    let newKey = getRandomKey(skillLevel);
+    let newKey = getRandomKey();
     let regenAttempts = 0;
 
     while((currentKey && currentKey.name === newKey.name) && regenAttempts < 5) {
-      newKey = getRandomKey(skillLevel);
+      newKey = getRandomKey();
       regenAttempts++;
     }
 
@@ -34,10 +34,9 @@ export const useKeyGenerator = (skillLevel: string) => {
     setIsKeySelectorOpen(false);
   };
 
-  // Initialize key on mount or skill level change
   useEffect(() => {
     generateNewKey();
-  }, [skillLevel]);
+  }, []);
 
   return {
     currentKey,

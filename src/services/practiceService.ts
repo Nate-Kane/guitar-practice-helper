@@ -29,15 +29,10 @@ export const getPractices = async (): Promise<Practice[]> => {
   return snapshot.docs.map((d) => mapPracticeDoc(d));
 };
 
-// Get practices for a specific skill level
-export const getPracticesBySkillLevel = async (skillLevel: string): Promise<Practice[]> => {
-  const q = query(
-    practicesCollection, 
-    where('skillLevels', 'array-contains', skillLevel)
-  );
-  
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((d) => mapPracticeDoc(d)).filter((practice) => !practice.hidden);
+/** Practices shown on the public list. Hidden ones stay available by URL. */
+export const getVisiblePractices = async (): Promise<Practice[]> => {
+  const practices = await getPractices();
+  return practices.filter((practice) => !practice.hidden);
 };
 
 // Get a single practice by Firestore document ID

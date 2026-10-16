@@ -130,26 +130,7 @@ export const basics_KEYS = ALL_KEYS.filter(key => key.difficulty === "basics");
 export const INTERMEDIATE_KEYS = ALL_KEYS.filter(key => key.difficulty === "intermediate");
 export const ADVANCED_KEYS = ALL_KEYS.filter(key => key.difficulty === "advanced");
 
-// Get a random key based on difficulty
-export function getRandomKey(difficulty: string): Key {
-  let availableKeys: Key[];
-  
-  switch(difficulty) {
-    case "basics":
-      availableKeys = basics_KEYS;
-      break;
-    case "intermediate":
-      // Intermediate players can play basics and intermediate keys
-      availableKeys = [...basics_KEYS, ...INTERMEDIATE_KEYS];
-      break;
-    case "advanced":
-      // Advanced players can play all keys
-      availableKeys = ALL_KEYS;
-      break;
-    default:
-      availableKeys = basics_KEYS;
-  }
-  
-  const randomIndex = Math.floor(Math.random() * availableKeys.length);
-  return availableKeys[randomIndex];
+export function getRandomKey(): Key {
+  const randomIndex = Math.floor(Math.random() * ALL_KEYS.length);
+  return ALL_KEYS[randomIndex];
 }

@@ -2,18 +2,18 @@ import { useState, useEffect } from 'react';
 import { getRandomProgression, progressionToChords, ChordProgression } from '../../../../assets/practiceAssets/progressions';
 import { Key } from '../../../../assets/practiceAssets/keys';
 
-export const useProgressionGenerator = (currentKey: Key | null, skillLevel: string) => {
+export const useProgressionGenerator = (currentKey: Key | null) => {
   const [currentProgression, setCurrentProgression] = useState<ChordProgression | null>(null);
   const [currentChords, setCurrentChords] = useState<string[]>([]);
 
   const generateNewProgression = () => {
     if (!currentKey) return null;
     
-    let newProgression = getRandomProgression(currentKey, skillLevel);
+    let newProgression = getRandomProgression(currentKey);
     let regenAttempts = 0;
     
     while((currentProgression && newProgression && currentProgression.name === newProgression.name) && regenAttempts < 5) {
-      newProgression = getRandomProgression(currentKey, skillLevel);
+      newProgression = getRandomProgression(currentKey);
       regenAttempts++;
     }
 
@@ -32,7 +32,7 @@ export const useProgressionGenerator = (currentKey: Key | null, skillLevel: stri
     if (currentKey) {
       generateNewProgression();
     }
-  }, [currentKey, skillLevel]);
+  }, [currentKey]);
 
   return {
     currentProgression,

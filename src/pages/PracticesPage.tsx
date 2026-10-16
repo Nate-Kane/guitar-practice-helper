@@ -1,17 +1,12 @@
 import { FC, useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getPracticesBySkillLevel } from '../services/practiceService';
+import { getVisiblePractices } from '../services/practiceService';
 import { Practice } from '../types/practice';
 import fretboardImg from '../assets/fretboard_img.png';
 import LinkifiedText from '../components/practices/sharedPracticeComponents/LinkifiedText';
 import { getPracticePath } from '../utils/slug';
 
-interface PracticesPageProps {
-    skillLevel: string;
-    onSkillSelect: (level: string) => void;
-}
-
-const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
+const PracticesPage: FC = () => {
     const navigate = useNavigate();
     const [practices, setPractices] = useState<Practice[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -24,7 +19,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
             setIsLoading(true);
             setError(null);
             try {
-                const practices = await getPracticesBySkillLevel(skillLevel);
+                const practices = await getVisiblePractices();
                 setPractices(practices.filter(p =>
                   p.title !== 'Fretboard Map' &&
                   p.title !== 'Fretboard Map' &&
@@ -41,7 +36,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
         };
 
         fetchPractices();
-    }, [skillLevel]);
+    }, []);
 
     const handleSwitchClick = (practice: Practice) => {
         setTimeout(() => {
@@ -98,7 +93,7 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
             resizeObserver.disconnect();
             window.removeEventListener('resize', equalizeCardHeights);
         };
-    }, [showPracticeGrid, practiceCardKey, skillLevel]);
+    }, [showPracticeGrid, practiceCardKey]);
 
     const renderPractices = () => {
         if (isLoading) {
@@ -241,59 +236,8 @@ const PracticesPage: FC<PracticesPageProps> = ({ skillLevel }) => {
                     </div>
                     <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-amber-900">Build a Mental Guitar Map</h1>
                     <p className="text-base md:text-xl text-amber-800 max-w-2xl mx-auto text-left">
-                        These practice tools will help you build a mental map of your guitar so you can effortlessly play up and down the neck. Choose a practice method, choose your difficulty level, then get practicing!
+                        These practice tools will help you build a mental map of your guitar so you can effortlessly play up and down the neck. Choose a practice method, then get practicing!
                     </p>
-                    {/* <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <button 
-                            onClick={() => navigate('/practice/fretboard-map')}
-                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors shadow h-10 rounded-lg px-8 bg-amber-900 hover:bg-amber-600 text-white cursor-pointer max-w-[215px] w-full mx-auto sm:mx-0"
-                        >
-                            Fretboard Map
-                        </button>
-                        <div className="relative inline-flex mx-auto sm:mx-0" ref={dropdownRef}>
-                            <button
-                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border shadow-sm h-10 rounded-lg px-4 border-amber-900 text-amber-900 hover:bg-amber-100 cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-stone-500"
-                            >
-                                Difficulty:&nbsp; {capitalize(skillLevel)}
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ml-2 h-4 w-4 text-amber-900 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}>
-                                    <path d="M6 9l6 6 6-6"></path>
-                                </svg>
-                            </button>
-                            
-                            {isDropdownOpen && (
-                                <div className="absolute top-full left-0 mt-1 bg-white border border-amber-900 rounded-lg shadow-lg z-10 w-full">
-                                    <button
-                                        onClick={() => {
-                                            onSkillSelect('basics');
-                                            setIsDropdownOpen(false);
-                                        }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-t-md ${skillLevel === 'basics' ? 'bg-stone-50 text-amber-800' : 'text-amber-900'}`}
-                                    >
-                                        Basics
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            onSkillSelect('intermediate');
-                                            setIsDropdownOpen(false);
-                                        }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors ${skillLevel === 'intermediate' ? 'bg-stone-50 text-amber-800' : 'text-amber-900'}`}
-                                    >
-                                        Intermediate
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            onSkillSelect('advanced');
-                                            setIsDropdownOpen(false);
-                                        }}
-                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-amber-100 transition-colors rounded-b-md ${skillLevel === 'advanced' ? 'bg-stone-50 text-amber-800' : 'text-amber-900'}`}
-                                    >
-                                        Advanced
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    </div> */}
                 </section>
 
                 {/* Soft upsell → Guided Lessons */}

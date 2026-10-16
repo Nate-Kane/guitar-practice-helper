@@ -6,7 +6,6 @@ import FingerLegend from './FingerLegend';
 
 interface BasicChordsProps {
   practice?: Practice;
-  skillLevel?: string;
   chords?: ChordShape[];
   heading?: string;
   description?: string;

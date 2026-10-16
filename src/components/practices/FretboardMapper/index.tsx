@@ -9,14 +9,12 @@ import {
 import { FC } from 'react';
 
 interface FretboardMapperyProps {
-    skillLevel: string;
     instrument?: FretboardInstrument;
     maxFret?: number;
     heading?: string;
 }
 
 const FretboardMappery: FC<FretboardMapperyProps> = ({
-    skillLevel,
     instrument = GUITAR_INSTRUMENT,
     maxFret = 14,
     heading = 'Choose a key, then explore the interactive fretboard',
@@ -28,7 +26,7 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({
         isKeySelectorOpen,
         openKeySelector,
         closeKeySelector
-    } = useKeyGenerator(skillLevel);
+    } = useKeyGenerator();
 
     return (
         <div className="w-full space-y-8 -mt-2">
@@ -36,7 +34,6 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({
             <KeyDisplay
                 currentKey={currentKey}
                 onRegenerateKey={generateNewKey}
-                skillLevel={skillLevel}
                 isKeySelectorOpen={isKeySelectorOpen}
                 openKeySelector={openKeySelector}
                 closeKeySelector={closeKeySelector}

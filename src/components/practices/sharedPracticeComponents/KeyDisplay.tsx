@@ -7,7 +7,6 @@ const DEFAULT_HEADING = 'Choose or randomize a key';
 interface KeyDisplayProps {
   currentKey: Key | null;
   onRegenerateKey: () => void;
-  skillLevel: string;
   isKeySelectorOpen: boolean;
   openKeySelector: () => void;
   closeKeySelector: () => void;
@@ -18,7 +17,6 @@ interface KeyDisplayProps {
 const KeyDisplay: FC<KeyDisplayProps> = ({
   currentKey,
   onRegenerateKey,
-  skillLevel,
   isKeySelectorOpen,
   openKeySelector,
   closeKeySelector,
@@ -118,7 +116,6 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
       <KeySelector
         isOpen={isKeySelectorOpen}
         onClose={closeKeySelector}
-        skillLevel={skillLevel}
         onSelectKey={onSelectKey}
       />
     </div>

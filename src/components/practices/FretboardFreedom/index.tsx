@@ -8,11 +8,7 @@ import { StringLimitDisplay } from '../sharedPracticeComponents/StringLimitDispl
 import FretboardDisplay from '../sharedPracticeComponents/FretboardDisplay';
 import { FRETBOARD_REFERENCE_HEADING } from '../sharedPracticeComponents/fretboardConstants';
 
-interface FretboardFreedomProps {
-    skillLevel: string;
-}
-
-const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
+const FretboardFreedom: FC = () => {
     const { 
         currentKey, 
         generateNewKey,
@@ -20,7 +16,7 @@ const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
         isKeySelectorOpen,
         openKeySelector,
         closeKeySelector
-    } = useKeyGenerator(skillLevel);
+    } = useKeyGenerator();
     const { currentFretLimit, generateNewFretLimit } = useFretLimitGenerator();
     const { currentStringLimit, generateNewStringLimit } = useStringLimitGenerator();
 
@@ -29,7 +25,6 @@ const FretboardFreedom: FC<FretboardFreedomProps> = ({ skillLevel }) => {
             <KeyDisplay 
                 currentKey={currentKey} 
                 onRegenerateKey={generateNewKey}
-                skillLevel={skillLevel}
                 isKeySelectorOpen={isKeySelectorOpen}
                 openKeySelector={openKeySelector}
                 closeKeySelector={closeKeySelector}

@@ -102,28 +102,7 @@ export const basics_TIME_SIGNATURES = TIME_SIGNATURES.filter(ts => ts.difficulty
 export const INTERMEDIATE_TIME_SIGNATURES = TIME_SIGNATURES.filter(ts => ts.difficulty === "intermediate");
 export const ADVANCED_TIME_SIGNATURES = TIME_SIGNATURES.filter(ts => ts.difficulty === "advanced");
 
-/**
- * Get a random time signature based on difficulty level
- */
-export function getRandomTimeSignature(difficulty: string): TimeSignature {
-  let availableTimeSignatures: TimeSignature[];
-  
-  switch(difficulty) {
-    case "basics":
-      availableTimeSignatures = basics_TIME_SIGNATURES;
-      break;
-    case "intermediate":
-      // Intermediate players can play basics and intermediate time signatures
-      availableTimeSignatures = [...basics_TIME_SIGNATURES, ...INTERMEDIATE_TIME_SIGNATURES];
-      break;
-    case "advanced":
-      // Advanced players can play all time signatures
-      availableTimeSignatures = TIME_SIGNATURES;
-      break;
-    default:
-      availableTimeSignatures = basics_TIME_SIGNATURES;
-  }
-  
-  const randomIndex = Math.floor(Math.random() * availableTimeSignatures.length);
-  return availableTimeSignatures[randomIndex];
+export function getRandomTimeSignature(): TimeSignature {
+  const randomIndex = Math.floor(Math.random() * TIME_SIGNATURES.length);
+  return TIME_SIGNATURES[randomIndex];
 }

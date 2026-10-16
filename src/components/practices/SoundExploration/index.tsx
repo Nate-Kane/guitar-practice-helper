@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { Practice } from '../../../types/practice';
 import { useKeyGenerator } from '../sharedPracticeComponents/hooks/useKeyGenerator';
 import { useProgressionGenerator } from '../sharedPracticeComponents/hooks/useProgressionGenerator';
 import { useExtensionGenerator } from '../sharedPracticeComponents/hooks/useExtensionGenerator';
@@ -11,12 +10,7 @@ import FretLimitDisplay from '../sharedPracticeComponents/FretLimitDisplay';
 import FretboardDisplay from '../sharedPracticeComponents/FretboardDisplay';
 import { FRETBOARD_REFERENCE_HEADING } from '../sharedPracticeComponents/fretboardConstants';
 
-interface SoloImprovisationProps {
-    practice: Practice;
-    skillLevel: string;
-}
-
-const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
+const SoloImprovisation: FC = () => {
     // State for key and progression using custom hooks
     const { 
         currentKey, 
@@ -25,9 +19,9 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
         isKeySelectorOpen, 
         openKeySelector, 
         closeKeySelector 
-    } = useKeyGenerator(skillLevel);
-    const { currentProgression, currentChords, generateNewProgression } = useProgressionGenerator(currentKey, skillLevel);
-    const { currentExtension, generateNewExtension, shouldShowExtension } = useExtensionGenerator(skillLevel);
+    } = useKeyGenerator();
+    const { currentProgression, currentChords, generateNewProgression } = useProgressionGenerator(currentKey);
+    const { currentExtension, generateNewExtension, shouldShowExtension } = useExtensionGenerator();
     const { currentFretLimit, generateNewFretLimit } = useFretLimitGenerator();
     
     return (
@@ -35,7 +29,6 @@ const SoloImprovisation: FC<SoloImprovisationProps> = ({ skillLevel }) => {
             <KeyDisplay 
                 currentKey={currentKey} 
                 onRegenerateKey={generateNewKey}
-                skillLevel={skillLevel}
                 isKeySelectorOpen={isKeySelectorOpen}
                 openKeySelector={openKeySelector}
                 closeKeySelector={closeKeySelector}

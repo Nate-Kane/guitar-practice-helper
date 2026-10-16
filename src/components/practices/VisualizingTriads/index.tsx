@@ -3,11 +3,7 @@ import { useKeyGenerator } from '../sharedPracticeComponents/hooks/useKeyGenerat
 import KeyDisplay from '../sharedPracticeComponents/KeyDisplay';
 import TriadsDisplay from '../sharedPracticeComponents/TriadsDisplay';
 
-interface VisualizingTriadsProps {
-  skillLevel: string;
-}
-
-const VisualizingTriads: FC<VisualizingTriadsProps> = ({ skillLevel }) => {
+const VisualizingTriads: FC = () => {
   const {
     currentKey,
     generateNewKey,
@@ -15,14 +11,13 @@ const VisualizingTriads: FC<VisualizingTriadsProps> = ({ skillLevel }) => {
     isKeySelectorOpen,
     openKeySelector,
     closeKeySelector,
-  } = useKeyGenerator(skillLevel);
+  } = useKeyGenerator();
 
   return (
     <div className="w-full space-y-8">
       <KeyDisplay
         currentKey={currentKey}
         onRegenerateKey={generateNewKey}
-        skillLevel={skillLevel}
         isKeySelectorOpen={isKeySelectorOpen}
         openKeySelector={openKeySelector}
         closeKeySelector={closeKeySelector}

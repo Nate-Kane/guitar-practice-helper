@@ -93,30 +93,9 @@ export const basics_TEMPO_RANGES = TEMPO_RANGES.filter(tr => tr.difficulty === "
 export const INTERMEDIATE_TEMPO_RANGES = TEMPO_RANGES.filter(tr => tr.difficulty === "intermediate");
 export const ADVANCED_TEMPO_RANGES = TEMPO_RANGES.filter(tr => tr.difficulty === "advanced");
 
-/**
- * Get a random tempo range based on difficulty level
- */
-export function getRandomTempoRange(difficulty: string): TempoRange {
-  let availableTempoRanges: TempoRange[];
-  
-  switch(difficulty) {
-    case "basics":
-      availableTempoRanges = basics_TEMPO_RANGES;
-      break;
-    case "intermediate":
-      // Intermediate players can play basics and intermediate tempo ranges
-      availableTempoRanges = [...basics_TEMPO_RANGES, ...INTERMEDIATE_TEMPO_RANGES];
-      break;
-    case "advanced":
-      // Advanced players can play all tempo ranges
-      availableTempoRanges = TEMPO_RANGES;
-      break;
-    default:
-      availableTempoRanges = basics_TEMPO_RANGES;
-  }
-  
-  const randomIndex = Math.floor(Math.random() * availableTempoRanges.length);
-  return availableTempoRanges[randomIndex];
+export function getRandomTempoRange(): TempoRange {
+  const randomIndex = Math.floor(Math.random() * TEMPO_RANGES.length);
+  return TEMPO_RANGES[randomIndex];
 }
 
 /**
@@ -131,12 +110,12 @@ export function getRandomBPM(tempoRange: TempoRange): number {
 /**
  * Get a random BPM appropriate for a given difficulty level
  */
-export function getRandomBPMForDifficulty(difficulty: string): {
+export function getRandomBPMForDifficulty(): {
   bpm: number;
   name: string;
   description?: string;
 } {
-  const tempoRange = getRandomTempoRange(difficulty);
+  const tempoRange = getRandomTempoRange();
   const bpm = getRandomBPM(tempoRange);
   
   return {

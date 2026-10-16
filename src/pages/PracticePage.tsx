@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useRef } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPracticeBySlugOrId } from '../services/practiceService';
 import { Practice } from '../types/practice';
@@ -7,20 +7,12 @@ import DirectionsSection from '../components/practices/sharedPracticeComponents/
 import PracticeTipsSection from '../components/practices/sharedPracticeComponents/PracticeTipsSection';
 import { getPracticePath } from '../utils/slug';
 
-interface PracticePageProps {
-  skillLevel: string;
-  onSkillSelect: (level: string) => void;
-}
-
-const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
+const PracticePage: FC = () => {
   const { slugOrId: id } = useParams<{ slugOrId: string }>();
   const navigate = useNavigate();
   const [practice, setPractice] = useState<Practice | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
   useEffect(() => {
     const fetchPractice = async () => {
@@ -52,20 +44,6 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
 
     fetchPractice();
   }, [id, navigate]);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-
 
   if (isLoading) {
     return (
@@ -135,40 +113,6 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
               {practice.title}
             </h1>
           </div>
-          <div className="relative inline-flex" ref={dropdownRef}>
-            <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-10 px-4 text-stone-50 bg-amber-900 hover:bg-amber-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-stone-500"
-            >
-              Difficulty:&nbsp; {capitalize(skillLevel)}
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ml-2 h-4 w-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}>
-                <path d="M6 9l6 6 6-6"></path>
-              </svg>
-            </button>
-            
-            {isDropdownOpen && (
-              <div className="absolute top-full left-0 md:right-0 md:left-auto mt-1 bg-white border border-amber-900/30 rounded-lg shadow-lg z-10 w-full overflow-hidden">
-                {(['basics', 'intermediate', 'advanced'] as const).map((level, index, levels) => (
-                  <button
-                    key={level}
-                    onClick={() => {
-                      onSkillSelect(level);
-                      setIsDropdownOpen(false);
-                    }}
-                    className={`w-full text-left px-4 py-2 text-sm transition-colors cursor-pointer ${
-                      index === 0 ? 'rounded-t-lg' : ''
-                    } ${index === levels.length - 1 ? 'rounded-b-lg' : ''} ${
-                      skillLevel === level
-                        ? 'bg-amber-900 text-stone-50'
-                        : 'text-amber-900 hover:bg-amber-100'
-                    }`}
-                  >
-                    {capitalize(level)}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
         </div>
 
         {directions && <DirectionsSection directions={directions} />}
@@ -178,7 +122,7 @@ const PracticePage: FC<PracticePageProps> = ({skillLevel, onSkillSelect}) => {
         )}
 
         {/* Practice Content */}
-        <PracticeRenderer practice={practice} skillLevel={skillLevel}/>
+        <PracticeRenderer practice={practice}/>
       </div>
     </main>
   );
