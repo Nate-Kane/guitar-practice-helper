@@ -15,7 +15,7 @@ interface BasicChordsProps {
 
 const DEFAULT_HEADING = 'Basic chord charts';
 const DEFAULT_DESCRIPTION =
-  'Start with C, A, G, E, and D, then build out from there. Numbers show which finger to use. Click any chart to enlarge it.';
+  'A through G, major then minor. Numbers show which finger to use. Click any chart to enlarge it.';
 
 const BasicChords: FC<BasicChordsProps> = ({
   chords = BASIC_CHORDS,
