@@ -37,7 +37,7 @@ export const getPracticesBySkillLevel = async (skillLevel: string): Promise<Prac
   );
   
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((d) => mapPracticeDoc(d));
+  return snapshot.docs.map((d) => mapPracticeDoc(d)).filter((practice) => !practice.hidden);
 };
 
 // Get a single practice by Firestore document ID

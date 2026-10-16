@@ -1,0 +1,55 @@
+import { FC } from 'react';
+import BasicChords from '../components/practices/BasicChords';
+import { MANDOLIN_BASIC_CHORDS } from '../components/practices/BasicChords/mandolinChordData';
+import FretboardMapper from '../components/practices/FretboardMapper';
+import NoteAcrossFretboardDisplay from '../components/practices/sharedPracticeComponents/NoteAcrossFretboardDisplay';
+import StringNotesDisplay from '../components/practices/sharedPracticeComponents/StringNotesDisplay';
+import { MANDOLIN_INSTRUMENT } from '../components/practices/sharedPracticeComponents/fretboardConstants';
+
+interface MandolinPageProps {
+  skillLevel: string;
+}
+
+const MandolinPage: FC<MandolinPageProps> = ({ skillLevel }) => {
+  return (
+    <main className="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-[1280px]">
+      <div className="mx-auto w-full max-w-[1000px] space-y-12">
+        <div>
+          <h1 className="text-3xl md:text-4xl font-bold text-amber-900">Map My... Mandolin?</h1>
+          <p className="text-amber-800 text-sm md:text-base mt-2 max-w-2xl">
+            Mandolin players are welcome here too! Standard tuning for a mandolin is G, D, A, E from
+            the lowest pitched string to the highest. Explore the tools down below to learn how to
+            navigate around your mandolin fretboard.
+          </p>
+        </div>
+
+        <StringNotesDisplay
+          instrument={MANDOLIN_INSTRUMENT}
+          heading="Memorize the notes of a single string"
+          description="Start with the G string, then move to the D string. Learn the main notes such as G, A, and B before learning the in-between notes such as G# and A#."
+        />
+
+        <NoteAcrossFretboardDisplay
+          instrument={MANDOLIN_INSTRUMENT}
+          heading="Memorize one note across the whole fretboard"
+        />
+
+        <FretboardMapper
+          skillLevel={skillLevel}
+          instrument={MANDOLIN_INSTRUMENT}
+          maxFret={12}
+          heading="Choose a key, then explore the mandolin fretboard"
+        />
+
+        <BasicChords
+          chords={MANDOLIN_BASIC_CHORDS}
+          stringCount={4}
+          heading="Basic mandolin chords"
+          description="A through G, major then minor. Strings run low G to high E, left to right. Numbers show which finger to use. Click any chart to enlarge it."
+        />
+      </div>
+    </main>
+  );
+};
+
+export default MandolinPage;

@@ -1,14 +1,26 @@
 import { useKeyGenerator } from '../sharedPracticeComponents/hooks/useKeyGenerator';
 import KeyDisplay from '../sharedPracticeComponents/KeyDisplay';
 import FretboardDisplay from '../sharedPracticeComponents/FretboardDisplay';
-import { DARK_ROSEWOOD_LABEL_TEXT } from '../sharedPracticeComponents/fretboardConstants';
+import {
+    DARK_ROSEWOOD_LABEL_TEXT,
+    FretboardInstrument,
+    GUITAR_INSTRUMENT,
+} from '../sharedPracticeComponents/fretboardConstants';
 import { FC } from 'react';
 
 interface FretboardMapperyProps {
     skillLevel: string;
+    instrument?: FretboardInstrument;
+    maxFret?: number;
+    heading?: string;
 }
 
-const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
+const FretboardMappery: FC<FretboardMapperyProps> = ({
+    skillLevel,
+    instrument = GUITAR_INSTRUMENT,
+    maxFret = 14,
+    heading = 'Choose a key, then explore the interactive fretboard',
+}) => {
     const { 
         currentKey, 
         generateNewKey,
@@ -29,13 +41,14 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({ skillLevel }) => {
                 openKeySelector={openKeySelector}
                 closeKeySelector={closeKeySelector}
                 onSelectKey={selectKey}
-                heading="Choose a key, then explore the interactive fretboard"
+                heading={heading}
             />
 
             {currentKey && (
                 <>
                     <FretboardDisplay
-                        maxFret={14}
+                        instrument={instrument}
+                        maxFret={maxFret}
                         highlightedNote={currentKey.root}
                         keyQuality={currentKey.quality}
                         showIntervalSelector={true}

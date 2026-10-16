@@ -22,6 +22,12 @@ const Footer: FC = () => {
               Fretboard Map
             </button>
             <button
+              onClick={() => navigate('/mandolin')}
+              className="text-stone-50 hover:text-white transition-colors cursor-pointer"
+            >
+              Mandolin
+            </button>
+            <button
               onClick={() => navigate('/guided-lessons')}
               className="text-stone-50 hover:text-white transition-colors cursor-pointer"
             >

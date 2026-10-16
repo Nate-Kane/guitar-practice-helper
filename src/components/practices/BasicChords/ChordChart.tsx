@@ -1,8 +1,7 @@
 import { FC } from 'react';
 import { Barre, ChordShape, FINGER_COLORS, Finger } from './chordData';
 
-const FRETS_SHOWN = 4;
-const STRING_COUNT = 6;
+const MIN_FRETS_SHOWN = 4;
 
 /** Cream fretboard + branded brown lines */
 const BOARD_FILL = '#fdfaf0';
@@ -12,6 +11,8 @@ interface ChordChartProps {
   chord: ChordShape;
   /** Larger diagram for the enlarge modal */
   size?: 'default' | 'large';
+  /** 6 for guitar, 4 for mandolin. Low string is on the left. */
+  stringCount?: number;
 }
 
 const stringX = (stringIndex: number, left: number, stringGap: number) =>
@@ -20,20 +21,26 @@ const stringX = (stringIndex: number, left: number, stringGap: number) =>
 const fretY = (fretIndex: number, top: number, fretGap: number) =>
   top + fretIndex * fretGap;
 
-const ChordChart: FC<ChordChartProps> = ({ chord, size = 'default' }) => {
+const ChordChart: FC<ChordChartProps> = ({ chord, size = 'default', stringCount = 6 }) => {
   const baseFret = chord.baseFret ?? 1;
   const showNut = baseFret === 1;
   const isLarge = size === 'large';
 
-  // SVG layout (viewBox units)
-  const width = 120;
-  const height = 168;
-  const left = 22;
-  const right = 98;
+  const highestFret = chord.notes.reduce((highest, note) => Math.max(highest, note.fret), 0);
+  // Open strings keep the nut, so the diagram has to reach the highest fretted note.
+  const fretsShown = showNut
+    ? Math.max(MIN_FRETS_SHOWN, highestFret)
+    : Math.max(MIN_FRETS_SHOWN, highestFret - baseFret + 1);
+
+  // SVG layout (viewBox units). Extra room on the left keeps "2fr" clear of a barre cap.
+  const width = 134;
+  const left = 36;
+  const right = 112;
   const top = 36;
-  const stringGap = (right - left) / (STRING_COUNT - 1);
+  const stringGap = (right - left) / (stringCount - 1);
   const fretGap = 28;
-  const boardBottom = top + FRETS_SHOWN * fretGap;
+  const boardBottom = top + fretsShown * fretGap;
+  const height = boardBottom + 20;
   const markerY = top - 14;
   const dotR = 8.5;
 
@@ -44,7 +51,7 @@ const ChordChart: FC<ChordChartProps> = ({ chord, size = 'default' }) => {
 
   const barrePath = (barre: Barre) => {
     const rel = relativeFret(barre.fret);
-    if (rel < 1 || rel > FRETS_SHOWN) return null;
+    if (rel < 1 || rel > fretsShown) return null;
     const y = top + (rel - 0.5) * fretGap;
     const x1 = stringX(Math.min(barre.fromString, barre.toString), left, stringGap);
     const x2 = stringX(Math.max(barre.fromString, barre.toString), left, stringGap);
@@ -90,7 +97,7 @@ const ChordChart: FC<ChordChartProps> = ({ chord, size = 'default' }) => {
         />
 
         {/* Frets */}
-        {Array.from({ length: FRETS_SHOWN + 1 }).map((_, i) => {
+        {Array.from({ length: fretsShown + 1 }).map((_, i) => {
           const y = fretY(i, top, fretGap);
           const isNut = i === 0 && showNut;
           return (
@@ -110,9 +117,9 @@ const ChordChart: FC<ChordChartProps> = ({ chord, size = 'default' }) => {
         {/* Base-fret label when diagram doesn't start at the nut */}
         {!showNut && (
           <text
-            x={left - 10}
-            y={top + fretGap * 0.55}
-            textAnchor="middle"
+            x={left - dotR - 6}
+            y={top + fretGap * 0.62}
+            textAnchor="end"
             fill={INK}
             fontSize="9"
             fontWeight="700"
@@ -123,7 +130,7 @@ const ChordChart: FC<ChordChartProps> = ({ chord, size = 'default' }) => {
         )}
 
         {/* Strings */}
-        {Array.from({ length: STRING_COUNT }).map((_, stringIndex) => {
+        {Array.from({ length: stringCount }).map((_, stringIndex) => {
           const x = stringX(stringIndex, left, stringGap);
           return (
             <line
@@ -133,13 +140,13 @@ const ChordChart: FC<ChordChartProps> = ({ chord, size = 'default' }) => {
               x2={x}
               y2={boardBottom}
               stroke={INK}
-              strokeWidth={1.2 + (STRING_COUNT - 1 - stringIndex) * 0.15}
+              strokeWidth={1.2 + (stringCount - 1 - stringIndex) * 0.15}
             />
           );
         })}
 
         {/* Open / mute markers */}
-        {Array.from({ length: STRING_COUNT }).map((_, stringIndex) => {
+        {Array.from({ length: stringCount }).map((_, stringIndex) => {
           const note = noteOnString(stringIndex);
           const x = stringX(stringIndex, left, stringGap);
           if (!note || note.fret > 0) return null;
@@ -192,7 +199,7 @@ const ChordChart: FC<ChordChartProps> = ({ chord, size = 'default' }) => {
         {chord.notes.map((note) => {
           if (note.fret <= 0 || !note.finger) return null;
           const rel = relativeFret(note.fret);
-          if (rel < 1 || rel > FRETS_SHOWN) return null;
+          if (rel < 1 || rel > fretsShown) return null;
           if (!shouldDrawDot(note.string, note.fret, note.finger)) return null;
 
           const cx = stringX(note.string, left, stringGap);

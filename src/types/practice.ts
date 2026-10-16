@@ -6,6 +6,8 @@ export interface Practice {
   description: string;
   customDirections?: string;
   skillLevels: string[];
+  /** When true, the practice stays out of the public practices list. */
+  hidden?: boolean;
   practiceTips?: string[];
   createdAt?: Date | null;
   updatedAt?: Date | null;

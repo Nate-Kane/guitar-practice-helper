@@ -1,24 +1,37 @@
 import { FC, useMemo, useState } from 'react';
 import FretboardDisplay, { HighlightedNoteInfo } from './FretboardDisplay';
 import PracticeToolCard from './PracticeToolCard';
-import { GUITAR_STRINGS, PERFECT_FIFTH_INTERVAL_COLOR, ROOT_INTERVAL_COLOR } from './fretboardConstants';
+import {
+  FretboardInstrument,
+  GUITAR_INSTRUMENT,
+  PERFECT_FIFTH_INTERVAL_COLOR,
+  ROOT_INTERVAL_COLOR,
+} from './fretboardConstants';
 import { useMapFretboard } from './hooks/useMapFretboard';
 
 const DEFAULT_HEADING = 'Explore a single string';
+const GUITAR_DESCRIPTION =
+  'Start with the Low E string, then move to the A string. Learn the main notes such as E, F, and G before learning the in-between notes such as F# and G#';
 
 interface StringNotesDisplayProps {
   maxFret?: number;
   heading?: string;
+  description?: string;
+  instrument?: FretboardInstrument;
 }
 
 const StringNotesDisplay: FC<StringNotesDisplayProps> = ({
   maxFret = 12,
   heading = DEFAULT_HEADING,
+  description = GUITAR_DESCRIPTION,
+  instrument = GUITAR_INSTRUMENT,
 }) => {
-  const { getNoteAt } = useMapFretboard(maxFret);
-  const [selectedStringIndex, setSelectedStringIndex] = useState<number>(GUITAR_STRINGS[0].index);
+  const openStringNotes = instrument.strings.map((string) => string.openNote);
+  const { getNoteAt } = useMapFretboard(maxFret, openStringNotes);
+  const [selectedStringIndex, setSelectedStringIndex] = useState<number>(instrument.strings[0].index);
 
-  const selectedString = GUITAR_STRINGS.find((s) => s.index === selectedStringIndex)!;
+  const selectedString =
+    instrument.strings.find((s) => s.index === selectedStringIndex) ?? instrument.strings[0];
 
   const highlightedNotes = useMemo((): HighlightedNoteInfo[] => {
     return Array.from({ length: maxFret + 1 }, (_, fret) => {
@@ -39,7 +52,7 @@ const StringNotesDisplay: FC<StringNotesDisplayProps> = ({
     <PracticeToolCard
       heading={heading}
       title={`Notes on the ${selectedString.displayName} string`}
-      description="Start with the Low E string, then move to the A string. Learn the main notes such as E, F, and G before learning the in-between notes such as F# and G#"
+      description={description}
       icon={
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +74,7 @@ const StringNotesDisplay: FC<StringNotesDisplayProps> = ({
       }
       actions={
         <div className="flex flex-wrap gap-2">
-          {GUITAR_STRINGS.map((string) => (
+          {instrument.strings.map((string) => (
             <button
               key={string.index}
               type="button"
@@ -82,8 +95,9 @@ const StringNotesDisplay: FC<StringNotesDisplayProps> = ({
       <FretboardDisplay
         maxFret={maxFret}
         highlightedNotes={highlightedNotes}
+        instrument={instrument}
         disableKeyHighlights
-        showOpenStringLabels={false}
+        showOpenStringLabels
         mutedFretLabels
       />
     </PracticeToolCard>

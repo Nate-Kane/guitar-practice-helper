@@ -1,7 +1,7 @@
 import { FC, useMemo, useState } from 'react';
 import FretboardDisplay, { HighlightedNoteInfo } from './FretboardDisplay';
 import PracticeToolCard from './PracticeToolCard';
-import { ROOT_INTERVAL_COLOR } from './fretboardConstants';
+import { FretboardInstrument, GUITAR_INSTRUMENT, ROOT_INTERVAL_COLOR } from './fretboardConstants';
 import { useMapFretboard } from './hooks/useMapFretboard';
 
 /** A through G with sharps (no enharmonic flats — matches string-note tool) */
@@ -27,13 +27,16 @@ const DEFAULT_HEADING = 'Find one note across the fretboard';
 interface NoteAcrossFretboardDisplayProps {
   maxFret?: number;
   heading?: string;
+  instrument?: FretboardInstrument;
 }
 
 const NoteAcrossFretboardDisplay: FC<NoteAcrossFretboardDisplayProps> = ({
   maxFret = 12,
   heading = DEFAULT_HEADING,
+  instrument = GUITAR_INSTRUMENT,
 }) => {
-  const { findAllPositionsOfNote } = useMapFretboard(maxFret);
+  const openStringNotes = instrument.strings.map((string) => string.openNote);
+  const { findAllPositionsOfNote } = useMapFretboard(maxFret, openStringNotes);
   const [selectedNote, setSelectedNote] = useState<PickableNote>('A');
 
   const highlightedNotes = useMemo((): HighlightedNoteInfo[] => {
@@ -98,10 +101,11 @@ const NoteAcrossFretboardDisplay: FC<NoteAcrossFretboardDisplayProps> = ({
       }
     >
       <FretboardDisplay
+        instrument={instrument}
         maxFret={maxFret}
         highlightedNotes={highlightedNotes}
         disableKeyHighlights
-        showOpenStringLabels={false}
+        showOpenStringLabels
         mutedFretLabels
       />
     </PracticeToolCard>

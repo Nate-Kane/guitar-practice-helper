@@ -5,6 +5,7 @@ import PracticesPage from './pages/PracticesPage';
 import AdminPage from './pages/AdminPage';
 import PracticePage from './pages/PracticePage';
 import GuidedLessonsPage from './pages/GuidedLessonsPage';
+import MandolinPage from './pages/MandolinPage';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import './tailwind.css';
@@ -28,6 +29,7 @@ const App: FC = () => {
             <Route path="/practices" element={<PracticesPage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
             <Route path="/practice/:slugOrId" element={<PracticePage skillLevel={skillLevel} onSkillSelect={setSkillLevel} />} />
             <Route path="/guided-lessons" element={<GuidedLessonsPage />} />
+            <Route path="/mandolin" element={<MandolinPage skillLevel={skillLevel} />} />
             <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </div>

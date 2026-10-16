@@ -5,11 +5,25 @@ import ChordChart from './ChordChart';
 import FingerLegend from './FingerLegend';
 
 interface BasicChordsProps {
-  practice: Practice;
-  skillLevel: string;
+  practice?: Practice;
+  skillLevel?: string;
+  chords?: ChordShape[];
+  heading?: string;
+  description?: string;
+  /** Low string on the left. Guitar diagrams use 6. */
+  stringCount?: number;
 }
 
-const BasicChords: FC<BasicChordsProps> = () => {
+const DEFAULT_HEADING = 'Basic chord charts';
+const DEFAULT_DESCRIPTION =
+  'Start with C, A, G, E, and D, then build out from there. Numbers show which finger to use. Click any chart to enlarge it.';
+
+const BasicChords: FC<BasicChordsProps> = ({
+  chords = BASIC_CHORDS,
+  heading = DEFAULT_HEADING,
+  description = DEFAULT_DESCRIPTION,
+  stringCount = 6,
+}) => {
   const [enlargedChord, setEnlargedChord] = useState<ChordShape | null>(null);
 
   useEffect(() => {
@@ -32,16 +46,13 @@ const BasicChords: FC<BasicChordsProps> = () => {
   return (
     <div className="w-full space-y-6">
       <div>
-        <h2 className="text-xl font-bold text-amber-900">Basic chord charts</h2>
-        <p className="text-amber-800 text-sm md:text-base mt-1 max-w-2xl">
-          Start with C, A, G, E, and D, then build out from there. Numbers show which finger to
-          use. Click any chart to enlarge it.
-        </p>
+        <h2 className="text-xl font-bold text-amber-900">{heading}</h2>
+        <p className="text-amber-800 text-sm md:text-base mt-1 max-w-2xl">{description}</p>
       </div>
 
       <div className="rounded-lg border border-amber-900/20 bg-stone-50 shadow-sm p-4 sm:p-6 md:p-8">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10">
-          {BASIC_CHORDS.map((chord, index) => (
+          {chords.map((chord, index) => (
             <button
               key={`${chord.name}-${index}`}
               type="button"
@@ -49,7 +60,7 @@ const BasicChords: FC<BasicChordsProps> = () => {
               className="cursor-pointer rounded-lg p-2 -m-2 transition-colors hover:bg-amber-900/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-900 focus-visible:ring-offset-2"
               aria-label={`Enlarge ${chord.name} chord chart`}
             >
-              <ChordChart chord={chord} />
+              <ChordChart chord={chord} stringCount={stringCount} />
             </button>
           ))}
           <FingerLegend />
@@ -76,7 +87,7 @@ const BasicChords: FC<BasicChordsProps> = () => {
             >
               &times;
             </button>
-            <ChordChart chord={enlargedChord} size="large" />
+            <ChordChart chord={enlargedChord} size="large" stringCount={stringCount} />
             <p className="mt-4 text-center text-sm text-amber-800/80">
               Click outside or press Esc to close
             </p>

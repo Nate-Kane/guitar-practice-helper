@@ -42,6 +42,12 @@ const Navbar: FC = () => {
                 Fretboard Map
               </button>
               <button
+                onClick={() => navigate('/mandolin')}
+                className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-amber-900 transition-colors cursor-pointer"
+              >
+                Mandolin
+              </button>
+              <button
                 onClick={() => navigate('/guided-lessons')}
                 className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-amber-900 transition-colors cursor-pointer"
               >
@@ -94,6 +100,15 @@ const Navbar: FC = () => {
                 className="block px-3 py-2 rounded-lg text-base font-medium hover:bg-amber-900 transition-colors w-full text-left cursor-pointer"
               >
                 Fretboard Map
+              </button>
+              <button
+                onClick={() => {
+                  navigate('/mandolin');
+                  setIsMenuOpen(false);
+                }}
+                className="block px-3 py-2 rounded-lg text-base font-medium hover:bg-amber-900 transition-colors w-full text-left cursor-pointer"
+              >
+                Mandolin
               </button>
               <button
                 onClick={() => {

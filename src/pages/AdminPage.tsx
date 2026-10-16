@@ -36,6 +36,7 @@ const emptyPractice = (): Omit<Practice, 'id'> => ({
   skillLevels: ['basics'],
   customDirections: '',
   practiceTips: [],
+  hidden: false,
 });
 
 const AdminPage: FC = () => {
@@ -153,6 +154,7 @@ const AdminPage: FC = () => {
       skillLevels: practice.skillLevels,
       customDirections: practice.customDirections || '',
       practiceTips: Array.isArray(practice.practiceTips) ? practice.practiceTips : [],
+      hidden: !!practice.hidden,
     });
   };
 
@@ -508,6 +510,7 @@ const AdminPage: FC = () => {
                       <h3 className="text-xl font-bold text-stone-50">{practice.title}</h3>
                       <p className="text-stone-400 text-sm mt-1 capitalize">
                         {practice.skillLevels.join(', ')}
+                        {practice.hidden ? ' · Hidden' : ''}
                       </p>
                       {practice.slug ? (
                         <p className="text-amber-200/80 text-xs mt-2 font-mono">
@@ -601,6 +604,17 @@ const AdminPage: FC = () => {
                           'dark'
                         )}
                       </div>
+                      <label className="flex items-center gap-2 text-sm text-stone-50 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={!!editedPractice.hidden}
+                          onChange={(e) =>
+                            setEditedPractice({ ...editedPractice, hidden: e.target.checked })
+                          }
+                          className="h-4 w-4 accent-amber-700"
+                        />
+                        Hide from the practices page
+                      </label>
                       <div>
                         <label htmlFor={`customDirections-${practice.id}`} className={LABEL_DARK}>
                           Custom Directions

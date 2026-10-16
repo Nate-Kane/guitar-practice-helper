@@ -2,6 +2,8 @@ import React, { useEffect, useId, useLayoutEffect, useRef, useState } from 'reac
 import './FretboardDisplay.css';
 import { useMapFretboard } from './hooks/useMapFretboard';
 import {
+  FretboardInstrument,
+  GUITAR_INSTRUMENT,
   INTERVAL_MARKER_TEXT,
   NEUTRAL_MARKER_BORDER,
   NEUTRAL_MARKER_TEXT,
@@ -102,8 +104,14 @@ interface FretboardDisplayProps {
   showIntervalSelector?: boolean; // Control whether to show interval selector
   /** Skip root / interval highlights (e.g. string notes or triad tools) */
   disableKeyHighlights?: boolean;
-  /** Show open-string labels on every string (off when using custom highlights only) */
+  /**
+   * Show the open-string letter at the nut on every string.
+   * A highlighted note on that same fret still wins, so a selected string can
+   * show its colored open note while the other strings keep their names.
+   */
   showOpenStringLabels?: boolean;
+  /** Tuning, string count, and inlay dots. Defaults to standard guitar. */
+  instrument?: FretboardInstrument;
   /** Grey nut + grey text (string explorer on zinc card only) */
   mutedFretLabels?: boolean;
   /** Fret number + open-string letter color only — does not change the nut */
@@ -124,13 +132,15 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
   showIntervalSelector = false,
   disableKeyHighlights = false,
   showOpenStringLabels = true,
+  instrument = GUITAR_INSTRUMENT,
   mutedFretLabels = false,
   fretLabelTextColor,
   sectionHeading,
   staticIntervalLegend,
   triadGroupings,
 }) => {
-  const { getNoteAt } = useMapFretboard(maxFret);
+  const openStringNotes = instrument.strings.map((string) => string.openNote);
+  const { getNoteAt } = useMapFretboard(maxFret, openStringNotes);
   const fretboardRef = useRef<HTMLDivElement>(null);
   const hazeFilterId = useId().replace(/:/g, '');
   const [groupingShapes, setGroupingShapes] = useState<TriadGroupingShape[]>([]);
@@ -185,8 +195,6 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
       window.removeEventListener('resize', measureGroupings);
     };
   }, [triadGroupings, maxFret]);
-  
-  const stringNames = ['E', 'A', 'D', 'G', 'B', 'E']; // standard tuning!
   
   const getNoteAtPosition = (stringIndex: number, fret: number): string => {
     return getNoteAt(stringIndex, fret)?.note || '';
@@ -261,22 +269,19 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
   };
   
   const hasFretMarker = (stringIndex: number, fret: number): boolean => {
-    // Only place markers between D and G strings (index 2 and 3)
-    if (stringIndex !== 2) return false;
-    
-    const singleDotFrets = [3, 5, 7, 9];
-    const doubleDotFrets = [12];
-    
-    return singleDotFrets.includes(fret) || doubleDotFrets.includes(fret);
+    if (stringIndex !== instrument.inlayStringIndex) return false;
+
+    return (
+      instrument.singleDotFrets.includes(fret) || instrument.doubleDotFrets.includes(fret)
+    );
   };
-  
+
   const isDoubleDotMarker = (fret: number): boolean => {
-    return fret === 12;
+    return instrument.doubleDotFrets.includes(fret);
   };
-  
+
   const getStringNameDisplay = (index: number) => {
-    if (index === 5) return 'e';
-    return stringNames[index];
+    return instrument.strings[index]?.label ?? '';
   };
 
   const renderStaticLegendItem = (name: string, color: string, key: string) => (
@@ -428,16 +433,16 @@ const FretboardDisplay: React.FC<FretboardDisplayProps> = ({
               </svg>
             )}
             {/* Render strings from high to low (reverse the order) */}
-            {[...Array(6)].map((_, i) => {
-              // Map from high E (index 5) down to low E (index 0)
-              const stringIndex = 5 - i;
+            {[...Array(instrument.strings.length)].map((_, i) => {
+              // High string on top, low string on the bottom
+              const stringIndex = instrument.strings.length - 1 - i;
               return (
                 <div key={`string-${stringIndex}`} className="string">
                   {Array.from({ length: maxFret + 1 }).map((_, fretIndex) => {
                     const highlightInfo = getHighlightInfo(stringIndex, fretIndex);
                     const isOpenString = fretIndex === 0;
                     const showMarker =
-                      highlightInfo || (showOpenStringLabels && isOpenString && !disableKeyHighlights);
+                      highlightInfo || (showOpenStringLabels && isOpenString);
 
                     const isNeutral = highlightInfo?.variant === 'neutral';
                     const emphasis = highlightInfo?.emphasis;

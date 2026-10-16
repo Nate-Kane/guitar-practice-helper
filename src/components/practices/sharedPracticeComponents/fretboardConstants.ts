@@ -19,15 +19,60 @@ export const CHROMATIC_NOTES = [
   'B',
 ] as const;
 
+/** One course, low string first. `openNote` is the pitch; `label` is the nut letter. */
+export interface FretboardString {
+  index: number;
+  openNote: string;
+  label: string;
+  displayName: string;
+}
+
+/**
+ * Enough to draw a neck: tuning, how many strings, and where the inlay dots sit.
+ * Guitar stays the default so existing practices do not pass this.
+ */
+export interface FretboardInstrument {
+  id: string;
+  strings: readonly FretboardString[];
+  /** String row that holds the fret-marker dots (0 = lowest string). */
+  inlayStringIndex: number;
+  singleDotFrets: readonly number[];
+  doubleDotFrets: readonly number[];
+}
+
 /** string index 0 = low E … 5 = high e (matches useMapFretboard) */
-export const GUITAR_STRINGS = [
-  { index: 0, label: 'E', displayName: 'Low E' },
-  { index: 1, label: 'A', displayName: 'A' },
-  { index: 2, label: 'D', displayName: 'D' },
-  { index: 3, label: 'G', displayName: 'G' },
-  { index: 4, label: 'B', displayName: 'B' },
-  { index: 5, label: 'e', displayName: 'High E' },
-] as const;
+export const GUITAR_STRINGS: readonly FretboardString[] = [
+  { index: 0, openNote: 'E', label: 'E', displayName: 'Low E' },
+  { index: 1, openNote: 'A', label: 'A', displayName: 'A' },
+  { index: 2, openNote: 'D', label: 'D', displayName: 'D' },
+  { index: 3, openNote: 'G', label: 'G', displayName: 'G' },
+  { index: 4, openNote: 'B', label: 'B', displayName: 'B' },
+  { index: 5, openNote: 'E', label: 'e', displayName: 'High E' },
+];
+
+export const GUITAR_INSTRUMENT: FretboardInstrument = {
+  id: 'guitar',
+  strings: GUITAR_STRINGS,
+  inlayStringIndex: 2,
+  singleDotFrets: [3, 5, 7, 9],
+  doubleDotFrets: [12],
+};
+
+/** Standard mandolin: G D A E, low to high (same as a fiddle). */
+export const MANDOLIN_STRINGS: readonly FretboardString[] = [
+  { index: 0, openNote: 'G', label: 'G', displayName: 'G' },
+  { index: 1, openNote: 'D', label: 'D', displayName: 'D' },
+  { index: 2, openNote: 'A', label: 'A', displayName: 'A' },
+  { index: 3, openNote: 'E', label: 'E', displayName: 'E' },
+];
+
+export const MANDOLIN_INSTRUMENT: FretboardInstrument = {
+  id: 'mandolin',
+  strings: MANDOLIN_STRINGS,
+  inlayStringIndex: 1,
+  singleDotFrets: [3, 5, 7, 10],
+  doubleDotFrets: [12],
+};
 
 /** Fret labels on dark zinc cards (nut + fret numbers) */
 export const MUTED_FRET_LABEL_COLOR = '#a8a29e';
