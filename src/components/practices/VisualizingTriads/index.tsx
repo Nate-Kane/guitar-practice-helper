@@ -6,25 +6,41 @@ import TriadsDisplay from '../sharedPracticeComponents/TriadsDisplay';
 const VisualizingTriads: FC = () => {
   const {
     currentKey,
+    letter,
+    accidental,
+    scaleView,
+    showAllNotes,
+    setShowAllNotes,
     generateNewKey,
-    selectKey,
-    isKeySelectorOpen,
-    openKeySelector,
-    closeKeySelector,
+    selectLetter,
+    selectAccidental,
+    selectScaleView,
   } = useKeyGenerator();
 
   return (
     <div className="w-full space-y-8">
       <KeyDisplay
         currentKey={currentKey}
+        letter={letter}
+        accidental={accidental}
+        scaleView={scaleView}
+        showAllNotes={showAllNotes}
+        onLetterChange={selectLetter}
+        onAccidentalChange={selectAccidental}
+        onScaleViewChange={selectScaleView}
+        onShowAllNotesChange={setShowAllNotes}
         onRegenerateKey={generateNewKey}
-        isKeySelectorOpen={isKeySelectorOpen}
-        openKeySelector={openKeySelector}
-        closeKeySelector={closeKeySelector}
-        onSelectKey={selectKey}
+        showQuality
       />
 
-      {currentKey && <TriadsDisplay currentKey={currentKey} />}
+      {currentKey && (
+        <TriadsDisplay
+          currentKey={currentKey}
+          letter={letter}
+          accidental={accidental}
+          showAllNotes={showAllNotes}
+        />
+      )}
     </div>
   );
 };

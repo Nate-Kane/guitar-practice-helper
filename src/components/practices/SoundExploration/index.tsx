@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useKeyGenerator } from '../sharedPracticeComponents/hooks/useKeyGenerator';
 import { useProgressionGenerator } from '../sharedPracticeComponents/hooks/useProgressionGenerator';
 import { useExtensionGenerator } from '../sharedPracticeComponents/hooks/useExtensionGenerator';
@@ -9,35 +9,54 @@ import { useFretLimitGenerator } from '../sharedPracticeComponents/hooks/useFret
 import FretLimitDisplay from '../sharedPracticeComponents/FretLimitDisplay';
 import FretboardDisplay from '../sharedPracticeComponents/FretboardDisplay';
 import { FRETBOARD_REFERENCE_HEADING } from '../sharedPracticeComponents/fretboardConstants';
+import { respellChordSymbols } from '../../../assets/practiceAssets/keys';
 
 const SoloImprovisation: FC = () => {
-    // State for key and progression using custom hooks
-    const { 
-        currentKey, 
-        generateNewKey, 
-        selectKey, 
-        isKeySelectorOpen, 
-        openKeySelector, 
-        closeKeySelector 
+    const {
+        currentKey,
+        letter,
+        accidental,
+        scaleView,
+        showAllNotes,
+        setShowAllNotes,
+        generateNewKey,
+        selectLetter,
+        selectAccidental,
+        selectScaleView,
     } = useKeyGenerator();
     const { currentProgression, currentChords, generateNewProgression } = useProgressionGenerator(currentKey);
     const { currentExtension, generateNewExtension, shouldShowExtension } = useExtensionGenerator();
     const { currentFretLimit, generateNewFretLimit } = useFretLimitGenerator();
+
+    const spelledChords = useMemo(
+        () =>
+            respellChordSymbols(
+                currentChords,
+                letter,
+                accidental,
+                currentKey?.quality === 'minor' ? 'minor' : 'major'
+            ),
+        [currentChords, letter, accidental, currentKey?.quality]
+    );
     
     return (
         <div className="space-y-6">
             <KeyDisplay 
-                currentKey={currentKey} 
+                currentKey={currentKey}
+                letter={letter}
+                accidental={accidental}
+                scaleView={scaleView}
+                showAllNotes={showAllNotes}
+                onLetterChange={selectLetter}
+                onAccidentalChange={selectAccidental}
+                onScaleViewChange={selectScaleView}
+                onShowAllNotesChange={setShowAllNotes}
                 onRegenerateKey={generateNewKey}
-                isKeySelectorOpen={isKeySelectorOpen}
-                openKeySelector={openKeySelector}
-                closeKeySelector={closeKeySelector}
-                onSelectKey={selectKey}
             />
 
             <ProgressionDisplay 
                 progression={currentProgression}
-                chords={currentChords}
+                chords={spelledChords}
                 onRegenerateProgression={generateNewProgression}
             />
 
@@ -56,6 +75,11 @@ const SoloImprovisation: FC = () => {
             <FretboardDisplay
                 highlightedNote={currentKey?.root}
                 keyQuality={currentKey?.quality}
+                scaleView={scaleView}
+                onScaleViewChange={selectScaleView}
+                rootLetter={letter}
+                accidental={accidental}
+                showAllNotes={showAllNotes}
                 showIntervalSelector={true}
                 sectionHeading={FRETBOARD_REFERENCE_HEADING}
             />

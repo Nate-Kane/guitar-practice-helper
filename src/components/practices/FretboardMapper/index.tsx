@@ -19,13 +19,17 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({
     maxFret = 14,
     heading = 'Choose a key, then explore the interactive fretboard',
 }) => {
-    const { 
-        currentKey, 
+    const {
+        currentKey,
+        letter,
+        accidental,
+        scaleView,
+        showAllNotes,
+        setShowAllNotes,
         generateNewKey,
-        selectKey,
-        isKeySelectorOpen,
-        openKeySelector,
-        closeKeySelector
+        selectLetter,
+        selectAccidental,
+        selectScaleView,
     } = useKeyGenerator();
 
     return (
@@ -33,11 +37,15 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({
 
             <KeyDisplay
                 currentKey={currentKey}
+                letter={letter}
+                accidental={accidental}
+                scaleView={scaleView}
+                showAllNotes={showAllNotes}
+                onLetterChange={selectLetter}
+                onAccidentalChange={selectAccidental}
+                onScaleViewChange={selectScaleView}
+                onShowAllNotesChange={setShowAllNotes}
                 onRegenerateKey={generateNewKey}
-                isKeySelectorOpen={isKeySelectorOpen}
-                openKeySelector={openKeySelector}
-                closeKeySelector={closeKeySelector}
-                onSelectKey={selectKey}
                 heading={heading}
             />
 
@@ -48,6 +56,11 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({
                         maxFret={maxFret}
                         highlightedNote={currentKey.root}
                         keyQuality={currentKey.quality}
+                        scaleView={scaleView}
+                        onScaleViewChange={selectScaleView}
+                        rootLetter={letter}
+                        accidental={accidental}
+                        showAllNotes={showAllNotes}
                         showIntervalSelector={true}
                         mutedFretLabels /* grey nut */
                         fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT} /* label text only */

@@ -9,26 +9,34 @@ import FretboardDisplay from '../sharedPracticeComponents/FretboardDisplay';
 import { FRETBOARD_REFERENCE_HEADING } from '../sharedPracticeComponents/fretboardConstants';
 
 const FretboardFreedom: FC = () => {
-    const { 
-        currentKey, 
+    const {
+        currentKey,
+        letter,
+        accidental,
+        scaleView,
+        showAllNotes,
+        setShowAllNotes,
         generateNewKey,
-        selectKey,
-        isKeySelectorOpen,
-        openKeySelector,
-        closeKeySelector
+        selectLetter,
+        selectAccidental,
+        selectScaleView,
     } = useKeyGenerator();
     const { currentFretLimit, generateNewFretLimit } = useFretLimitGenerator();
     const { currentStringLimit, generateNewStringLimit } = useStringLimitGenerator();
 
     return (
         <div className="space-y-6">
-            <KeyDisplay 
-                currentKey={currentKey} 
+            <KeyDisplay
+                currentKey={currentKey}
+                letter={letter}
+                accidental={accidental}
+                scaleView={scaleView}
+                showAllNotes={showAllNotes}
+                onLetterChange={selectLetter}
+                onAccidentalChange={selectAccidental}
+                onScaleViewChange={selectScaleView}
+                onShowAllNotesChange={setShowAllNotes}
                 onRegenerateKey={generateNewKey}
-                isKeySelectorOpen={isKeySelectorOpen}
-                openKeySelector={openKeySelector}
-                closeKeySelector={closeKeySelector}
-                onSelectKey={selectKey}
             />
 
             <FretLimitDisplay
@@ -45,6 +53,11 @@ const FretboardFreedom: FC = () => {
                 maxFret={14}
                 highlightedNote={currentKey?.root}
                 keyQuality={currentKey?.quality}
+                scaleView={scaleView}
+                onScaleViewChange={selectScaleView}
+                rootLetter={letter}
+                accidental={accidental}
+                showAllNotes={showAllNotes}
                 showIntervalSelector={true}
                 sectionHeading={FRETBOARD_REFERENCE_HEADING}
             />

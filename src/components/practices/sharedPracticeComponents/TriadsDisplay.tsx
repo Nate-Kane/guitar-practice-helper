@@ -1,5 +1,5 @@
 import { FC, useEffect, useMemo, useState } from 'react';
-import { Key } from '../../../assets/practiceAssets/keys';
+import { Key, Accidental, displayRoot, spellScale } from '../../../assets/practiceAssets/keys';
 import { getDiatonicTriadsForKey } from './diatonicTriads';
 import FretboardDisplay, { HighlightedNoteInfo } from './FretboardDisplay';
 import {
@@ -17,10 +17,19 @@ import { TriadQuality } from './triadShapeTemplates';
 
 interface TriadsDisplayProps {
   currentKey: Key;
+  letter: string;
+  accidental: Accidental;
+  showAllNotes?: boolean;
   maxFret?: number;
 }
 
-const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => {
+const TriadsDisplay: FC<TriadsDisplayProps> = ({
+  currentKey,
+  letter,
+  accidental,
+  showAllNotes = false,
+  maxFret = 12,
+}) => {
   const { findAllPositionsOfNote, getNoteAt } = useMapFretboard(maxFret);
   const triads = useMemo(() => getDiatonicTriadsForKey(currentKey), [currentKey]);
   const [selectedTriadRoot, setSelectedTriadRoot] = useState<string | null>(null);
@@ -29,6 +38,14 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => 
   useEffect(() => {
     setSelectedTriadRoot(triads[0]?.root ?? null);
   }, [currentKey, triads]);
+
+  const spelledScale = useMemo(
+    () => spellScale(letter, accidental, currentKey.quality === 'minor' ? 'minor' : 'major'),
+    [letter, accidental, currentKey.quality]
+  );
+
+  const spellNote = (canonical: string) =>
+    spelledScale.find((note) => note.canonical === canonical)?.spelled ?? canonical;
 
   const selectedTriad =
     triads.find((t) => t.root === selectedTriadRoot) ?? triads[0] ?? null;
@@ -124,7 +141,10 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => 
 
   const romanNumerals =
     currentKey.quality === 'major' ? 'I, IV, and V' : 'i, iv, and v';
-  const triadNamesList = triads.map((t) => t.name).join(', ');
+  const triadNamesList = triads
+    .map((triad) => `${spellNote(triad.root)} ${currentKey.quality}`)
+    .join(', ');
+  const keyName = `${displayRoot(letter, accidental)} ${currentKey.quality}`;
 
   return (
     <div className="space-y-4 w-full">
@@ -139,7 +159,7 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => 
           <span className="font-semibold">1-4-5</span>. These three triads are the staples for finding your way around the neck.
         </p>
         <p>
-        In the key of <span className="font-semibold">{currentKey.name}</span>, that means <span className="font-semibold">{triadNamesList}</span>.
+        In the key of <span className="font-semibold">{keyName}</span>, that means <span className="font-semibold">{triadNamesList}</span>.
         </p>
       </div>
 
@@ -158,7 +178,7 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => 
                   : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
               }`}
             >
-              {triad.name}
+              {`${spellNote(triad.root)} ${currentKey.quality}`}
             </button>
           );
         })}
@@ -198,6 +218,9 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({ currentKey, maxFret = 12 }) => 
           triadGroupings={triadGroupings}
           disableKeyHighlights
           showOpenStringLabels={false}
+          showAllNotes={showAllNotes}
+          accidental={accidental}
+          rootLetter={letter}
           staticIntervalLegend={staticIntervalLegend}
           mutedFretLabels
           fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT}
