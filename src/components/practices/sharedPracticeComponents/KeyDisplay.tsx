@@ -25,8 +25,10 @@ interface KeyDisplayProps {
   accidental: Accidental;
   scaleView: ScaleViewId;
   showAllNotes: boolean;
+  noteSpelling: 'sharp' | 'flat';
   onLetterChange: (letter: string) => void;
   onAccidentalChange: (accidental: Accidental) => void;
+  onNoteSpellingChange: (spelling: 'sharp' | 'flat') => void;
   onScaleViewChange: (scale: ScaleViewId) => void;
   onShowAllNotesChange: (show: boolean) => void;
   onRegenerateKey: () => void;
@@ -47,8 +49,10 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
   accidental,
   scaleView,
   showAllNotes,
+  noteSpelling,
   onLetterChange,
   onAccidentalChange,
+  onNoteSpellingChange,
   onScaleViewChange,
   onShowAllNotesChange,
   onRegenerateKey,
@@ -59,7 +63,7 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
 
   const quality = currentKey.quality === 'minor' ? 'minor' : 'major';
   const summary = showAllNotes
-    ? accidental === 'flat'
+    ? noteSpelling === 'flat'
       ? 'Every note, written with flats'
       : 'Every note, written with sharps'
     : `${displayRoot(letter, accidental)} ${scaleViewLabel(scaleView)} · ${spellScale(
@@ -110,25 +114,37 @@ const KeyDisplay: FC<KeyDisplayProps> = ({
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-sm font-semibold text-amber-900">Accidental</h3>
-          <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Accidental">
-            {ACCIDENTALS.map((option) => {
-              const available = showAllNotes || accidentalAvailable(letter, option.id);
-              const isSelected = accidental === option.id;
-              return (
-                <button
-                  key={option.id}
-                  type="button"
-                  role="radio"
-                  aria-checked={isSelected}
-                  disabled={!available}
-                  onClick={() => onAccidentalChange(option.id)}
-                  className={`${choiceButtonClass(isSelected)} disabled:cursor-not-allowed disabled:opacity-40`}
-                >
-                  {option.label}
-                </button>
-              );
-            })}
+          <h3 className="text-sm font-semibold text-amber-900">Accidentals</h3>
+          <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Accidentals">
+            {(showAllNotes ? ACCIDENTALS.filter((option) => option.id !== 'natural') : ACCIDENTALS).map(
+              (option) => {
+                const available = showAllNotes || accidentalAvailable(letter, option.id);
+                const isSelected = showAllNotes
+                  ? noteSpelling === option.id
+                  : accidental === option.id;
+                return (
+                  <button
+                    key={option.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    disabled={!available}
+                    onClick={() => {
+                      if (showAllNotes) {
+                        if (option.id === 'sharp' || option.id === 'flat') {
+                          onNoteSpellingChange(option.id);
+                        }
+                        return;
+                      }
+                      onAccidentalChange(option.id);
+                    }}
+                    className={`${choiceButtonClass(isSelected)} disabled:cursor-not-allowed disabled:opacity-40`}
+                  >
+                    {option.label}
+                  </button>
+                );
+              }
+            )}
           </div>
         </div>
 

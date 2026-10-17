@@ -11,6 +11,8 @@ const VisualizingTriads: FC = () => {
     scaleView,
     showAllNotes,
     setShowAllNotes,
+    noteSpelling,
+    setNoteSpelling,
     generateNewKey,
     selectLetter,
     selectAccidental,
@@ -25,8 +27,10 @@ const VisualizingTriads: FC = () => {
         accidental={accidental}
         scaleView={scaleView}
         showAllNotes={showAllNotes}
+        noteSpelling={noteSpelling}
         onLetterChange={selectLetter}
         onAccidentalChange={selectAccidental}
+        onNoteSpellingChange={setNoteSpelling}
         onScaleViewChange={selectScaleView}
         onShowAllNotesChange={setShowAllNotes}
         onRegenerateKey={generateNewKey}
@@ -38,6 +42,7 @@ const VisualizingTriads: FC = () => {
           currentKey={currentKey}
           letter={letter}
           accidental={accidental}
+          noteSpelling={noteSpelling}
           showAllNotes={showAllNotes}
         />
       )}

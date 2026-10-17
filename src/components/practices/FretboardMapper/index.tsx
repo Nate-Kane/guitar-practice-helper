@@ -26,6 +26,8 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({
         scaleView,
         showAllNotes,
         setShowAllNotes,
+        noteSpelling,
+        setNoteSpelling,
         generateNewKey,
         selectLetter,
         selectAccidental,
@@ -41,8 +43,10 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({
                 accidental={accidental}
                 scaleView={scaleView}
                 showAllNotes={showAllNotes}
+                noteSpelling={noteSpelling}
                 onLetterChange={selectLetter}
                 onAccidentalChange={selectAccidental}
+                onNoteSpellingChange={setNoteSpelling}
                 onScaleViewChange={selectScaleView}
                 onShowAllNotesChange={setShowAllNotes}
                 onRegenerateKey={generateNewKey}
@@ -59,7 +63,7 @@ const FretboardMappery: FC<FretboardMapperyProps> = ({
                         scaleView={scaleView}
                         onScaleViewChange={selectScaleView}
                         rootLetter={letter}
-                        accidental={accidental}
+                        accidental={showAllNotes ? noteSpelling : accidental}
                         showAllNotes={showAllNotes}
                         showIntervalSelector={true}
                         mutedFretLabels /* grey nut */

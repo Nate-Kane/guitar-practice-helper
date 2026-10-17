@@ -1,4 +1,4 @@
-import { FC, ReactNode, useMemo, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import FretboardDisplay, {
   HighlightedNoteInfo,
 } from '../sharedPracticeComponents/FretboardDisplay';
@@ -65,55 +65,17 @@ const STATIC_INTERVAL_LEGEND = [
   { name: 'Perfect 5', color: PERFECT_FIFTH_INTERVAL_COLOR },
 ];
 
-const getHighlightSummary = (
-  chord: CagedChord,
-  shape: CagedShapeSelection
-): { title: ReactNode; detail?: ReactNode } => {
-  if (shape === 'all') {
-    return {
-      title: (
-        <span className="font-bold">
-          Highlighting all five shapes of {chord} major.
-        </span>
-      ),
-    };
-  }
+const choiceButtonClass = (isSelected: boolean) =>
+  `inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors h-9 px-4 cursor-pointer ${
+    isSelected
+      ? 'bg-amber-900 text-stone-50 shadow'
+      : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
+  }`;
 
-  // Open C→shape 1, open A→shape 2, etc.
-  if (CHORD_NATIVE_SHAPE[chord] === shape) {
-    return {
-      title: (
-        <span className="font-bold">
-          The open {chord} major chord uses shape {shape}.
-        </span>
-      ),
-      detail: (
-        <>
-          <span className="block mb-4">
-            Notice how this shape is also repeated at the 12th fret.
-          </span>
-        </>
-      ),
-    };
-  }
-
-  const openLookalike = SHAPE_LOOKS_LIKE[shape];
-  return {
-    title: (
-      <span className="font-bold">
-        Highlighting {chord} major — shape {shape}.
-      </span>
-    ),
-    detail: (
-      <>
-        Notice how this resembles the{' '}
-        <span className="font-bold">open {openLookalike} major chord</span> (which also uses shape {shape}). 
-        <br/>
-        <span className="font-bold">{chord} major in position {shape}</span> (i.e., shape {shape}) and <span className="font-bold">open{' '}
-        {openLookalike}</span> major <span className="font-bold">both use shape {shape}</span>.
-      </>
-    ),
-  };
+const summaryFor = (chord: CagedChord, shape: CagedShapeSelection): string => {
+  if (shape === 'all') return `${chord} major · all shapes`;
+  if (CHORD_NATIVE_SHAPE[chord] === shape) return `Open ${chord} major`;
+  return `${chord} major · ${SHAPE_LOOKS_LIKE[shape]} shape`;
 };
 
 interface CagedDisplayProps {
@@ -176,112 +138,75 @@ const CagedDisplay: FC<CagedDisplayProps> = ({ maxFret = 15 }) => {
     );
   }, [triadNotes, selectedShape, findAllPositionsOfNote, maxFret]);
 
-  const highlightSummary = getHighlightSummary(selectedChord, selectedShape);
+  const summary = summaryFor(selectedChord, selectedShape);
 
   return (
     <div className="w-full space-y-8">
-      <div className="space-y-3">
-        <div className="space-y-1">
-          <h2 className="text-xl font-bold text-amber-900">
-            Choose a CAGED chord
-          </h2>
-          <p className="text-amber-800 text-sm md:text-base max-w-3xl">
-            Choose which chord to see mapped{' '}
-            across the fretboard (currently viewing{' '}
-            <span className="font-semibold">{selectedChord} major</span>)
-          </p>
-        </div>
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold text-amber-900">CAGED shapes</h2>
 
-        <div className="flex flex-wrap gap-2">
-          {CAGED_CHORDS.map((chord) => {
-            const isSelected = selectedChord === chord;
-            return (
-              <button
-                key={chord}
-                type="button"
-                aria-pressed={isSelected}
-                onClick={() => {
-                  setSelectedChord(chord);
-                  setSelectedShape(CHORD_NATIVE_SHAPE[chord]);
-                }}
-                className={`inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors h-9 px-4 cursor-pointer ${
-                  isSelected
-                    ? 'bg-amber-900 text-stone-50 shadow'
-                    : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
-                }`}
-              >
-                {chord}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+        <div className="space-y-6 rounded-lg border border-amber-800/40 bg-white p-5 shadow-sm md:p-6">
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-amber-900">Chord</h3>
+            <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Chord">
+              {CAGED_CHORDS.map((chord) => {
+                const isSelected = selectedChord === chord;
+                return (
+                  <button
+                    key={chord}
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    onClick={() => {
+                      setSelectedChord(chord);
+                      setSelectedShape(CHORD_NATIVE_SHAPE[chord]);
+                    }}
+                    className={choiceButtonClass(isSelected)}
+                  >
+                    {chord}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-      <div className="space-y-3">
-        <div className="space-y-2">
-          <h2 className="text-xl font-bold text-amber-900">Choose a shape to highlight</h2>
-          {/*<ul className="list-disc pl-5 space-y-1.5 text-amber-800 text-sm md:text-base max-w-3xl">
-            <li>
-              Shape 1 looks like an open C major. Shape 2 like an open A, and so
-              on (3 → G, 4 → E, 5 → D).
-            </li>
-            <li>
-              Reverse that thinking: An open C major <span className="font-semibold">uses</span>{' '}
-              shape 1. An open A major <span className="font-semibold">uses</span> shape 2, and so on.
-            </li>
-          </ul>*/}
-        </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-amber-900">Shape</h3>
+            <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Shape">
+              {CAGED_SHAPE_OPTIONS.map((shape) => {
+                const isSelected = selectedShape === shape;
+                const label = shape === 'all' ? 'All' : `${SHAPE_LOOKS_LIKE[shape]} shape`;
+                return (
+                  <button
+                    key={String(shape)}
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    onClick={() => setSelectedShape(shape)}
+                    className={choiceButtonClass(isSelected)}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-        <div
-          className="flex flex-wrap gap-2"
-          role="radiogroup"
-          aria-label="CAGED shape"
-        >
-          {CAGED_SHAPE_OPTIONS.map((shape) => {
-            const isSelected = selectedShape === shape;
-            const label = shape === 'all' ? 'All' : shape;
-            return (
-              <button
-                key={String(shape)}
-                type="button"
-                role="radio"
-                aria-checked={isSelected}
-                onClick={() => setSelectedShape(shape)}
-                className={`inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors h-9 min-w-9 px-4 cursor-pointer ${
-                  isSelected
-                    ? 'bg-amber-900 text-stone-50 shadow'
-                    : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
-                }`}
-              >
-                {label}
-              </button>
-            );
-          })}
+          <div className="border-t border-amber-800/20 pt-4">
+            <p className="font-semibold text-amber-900">{summary}</p>
+          </div>
         </div>
       </div>
 
-      <div className="space-y-6">
-        <div className="max-w-3xl space-y-2 text-left">
-          <p className="text-amber-900 text-lg md:text-xl leading-snug">
-            {highlightSummary.title}
-          </p>
-          {highlightSummary.detail && (
-            <p className="text-amber-800 text-sm md:text-base leading-relaxed font-normal">
-              {highlightSummary.detail}
-            </p>
-          )}
-        </div>
-
-        <FretboardDisplay
-          maxFret={maxFret}
-          highlightedNotes={highlightedNotes}
-          disableKeyHighlights
-          showOpenStringLabels={false}
-          staticIntervalLegend={STATIC_INTERVAL_LEGEND}
-          mutedFretLabels
-          fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT}
-        />
-      </div>
+      <FretboardDisplay
+        maxFret={maxFret}
+        highlightedNotes={highlightedNotes}
+        disableKeyHighlights
+        showOpenStringLabels={false}
+        staticIntervalLegend={STATIC_INTERVAL_LEGEND}
+        mutedFretLabels
+        fretLabelTextColor={DARK_ROSEWOOD_LABEL_TEXT}
+      />
     </div>
   );
 };

@@ -1,12 +1,6 @@
 import { FC, useCallback, useMemo, useState } from 'react';
-import { Practice } from '../../../types/practice';
-import PracticeToolCard from '../sharedPracticeComponents/PracticeToolCard';
 
 type TimeSignature = '4/4' | '3/4';
-
-interface StrummingProps {
-  practice: Practice;
-}
 
 const BEATS_BY_TIME_SIGNATURE: Record<TimeSignature, string[]> = {
   '4/4': ['1', '+', '2', '+', '3', '+', '4', '+'],
@@ -36,48 +30,6 @@ const generatePattern = (count: number, previous?: boolean[]): boolean[] => {
   return pattern;
 };
 
-const StrumIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="h-6 w-6"
-    aria-hidden="true"
-  >
-    <path d="M9 18V5l12-2v13" />
-    <circle cx="6" cy="18" r="3" />
-    <circle cx="18" cy="16" r="3" />
-  </svg>
-);
-
-const RegenerateIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="h-5 w-5 mr-2 shrink-0"
-    aria-hidden="true"
-  >
-    <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
-    <path d="M21 3v5h-5" />
-    <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
-    <path d="M8 16H3v5" />
-  </svg>
-);
-
-/** Imperfect loop with chalk/pencil-style stroke via SVG noise. */
 const HandDrawnCircle = ({ seed }: { seed: number }) => {
   const rotation = (seed % 5) * 17 - 28;
   // Wobblier path variants so neighboring circles don't look identical
@@ -165,7 +117,14 @@ const HandDrawnCircle = ({ seed }: { seed: number }) => {
   );
 };
 
-const Strumming: FC<StrummingProps> = () => {
+const choiceButtonClass = (isSelected: boolean) =>
+  `inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors h-9 px-4 cursor-pointer ${
+    isSelected
+      ? 'bg-amber-900 text-stone-50 shadow'
+      : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
+  }`;
+
+const Strumming: FC = () => {
   const [timeSignature, setTimeSignature] = useState<TimeSignature>('4/4');
   const beats = useMemo(() => BEATS_BY_TIME_SIGNATURE[timeSignature], [timeSignature]);
   const [activeBeats, setActiveBeats] = useState<boolean[]>(() =>
@@ -185,88 +144,78 @@ const Strumming: FC<StrummingProps> = () => {
   const activeBeatLabels = beats.filter((_, index) => activeBeats[index]).join(', ');
 
   return (
-    <div className="w-full space-y-6">
-      <PracticeToolCard
-        heading="Practice a randomized strumming pattern"
-        title={`${timeSignature} pattern`}
-        description="Pick a time signature, then strum only on the circled counts."
-        icon={<StrumIcon />}
-        actions={
+    <div className="w-full space-y-4">
+      <h2 className="text-xl font-bold text-amber-900">Practice a strumming pattern</h2>
+
+      <div className="space-y-6 rounded-lg border border-amber-800/40 bg-white p-5 shadow-sm md:p-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-amber-900">Time</h3>
+            <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Time signature">
+              {(['4/4', '3/4'] as const).map((option) => {
+                const isSelected = timeSignature === option;
+                return (
+                  <button
+                    key={option}
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    onClick={() => handleTimeSignatureChange(option)}
+                    className={choiceButtonClass(isSelected)}
+                  >
+                    {option}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
           <button
             type="button"
             onClick={randomizePattern}
-            className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 py-2 text-stone-50 bg-amber-900 hover:bg-amber-800 cursor-pointer"
+            className={`${choiceButtonClass(false)} shrink-0`}
           >
-            <RegenerateIcon />
             Randomize
           </button>
-        }
-      >
-        <div className="flex flex-wrap gap-2" role="group" aria-label="Time signature">
-          {(['4/4', '3/4'] as const).map((option) => {
-            const isSelected = timeSignature === option;
-            return (
-              <button
-                key={option}
-                type="button"
-                aria-pressed={isSelected}
-                onClick={() => handleTimeSignatureChange(option)}
-                className={`inline-flex items-center justify-center rounded-lg text-sm font-medium transition-colors shadow h-9 min-w-[3.5rem] px-4 cursor-pointer ${
-                  isSelected
-                    ? 'text-stone-50 bg-amber-900 hover:bg-amber-800'
-                    : 'text-stone-50 bg-zinc-700 hover:bg-zinc-600 border border-stone-50/20'
-                }`}
-              >
-                {option}
-              </button>
-            );
-          })}
-        </div>
-      </PracticeToolCard>
-
-      <div className="rounded-lg border border-amber-900/20 bg-stone-50 shadow-sm overflow-hidden">
-        <div className="px-4 sm:px-6 pt-4 sm:pt-5 pb-2">
-          <p className="text-sm font-medium text-amber-900/70">
-            Strum on the circled counts
-          </p>
         </div>
 
-        <div
-          className="flex flex-nowrap items-center justify-center gap-x-1.5 sm:gap-x-3 md:gap-x-4 px-3 sm:px-6 py-6 sm:py-8"
-          aria-label={`Strum on: ${activeBeatLabels || 'none'}`}
-        >
-          {beats.map((label, index) => {
-            const isActive = Boolean(activeBeats[index]);
-            const isPlus = label === '+';
-            return (
-              <div
-                key={`${timeSignature}-${index}`}
-                className="relative flex h-9 w-9 sm:h-14 sm:w-14 md:h-[4.25rem] md:w-[4.25rem] shrink-0 items-center justify-center font-bold tabular-nums text-amber-900"
-              >
-                {isActive && <HandDrawnCircle seed={index} />}
-                {isPlus ? (
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="relative z-10 h-5 w-5 sm:h-7 sm:w-7 md:h-8 md:w-8"
-                    aria-hidden="true"
-                  >
-                    {/* Thin long strokes — size grows, weight stays light */}
-                    <path
-                      d="M12 3.25v17.5M3.25 12h17.5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                ) : (
-                  <span className="relative z-10 text-base sm:text-2xl md:text-3xl">
-                    {label}
-                  </span>
-                )}
-              </div>
-            );
-          })}
+        <div className="border-t border-amber-800/20 pt-4">
+          <p className="text-sm font-semibold text-amber-900">Strum on the circled counts</p>
+          <div
+            className="mt-4 flex flex-nowrap items-center justify-center gap-x-1.5 sm:gap-x-3 md:gap-x-4"
+            aria-label={`Strum on: ${activeBeatLabels || 'none'}`}
+          >
+            {beats.map((label, index) => {
+              const isActive = Boolean(activeBeats[index]);
+              const isPlus = label === '+';
+              return (
+                <div
+                  key={`${timeSignature}-${index}`}
+                  className="relative flex h-9 w-9 sm:h-14 sm:w-14 md:h-[4.25rem] md:w-[4.25rem] shrink-0 items-center justify-center font-bold tabular-nums text-amber-900"
+                >
+                  {isActive && <HandDrawnCircle seed={index} />}
+                  {isPlus ? (
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="relative z-10 h-5 w-5 sm:h-7 sm:w-7 md:h-8 md:w-8"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M12 3.25v17.5M3.25 12h17.5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  ) : (
+                    <span className="relative z-10 text-base sm:text-2xl md:text-3xl">
+                      {label}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

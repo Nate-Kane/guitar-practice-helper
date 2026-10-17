@@ -20,6 +20,7 @@ export const useKeyGenerator = () => {
   const [accidental, setAccidental] = useState<Accidental>('natural');
   const [scaleView, setScaleView] = useState<ScaleViewId>('major');
   const [showAllNotes, setShowAllNotes] = useState(false);
+  const [noteSpelling, setNoteSpelling] = useState<'sharp' | 'flat'>('sharp');
 
   const commitSelection = (
     nextLetter: string,
@@ -77,6 +78,8 @@ export const useKeyGenerator = () => {
     scaleView,
     showAllNotes,
     setShowAllNotes,
+    noteSpelling,
+    setNoteSpelling,
     generateNewKey,
     selectLetter,
     selectAccidental,

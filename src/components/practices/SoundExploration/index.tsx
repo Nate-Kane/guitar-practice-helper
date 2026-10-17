@@ -19,6 +19,8 @@ const SoloImprovisation: FC = () => {
         scaleView,
         showAllNotes,
         setShowAllNotes,
+        noteSpelling,
+        setNoteSpelling,
         generateNewKey,
         selectLetter,
         selectAccidental,
@@ -47,8 +49,10 @@ const SoloImprovisation: FC = () => {
                 accidental={accidental}
                 scaleView={scaleView}
                 showAllNotes={showAllNotes}
+                noteSpelling={noteSpelling}
                 onLetterChange={selectLetter}
                 onAccidentalChange={selectAccidental}
+                onNoteSpellingChange={setNoteSpelling}
                 onScaleViewChange={selectScaleView}
                 onShowAllNotesChange={setShowAllNotes}
                 onRegenerateKey={generateNewKey}
@@ -78,7 +82,7 @@ const SoloImprovisation: FC = () => {
                 scaleView={scaleView}
                 onScaleViewChange={selectScaleView}
                 rootLetter={letter}
-                accidental={accidental}
+                accidental={showAllNotes ? noteSpelling : accidental}
                 showAllNotes={showAllNotes}
                 showIntervalSelector={true}
                 sectionHeading={FRETBOARD_REFERENCE_HEADING}

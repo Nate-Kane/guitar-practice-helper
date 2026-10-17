@@ -15,11 +15,19 @@ import { useMapFretboard } from './hooks/useMapFretboard';
 import { findTriadVoicings } from './triadVoicings';
 import { TriadQuality } from './triadShapeTemplates';
 
+const choiceButtonClass = (isSelected: boolean) =>
+  `inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors h-9 px-4 cursor-pointer disabled:cursor-not-allowed ${
+    isSelected
+      ? 'bg-amber-900 text-stone-50 shadow'
+      : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
+  }`;
+
 interface TriadsDisplayProps {
   currentKey: Key;
   letter: string;
   accidental: Accidental;
   showAllNotes?: boolean;
+  noteSpelling?: 'sharp' | 'flat';
   maxFret?: number;
 }
 
@@ -28,6 +36,7 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({
   letter,
   accidental,
   showAllNotes = false,
+  noteSpelling = 'sharp',
   maxFret = 12,
 }) => {
   const { findAllPositionsOfNote, getNoteAt } = useMapFretboard(maxFret);
@@ -139,75 +148,72 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({
     );
   }
 
-  const romanNumerals =
-    currentKey.quality === 'major' ? 'I, IV, and V' : 'i, iv, and v';
-  const triadNamesList = triads
-    .map((triad) => `${spellNote(triad.root)} ${currentKey.quality}`)
-    .join(', ');
+  const triadNames = triads.map((triad) => spellNote(triad.root));
+  const triadList =
+    triadNames.length === 3
+      ? `${triadNames[0]}, ${triadNames[1]}, and ${triadNames[2]}`
+      : triadNames.join(', ');
   const keyName = `${displayRoot(letter, accidental)} ${currentKey.quality}`;
 
   return (
-    <div className="space-y-4 w-full">
-      <h2 className="text-xl font-bold text-amber-900">
-        Choose a triad to visualize
-      </h2>
+    <div className="space-y-8 w-full">
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold text-amber-900">Choose a triad</h2>
 
-      <div className="space-y-3 text-amber-800 text-sm md:text-base max-w-3xl">
-        <p>
-          Let's focus on the{' '}
-          <span className="font-semibold">{romanNumerals}</span> chords — the classic{' '}
-          <span className="font-semibold">1-4-5</span>. These three triads are the staples for finding your way around the neck.
-        </p>
-        <p>
-        In the key of <span className="font-semibold">{keyName}</span>, that means <span className="font-semibold">{triadNamesList}</span>.
-        </p>
-      </div>
+        <div
+          className={`space-y-6 rounded-lg border border-amber-800/40 bg-white p-5 shadow-sm md:p-6 ${
+            showAllNotes ? 'opacity-40' : ''
+          }`}
+        >
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-amber-900">Triad</h3>
+            <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Triad">
+              {triads.map((triad) => {
+                const isSelected = !showAllNotes && selectedTriad?.root === triad.root;
+                return (
+                  <button
+                    key={triad.root}
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    disabled={showAllNotes}
+                    onClick={() => setSelectedTriadRoot(triad.root)}
+                    className={`${choiceButtonClass(isSelected)} disabled:opacity-40`}
+                  >
+                    {spellNote(triad.root)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-      <div className="flex flex-wrap gap-2">
-        {triads.map((triad) => {
-          const isSelected = selectedTriad?.root === triad.root;
-          return (
-            <button
-              key={triad.root}
-              type="button"
-              aria-pressed={isSelected}
-              onClick={() => setSelectedTriadRoot(triad.root)}
-              className={`inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors h-9 px-4 cursor-pointer ${
-                isSelected
-                  ? 'bg-amber-900 text-stone-50 shadow'
-                  : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
-              }`}
-            >
-              {`${spellNote(triad.root)} ${currentKey.quality}`}
-            </button>
-          );
-        })}
-      </div>
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-amber-900">String set</h3>
+            <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="String set">
+              {TRIAD_STRING_SETS.map((stringSet) => {
+                const isSelected = !showAllNotes && selectedStringSet === stringSet.id;
+                return (
+                  <button
+                    key={stringSet.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    disabled={showAllNotes}
+                    onClick={() => setSelectedStringSet(stringSet.id)}
+                    className={`${choiceButtonClass(isSelected)} disabled:opacity-40`}
+                  >
+                    {stringSet.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-      <div className="space-y-2">
-        <h3 className="text-base font-bold text-amber-900">String set</h3>
-        <p className="text-amber-800 text-sm md:text-base max-w-3xl">
-          Triads are easiest to learn in string sets - a group of three strings (one for each note in a triad). Choose one set to focus on at a time. Each highlight wraps one close-position triad shape on the neck.
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {TRIAD_STRING_SETS.map((stringSet) => {
-            const isSelected = selectedStringSet === stringSet.id;
-            return (
-              <button
-                key={stringSet.id}
-                type="button"
-                aria-pressed={isSelected}
-                onClick={() => setSelectedStringSet(stringSet.id)}
-                className={`inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors h-9 px-4 cursor-pointer ${
-                  isSelected
-                    ? 'bg-amber-900 text-stone-50 shadow'
-                    : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
-                }`}
-              >
-                {stringSet.label}
-              </button>
-            );
-          })}
+          <div className="border-t border-amber-800/20 pt-4">
+            <p className="font-semibold text-amber-900">
+              {keyName} · {triadList}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -219,7 +225,7 @@ const TriadsDisplay: FC<TriadsDisplayProps> = ({
           disableKeyHighlights
           showOpenStringLabels={false}
           showAllNotes={showAllNotes}
-          accidental={accidental}
+          accidental={showAllNotes ? noteSpelling : accidental}
           rootLetter={letter}
           staticIntervalLegend={staticIntervalLegend}
           mutedFretLabels
