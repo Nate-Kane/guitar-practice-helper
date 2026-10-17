@@ -14,34 +14,6 @@ const PracticesPage: FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const practiceGridRef = useRef<HTMLDivElement>(null);
-    const heroRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        const hero = heroRef.current;
-        if (!hero) return;
-
-        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-        let frame = 0;
-
-        const update = () => {
-            const zoom = motionQuery.matches ? 1 : 1 + Math.min(window.scrollY * 0.00012, 0.07);
-            hero.style.setProperty('--hero-zoom', zoom.toFixed(4));
-        };
-
-        const onScroll = () => {
-            cancelAnimationFrame(frame);
-            frame = requestAnimationFrame(update);
-        };
-
-        update();
-        window.addEventListener('scroll', onScroll, { passive: true });
-        motionQuery.addEventListener('change', update);
-        return () => {
-            cancelAnimationFrame(frame);
-            window.removeEventListener('scroll', onScroll);
-            motionQuery.removeEventListener('change', update);
-        };
-    }, []);
 
     useEffect(() => {
         const fetchPractices = async () => {
@@ -185,8 +157,19 @@ const PracticesPage: FC = () => {
                     // const iconPaths = icons[index % icons.length];
 
                     return (
-                        <div 
+                        <div
                             data-practice-card
+                            role="link"
+                            tabIndex={0}
+                            onClick={(event) => {
+                                if ((event.target as HTMLElement).closest('a')) return;
+                                handleSwitchClick(practice);
+                            }}
+                            onKeyDown={(event) => {
+                                if (event.key !== 'Enter' && event.key !== ' ') return;
+                                event.preventDefault();
+                                handleSwitchClick(practice);
+                            }}
                             className={`flex h-full flex-col rounded-lg border shadow overflow-hidden bg-gradient-to-br from-zinc-900 to-zinc-800 border-amber-800/30 ${practiceCardHoverClass}`}
                             key={practice.id}
                         >
@@ -227,19 +210,13 @@ const PracticesPage: FC = () => {
                                 </div>
                             </div>
                             <div className="mt-auto flex justify-end px-4 pb-4 pt-0">
-                                <button 
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleSwitchClick(practice);
-                                    }}
-                                    className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 py-2 hover:bg-amber-900 text-stone-50 flex items-center cursor-pointer"
-                                >
+                                <span className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-9 px-4 py-2 group-hover:bg-amber-900 text-stone-50">
                                     Practice 
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 h-4 w-4">
                                         <path d="M5 12h14"></path>
                                         <path d="m12 5 7 7-7 7"></path>
                                     </svg>
-                                </button>
+                                </span>
                             </div>
                         </div>
                     );
@@ -249,22 +226,9 @@ const PracticesPage: FC = () => {
     };
 
     return (
-        <main className="flex-grow">
-            <section ref={heroRef} className="relative md:min-h-[32rem]">
-                <div
-                    className="pointer-events-none absolute inset-x-0 top-0 -bottom-12 overflow-hidden"
-                    aria-hidden="true"
-                >
-                    <img
-                        src="/link-preview.jpg"
-                        alt=""
-                        className="absolute inset-0 h-full w-full max-w-none origin-center object-cover object-[center_40%]"
-                        style={{ transform: 'scale(var(--hero-zoom, 1))' }}
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--color-stone-50)_58%,transparent)_0%,color-mix(in_oklab,var(--color-stone-50)_68%,transparent)_46%,var(--color-stone-50)_78%,var(--color-stone-50)_100%)]" />
-                </div>
-                <div className="relative z-10 container mx-auto px-4 pt-8 md:pt-16 pb-8">
-                    <div className="text-center space-y-6">
+        <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
+            <div className="space-y-10">
+                <section className="text-center space-y-6">
                         <div className="flex justify-center">
                             <div className="bg-amber-900 p-4 rounded-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fafaf9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-12 w-12 text-amber-100" aria-hidden="true">
@@ -275,15 +239,11 @@ const PracticesPage: FC = () => {
                             </div>
                         </div>
                         <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-amber-900">Map My Guitar</h1>
-                        <p className="text-base md:text-xl text-amber-800 max-w-2xl mx-auto">
+                        <p className="text-base md:text-xl font-semibold text-amber-800 max-w-2xl mx-auto">
                             Practice resources that'll help you with everything from basic chords and strumming to mastering drop chords and navigating the fretboard.
                         </p>
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <div className="relative z-10 container mx-auto px-4 pt-10 pb-8 md:pb-12">
-            <div className="space-y-10">
                 {/* Soft upsell → Guided Lessons */}
                 <section className="rounded-lg border border-amber-800/40 bg-gradient-to-br from-zinc-900 to-zinc-800 p-5 sm:p-6 shadow">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
@@ -392,7 +352,6 @@ const PracticesPage: FC = () => {
                         </div>
                     </div>
                 </section>
-            </div>
             </div>
         </main>
     );

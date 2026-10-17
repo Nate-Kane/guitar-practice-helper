@@ -77,7 +77,7 @@ const GuidedLessonsPage: FC = () => {
         </section>
 
         <section className="grid gap-6 md:grid-cols-[minmax(0,280px)_1fr] md:items-start md:gap-8">
-          <div className="mx-auto w-full max-w-[280px] sm:max-w-[320px] md:mx-0 md:max-w-none overflow-hidden rounded-lg border border-amber-900/20 bg-zinc-900 shadow-sm">
+          <div className="w-full overflow-hidden rounded-lg border border-amber-900/20 bg-zinc-900 shadow-sm md:mx-0">
             <video
               className="block w-full h-auto"
               controls

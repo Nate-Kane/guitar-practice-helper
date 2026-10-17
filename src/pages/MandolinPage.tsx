@@ -124,6 +124,15 @@ const MandolinPage: FC = () => {
                 </p>
               <div
                 data-practice-card
+                role="button"
+                tabIndex={0}
+                aria-pressed={isSelected}
+                onClick={() => selectPractice(practice.id)}
+                onKeyDown={(event) => {
+                  if (event.key !== 'Enter' && event.key !== ' ') return;
+                  event.preventDefault();
+                  selectPractice(practice.id);
+                }}
                 className={`flex h-full flex-col rounded-lg border shadow overflow-hidden bg-gradient-to-br from-zinc-900 to-zinc-800 ${practiceCardHoverClass} ${
                   isSelected ? 'border-amber-200' : 'border-amber-800/30'
                 }`}
@@ -141,12 +150,9 @@ const MandolinPage: FC = () => {
                   </div>
                 </div>
                 <div className="mt-auto flex justify-end px-4 pb-4 pt-0">
-                  <button
-                    type="button"
-                    aria-pressed={isSelected}
-                    onClick={() => selectPractice(practice.id)}
-                    className={`inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-8 px-3 text-stone-50 cursor-pointer ${
-                      isSelected ? 'bg-amber-900' : 'hover:bg-amber-900'
+                  <span
+                    className={`inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors shadow h-8 px-3 text-stone-50 ${
+                      isSelected ? 'bg-amber-900' : 'group-hover:bg-amber-900'
                     }`}
                   >
                     Practice
@@ -166,7 +172,7 @@ const MandolinPage: FC = () => {
                       <path d="M5 12h14"></path>
                       <path d="m12 5 7 7-7 7"></path>
                     </svg>
-                  </button>
+                  </span>
                 </div>
               </div>
               </div>

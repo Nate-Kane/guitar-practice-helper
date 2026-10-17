@@ -8,7 +8,7 @@ const Footer: FC = () => {
     <footer className="bg-amber-900 text-stone-50">
       <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
         <div className="md:flex md:items-center md:justify-between">
-          <div className="flex justify-center md:justify-start space-x-6">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 md:justify-start">
             <button
               onClick={() => navigate('/')}
               className="text-stone-50 hover:text-white transition-colors cursor-pointer"
