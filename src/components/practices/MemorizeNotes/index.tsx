@@ -10,11 +10,18 @@ import {
 import FretboardDisplay, { HighlightedNoteInfo } from '../sharedPracticeComponents/FretboardDisplay';
 import {
   DARK_ROSEWOOD_LABEL_TEXT,
+  FretboardInstrument,
   GUITAR_INSTRUMENT,
   PERFECT_FIFTH_INTERVAL_COLOR,
   ROOT_INTERVAL_COLOR,
 } from '../sharedPracticeComponents/fretboardConstants';
 import { useMapFretboard } from '../sharedPracticeComponents/hooks/useMapFretboard';
+
+interface MemorizeNotesProps {
+  instrument?: FretboardInstrument;
+  maxFret?: number;
+  heading?: string;
+}
 
 type ViewMode = 'all' | 'string' | 'note';
 
@@ -37,20 +44,22 @@ const choiceButtonClass = (isSelected: boolean) =>
       : 'bg-zinc-800 text-stone-50 border border-amber-800/40 hover:bg-zinc-700'
   }`;
 
-const MemorizeNotes: FC = () => {
-  const maxFret = 12;
+const MemorizeNotes: FC<MemorizeNotesProps> = ({
+  instrument = GUITAR_INSTRUMENT,
+  maxFret = 12,
+  heading = 'Memorize the notes',
+}) => {
   const [view, setView] = useState<ViewMode>('string');
-  const [stringIndex, setStringIndex] = useState(0);
+  const [stringIndex, setStringIndex] = useState(instrument.strings[0]?.index ?? 0);
   const [letter, setLetter] = useState('C');
   const [noteAccidental, setNoteAccidental] = useState<Accidental>('natural');
   const [spelling, setSpelling] = useState<'sharp' | 'flat'>('sharp');
 
-  const openStringNotes = GUITAR_INSTRUMENT.strings.map((string) => string.openNote);
+  const openStringNotes = instrument.strings.map((string) => string.openNote);
   const { getNoteAt, findAllPositionsOfNote } = useMapFretboard(maxFret, openStringNotes);
 
   const selectedString =
-    GUITAR_INSTRUMENT.strings.find((string) => string.index === stringIndex) ??
-    GUITAR_INSTRUMENT.strings[0];
+    instrument.strings.find((string) => string.index === stringIndex) ?? instrument.strings[0];
 
   const highlightedNotes = useMemo((): HighlightedNoteInfo[] => {
     if (view === 'all') return [];
@@ -92,7 +101,7 @@ const MemorizeNotes: FC = () => {
   return (
     <div className="w-full space-y-8">
       <div className="space-y-4">
-        <h2 className="text-xl font-bold text-amber-900">Memorize the notes</h2>
+        <h2 className="text-xl font-bold text-amber-900">{heading}</h2>
 
         <div className="space-y-6 rounded-lg border border-amber-800/40 bg-white p-5 shadow-sm md:p-6">
           <div className="space-y-2">
@@ -120,7 +129,7 @@ const MemorizeNotes: FC = () => {
             <div className="space-y-2">
               <h3 className="text-sm font-semibold text-amber-900">String</h3>
               <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="String">
-                {GUITAR_INSTRUMENT.strings.map((string) => {
+                {instrument.strings.map((string) => {
                   const isSelected = stringIndex === string.index;
                   return (
                     <button
@@ -208,6 +217,7 @@ const MemorizeNotes: FC = () => {
       </div>
 
       <FretboardDisplay
+        instrument={instrument}
         maxFret={maxFret}
         highlightedNotes={highlightedNotes}
         disableKeyHighlights

@@ -2,8 +2,7 @@ import { FC } from 'react';
 import BasicChords from '../components/practices/BasicChords';
 import { MANDOLIN_BASIC_CHORDS } from '../components/practices/BasicChords/mandolinChordData';
 import FretboardMapper from '../components/practices/FretboardMapper';
-import NoteAcrossFretboardDisplay from '../components/practices/sharedPracticeComponents/NoteAcrossFretboardDisplay';
-import StringNotesDisplay from '../components/practices/sharedPracticeComponents/StringNotesDisplay';
+import MemorizeNotes from '../components/practices/MemorizeNotes';
 import { MANDOLIN_INSTRUMENT } from '../components/practices/sharedPracticeComponents/fretboardConstants';
 
 const MandolinPage: FC = () => {
@@ -19,16 +18,7 @@ const MandolinPage: FC = () => {
           </p>
         </div>
 
-        <StringNotesDisplay
-          instrument={MANDOLIN_INSTRUMENT}
-          heading="Memorize the notes of a single string"
-          description="Start with the G string, then move to the D string. Learn the main notes such as G, A, and B before learning the in-between notes such as G# and A#."
-        />
-
-        <NoteAcrossFretboardDisplay
-          instrument={MANDOLIN_INSTRUMENT}
-          heading="Memorize one note across the whole fretboard"
-        />
+        <MemorizeNotes instrument={MANDOLIN_INSTRUMENT} />
 
         <FretboardMapper
           instrument={MANDOLIN_INSTRUMENT}
