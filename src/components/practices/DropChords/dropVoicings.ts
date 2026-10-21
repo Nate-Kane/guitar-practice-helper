@@ -123,25 +123,25 @@ export const DROP2_INVERSIONS: {
 }[] = [
   {
     id: 'root',
-    label: 'Root',
+    label: 'Root position',
     bassLabel: 'Root in the bass',
     degrees: ['root', 'fifth', 'seventh', 'third'],
   },
   {
     id: 'third',
-    label: '3rd',
+    label: '1st inversion',
     bassLabel: '3rd in the bass',
     degrees: ['third', 'seventh', 'root', 'fifth'],
   },
   {
     id: 'fifth',
-    label: '5th',
+    label: '2nd inversion',
     bassLabel: '5th in the bass',
     degrees: ['fifth', 'root', 'third', 'seventh'],
   },
   {
     id: 'seventh',
-    label: '7th',
+    label: '3rd inversion',
     bassLabel: '7th in the bass',
     degrees: ['seventh', 'third', 'fifth', 'root'],
   },
@@ -156,25 +156,25 @@ export const DROP3_INVERSIONS: {
 }[] = [
   {
     id: 'root',
-    label: 'Root',
+    label: 'Root position',
     bassLabel: 'Root in the bass',
     degrees: ['root', 'seventh', 'third', 'fifth'],
   },
   {
     id: 'third',
-    label: '3rd',
+    label: '1st inversion',
     bassLabel: '3rd in the bass',
     degrees: ['third', 'root', 'fifth', 'seventh'],
   },
   {
     id: 'fifth',
-    label: '5th',
+    label: '2nd inversion',
     bassLabel: '5th in the bass',
     degrees: ['fifth', 'third', 'seventh', 'root'],
   },
   {
     id: 'seventh',
-    label: '7th',
+    label: '3rd inversion',
     bassLabel: '7th in the bass',
     degrees: ['seventh', 'fifth', 'root', 'third'],
   },
