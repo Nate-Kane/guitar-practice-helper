@@ -2,17 +2,23 @@ import { FC, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import BasicChords from '../components/practices/BasicChords';
 import { MANDOLIN_BASIC_CHORDS } from '../components/practices/BasicChords/mandolinChordData';
 import FretboardMapper from '../components/practices/FretboardMapper';
+import MandolinCagedDisplay from '../components/practices/MandolinCaged/MandolinCagedDisplay';
 import MemorizeNotes from '../components/practices/MemorizeNotes';
 import { practiceCardHoverClass } from '../components/practiceCardHover';
 import { MANDOLIN_INSTRUMENT } from '../components/practices/sharedPracticeComponents/fretboardConstants';
 
-type MandolinPracticeId = 'notes' | 'fretboard' | 'chords';
+type MandolinPracticeId = 'notes' | 'fretboard' | 'chords' | 'caged';
 
 const MANDOLIN_PRACTICES: { id: MandolinPracticeId; title: string; description: string }[] = [
   {
     id: 'chords',
     title: 'Basic Chords',
     description: 'A through G, major then minor, with finger numbers on each chart.',
+  },
+  {
+    id: 'caged',
+    title: 'CAGED Shapes',
+    description: 'The five open major shapes, moved up the neck.',
   },
   {
     id: 'notes',
@@ -95,7 +101,7 @@ const MandolinPage: FC = () => {
           </p>
         </div>
 
-        <div className="grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3 items-stretch">
+        <div className="grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
           {MANDOLIN_PRACTICES.map((practice) => {
             const isSelected = activePractice === practice.id;
             return (
@@ -199,6 +205,8 @@ const MandolinPage: FC = () => {
               description="A through G, major then minor. Strings run low G to high E, left to right. Numbers show which finger to use. Click any chart to enlarge it."
             />
           )}
+
+          {activePractice === 'caged' && <MandolinCagedDisplay />}
         </div>
       </div>
     </main>
